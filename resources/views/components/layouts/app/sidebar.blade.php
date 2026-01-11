@@ -16,9 +16,11 @@
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
 
-                    <flux:sidebar.item icon="users" href="#" wire:navigate>
-                        {{ __('User Management') }}
-                    </flux:sidebar.item>
+                    @can('view-users')
+                        <flux:sidebar.item icon="users" :href="route('users.index')" :current="request()->routeIs('users.*')" wire:navigate>
+                            {{ __('User Management') }}
+                        </flux:sidebar.item>
+                    @endcan
 
                     <flux:sidebar.item icon="chart-bar" href="#" wire:navigate>
                         {{ __('Reports') }}

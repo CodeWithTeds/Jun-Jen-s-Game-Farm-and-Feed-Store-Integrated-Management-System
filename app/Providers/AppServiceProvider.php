@@ -4,6 +4,12 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+use Illuminate\Support\Facades\Gate;
+use App\Models\User;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Auth\Events\Login;
+use App\Listeners\LogSuccessfulLogin;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -11,7 +17,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(
+            \App\Repositories\Contracts\UserRepositoryInterface::class,
+            \App\Repositories\Eloquent\UserRepository::class
+        );
     }
 
     /**
@@ -19,6 +28,23 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        User::observe(\App\Observers\UserObserver::class);
+        Event::listen(Login::class, LogSuccessfulLogin::class);
+
+        Gate::define('view-users', function (User $user) {
+            return $user->isAdmin();
+        });
+
+        Gate::define('create-users', function (User $user) {
+            return $user->isAdmin();
+        });
+
+        Gate::define('edit-users', function (User $user) {
+            return $user->isAdmin();
+        });
+
+        Gate::define('delete-users', function (User $user) {
+            return $user->isAdmin();
+        });
     }
 }

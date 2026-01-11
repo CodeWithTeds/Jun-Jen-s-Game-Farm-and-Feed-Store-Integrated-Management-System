@@ -23,6 +23,19 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'profile_picture',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'username',
+        'status',
+        'account_type',
+        'phone_number',
+        'created_by',
+        'updated_by',
+        'last_login_at',
+        'password_changed_at',
     ];
 
     /**
@@ -47,7 +60,29 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'last_login_at' => 'datetime',
+            'password_changed_at' => 'datetime',
         ];
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return $this->role === $role;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->hasRole('admin');
     }
 
     /**
