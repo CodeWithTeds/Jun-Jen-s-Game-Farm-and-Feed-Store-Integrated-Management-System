@@ -15,6 +15,34 @@
                     <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
+
+                    <flux:sidebar.item icon="users" href="#" wire:navigate>
+                        {{ __('User Management') }}
+                    </flux:sidebar.item>
+
+                    <flux:sidebar.item icon="chart-bar" href="#" wire:navigate>
+                        {{ __('Reports') }}
+                    </flux:sidebar.item>
+
+                    <flux:sidebar.item icon="cog" href="#" wire:navigate>
+                        {{ __('System Settings') }}
+                    </flux:sidebar.item>
+
+                    <flux:sidebar.item icon="truck" href="#" wire:navigate>
+                        {{ __('Supplier Management') }}
+                    </flux:sidebar.item>
+
+                    <flux:sidebar.item icon="user-group" href="#" wire:navigate>
+                        {{ __('Customer Management') }}
+                    </flux:sidebar.item>
+
+                    <flux:sidebar.item icon="server-stack" href="#" wire:navigate>
+                        {{ __('Backup & Maintenance') }}
+                    </flux:sidebar.item>
+
+                    <flux:sidebar.item icon="clipboard-document-list" href="#" wire:navigate>
+                        {{ __('Activity Logs') }}
+                    </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 
