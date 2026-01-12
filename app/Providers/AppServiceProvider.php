@@ -21,6 +21,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\UserRepositoryInterface::class,
             \App\Repositories\Eloquent\UserRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\GameFowlRepositoryInterface::class,
+            \App\Repositories\Eloquent\GameFowlRepository::class
+        );
     }
 
     /**

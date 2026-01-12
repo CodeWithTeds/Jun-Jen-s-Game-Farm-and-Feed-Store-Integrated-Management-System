@@ -1,15 +1,18 @@
 <x-layouts.app>
     <div class="flex items-center justify-between mb-6">
-        <flux:heading size="xl">{{ __('User Management') }}</flux:heading>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('User Management') }}</h1>
         @can('create-users')
-            <flux:button href="{{ route('users.create') }}" wire:navigate variant="primary" icon="plus">
+            <a href="{{ route('users.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
                 {{ __('Create User') }}
-            </flux:button>
+            </a>
         @endcan
     </div>
 
     @if(session('success'))
-        <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+        <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded dark:bg-green-900 dark:border-green-600 dark:text-green-300">
             {{ session('success') }}
         </div>
     @endif
@@ -17,14 +20,22 @@
     <div class="mb-6 bg-white dark:bg-zinc-900 p-4 rounded-xl border border-zinc-200 dark:border-zinc-700 shadow-sm">
         <form method="GET" action="{{ route('users.index') }}" class="flex flex-wrap gap-4 items-end">
             <div class="w-full max-w-sm">
-                <flux:input 
-                    type="search"
-                    name="search" 
-                    label="Search" 
-                    placeholder="Search users..." 
-                    value="{{ request('search') }}"
-                    icon="magnifying-glass"
-                />
+                <label for="search" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Search</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                        </svg>
+                    </div>
+                    <input 
+                        type="search"
+                        id="search"
+                        name="search" 
+                        placeholder="Search users..." 
+                        value="{{ request('search') }}"
+                        class="pl-10 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow"
+                    />
+                </div>
             </div>
             
             <div class="w-40">
@@ -46,14 +57,14 @@
             </div>
             
             <div class="flex gap-2">
-                <flux:button type="submit" variant="primary">
+                <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 dark:bg-gray-200 dark:text-gray-800 dark:hover:bg-white">
                     {{ __('Filter') }}
-                </flux:button>
+                </button>
                 
                 @if(request()->anyFilled(['search', 'role', 'status']))
-                    <flux:button href="{{ route('users.index') }}" wire:navigate variant="filled">
+                    <a href="{{ route('users.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 dark:bg-zinc-800 dark:border-zinc-600 dark:text-gray-300 dark:hover:bg-zinc-700">
                         {{ __('Clear') }}
-                    </flux:button>
+                    </a>
                 @endif
             </div>
         </form>

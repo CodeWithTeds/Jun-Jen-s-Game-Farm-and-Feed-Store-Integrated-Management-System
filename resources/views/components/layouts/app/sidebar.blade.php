@@ -12,9 +12,19 @@
 
             <flux:sidebar.nav>
                 <flux:sidebar.group :heading="__('Platform')" class="grid">
-                    <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-                        {{ __('Dashboard') }}
-                    </flux:sidebar.item>
+                    @if(auth()->user()->role === 'staff')
+                        <flux:sidebar.item icon="home" :href="route('staff.dashboard')" :current="request()->routeIs('staff.dashboard')" wire:navigate>
+                            {{ __('Dashboard') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item icon="clipboard-document-list" :href="route('staff.game-fowls.index')" :current="request()->routeIs('staff.game-fowls.*')" wire:navigate>
+                            {{ __('Game Fowl Management') }}
+                        </flux:sidebar.item>
+                    @else
+                        <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
+                            {{ __('Dashboard') }}
+                        </flux:sidebar.item>
+                    @endif
 
                     @if(auth()->user()->role === 'staff')
                         <flux:sidebar.item icon="clipboard-document-list" href="#" wire:navigate>

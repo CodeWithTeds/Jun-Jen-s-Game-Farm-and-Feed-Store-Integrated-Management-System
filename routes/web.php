@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\GameFowlController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -13,6 +14,11 @@ Route::view('dashboard', 'dashboard')
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('users', UserController::class);
+});
+
+Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(function () {
+    Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::resource('game-fowls', GameFowlController::class);
 });
 
 require __DIR__.'/settings.php';
