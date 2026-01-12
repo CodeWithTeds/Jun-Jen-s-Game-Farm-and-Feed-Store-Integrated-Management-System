@@ -19,6 +19,7 @@ class GameFowl extends Model
         'initial_health_status',
         'sexual_maturity_status',
         'special_notes',
+        'image',
     ];
 
     protected $casts = [

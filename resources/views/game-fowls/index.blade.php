@@ -76,6 +76,7 @@
             <table class="min-w-full divide-y divide-gray-200 dark:divide-zinc-700">
                 <thead class="bg-gray-50 dark:bg-zinc-900">
                     <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Image') }}</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Tag ID') }}</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Name') }}</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Sex') }}</th>
@@ -87,6 +88,11 @@
                 <tbody class="bg-white dark:bg-zinc-800 divide-y divide-gray-200 dark:divide-zinc-700">
                     @forelse ($gameFowls as $gameFowl)
                         <tr class="hover:bg-gray-50 dark:hover:bg-zinc-700/50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="h-10 w-10 flex-shrink-0">
+                                    <img class="h-10 w-10 rounded-full object-cover" src="{{ $gameFowl->image ? Storage::url($gameFowl->image) : 'https://ui-avatars.com/api/?name=' . urlencode($gameFowl->name) . '&background=random' }}" alt="{{ $gameFowl->name }}">
+                                </div>
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                                 {{ $gameFowl->tag_id }}
                             </td>
@@ -131,7 +137,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-center">
+                            <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-center">
                                 {{ __('No game fowls found.') }}
                             </td>
                         </tr>

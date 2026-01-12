@@ -33,6 +33,7 @@ class StoreGameFowlRequest extends FormRequest
             'initial_health_status' => 'required|string|max:255',
             'sexual_maturity_status' => 'required|string|max:255',
             'special_notes' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 }

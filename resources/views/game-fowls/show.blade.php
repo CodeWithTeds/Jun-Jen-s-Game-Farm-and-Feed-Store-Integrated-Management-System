@@ -11,84 +11,111 @@
         </div>
     </div>
 
-    <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm sm:rounded-lg border border-zinc-200 dark:border-zinc-700">
-        <div class="p-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm sm:rounded-lg border border-zinc-200 dark:border-zinc-700 p-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column: Image & Identity -->
+            <div class="space-y-6">
+                <!-- Image -->
                 <div>
-                    <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white mb-4">Basic Information</h3>
-                    <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-                        <div class="sm:col-span-1">
-                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Tag ID</dt>
-                            <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ $gameFowl->tag_id }}</dd>
+                    <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 dark:bg-zinc-800 xl:aspect-w-7 xl:aspect-h-8">
+                        <img src="{{ $gameFowl->image ? Storage::url($gameFowl->image) : 'https://ui-avatars.com/api/?name=' . urlencode($gameFowl->name) . '&background=random&size=512' }}" alt="{{ $gameFowl->name }}" class="h-full w-full object-cover object-center group-hover:opacity-75 rounded-lg shadow-sm">
+                    </div>
+                </div>
+
+                <!-- Identity Card -->
+                <div class="bg-gray-50 dark:bg-zinc-800/50 rounded-lg p-4 border border-gray-100 dark:border-zinc-700/50">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tag ID</label>
+                            <div class="mt-1 text-lg font-mono font-bold text-gray-900 dark:text-white">{{ $gameFowl->tag_id }}</div>
                         </div>
-                        <div class="sm:col-span-1">
-                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Name</dt>
-                            <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ $gameFowl->name }}</dd>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Name / Alias</label>
+                            <div class="mt-1 text-lg font-semibold text-gray-900 dark:text-white">{{ $gameFowl->name }}</div>
                         </div>
-                        <div class="sm:col-span-1">
-                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Sex</dt>
-                            <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $gameFowl->sex === 'Male' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200' }}">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Sex</label>
+                            <div class="mt-1">
+                                <span class="px-2 py-1 inline-flex text-sm leading-5 font-semibold rounded-full {{ $gameFowl->sex === 'Male' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200' }}">
                                     {{ $gameFowl->sex }}
                                 </span>
-                            </dd>
+                            </div>
                         </div>
-                        <div class="sm:col-span-1">
-                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Age</dt>
-                            <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ $gameFowl->current_age }}</dd>
+                         <div>
+                            <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Current Age</label>
+                            <div class="mt-1 text-base text-gray-900 dark:text-gray-200">{{ $gameFowl->current_age }}</div>
                         </div>
-                    </dl>
+                    </div>
                 </div>
+            </div>
 
+            <!-- Right Column: Detailed Info -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Physical Characteristics -->
                 <div>
-                    <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white mb-4">Physical Characteristics</h3>
-                    <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-                        <div class="sm:col-span-1">
-                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Growth Phase</dt>
-                            <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ $gameFowl->stage_growth_phase }}</dd>
-                        </div>
-                        <div class="sm:col-span-1">
-                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Feather Pattern</dt>
-                            <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ $gameFowl->color_feather_pattern }}</dd>
-                        </div>
-                        <div class="sm:col-span-2">
-                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Distinctive Markings</dt>
-                            <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ $gameFowl->distinctive_markings ?? 'None' }}</dd>
-                        </div>
-                    </dl>
-                </div>
-            </div>
-
-            <div class="mt-8 border-t border-gray-200 dark:border-zinc-700 pt-8">
-                <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white mb-4">Health & Status</h3>
-                <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-3">
-                    <div class="sm:col-span-1">
-                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Date Hatched</dt>
-                        <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ $gameFowl->date_hatched->format('F j, Y') }}</dd>
-                    </div>
-                    <div class="sm:col-span-1">
-                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Acquisition Date</dt>
-                        <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ $gameFowl->acquisition_date->format('F j, Y') }}</dd>
-                    </div>
-                    <div class="sm:col-span-1">
-                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Initial Health Status</dt>
-                        <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ $gameFowl->initial_health_status }}</dd>
-                    </div>
-                    <div class="sm:col-span-1">
-                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Sexual Maturity</dt>
-                        <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ $gameFowl->sexual_maturity_status }}</dd>
-                    </div>
-                </dl>
-            </div>
-
-            @if($gameFowl->special_notes)
-                <div class="mt-8 border-t border-gray-200 dark:border-zinc-700 pt-8">
-                    <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white mb-4">Special Notes</h3>
-                    <div class="text-sm text-gray-900 dark:text-gray-200 bg-gray-50 dark:bg-zinc-800 p-4 rounded-lg">
-                        {{ $gameFowl->special_notes }}
+                    <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                        <span class="iconify" data-icon="heroicons:sparkles" class="text-indigo-500"></span>
+                        Physical Characteristics
+                    </h3>
+                    <div class="bg-gray-50 dark:bg-zinc-800/30 rounded-lg p-5 border border-gray-100 dark:border-zinc-700/30">
+                        <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+                            <div class="sm:col-span-1">
+                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Growth Phase</dt>
+                                <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ $gameFowl->stage_growth_phase }}</dd>
+                            </div>
+                            <div class="sm:col-span-1">
+                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Feather Pattern</dt>
+                                <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ $gameFowl->color_feather_pattern }}</dd>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Distinctive Markings</dt>
+                                <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ $gameFowl->distinctive_markings ?? 'None' }}</dd>
+                            </div>
+                        </dl>
                     </div>
                 </div>
-            @endif
+
+                <!-- Health & History -->
+                <div>
+                    <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                        <span class="iconify" data-icon="heroicons:heart" class="text-red-500"></span>
+                        Health & History
+                    </h3>
+                    <div class="bg-gray-50 dark:bg-zinc-800/30 rounded-lg p-5 border border-gray-100 dark:border-zinc-700/30">
+                        <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+                            <div class="sm:col-span-1">
+                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Date Hatched</dt>
+                                <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ $gameFowl->date_hatched->format('F j, Y') }}</dd>
+                            </div>
+                            <div class="sm:col-span-1">
+                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Acquisition Date</dt>
+                                <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ $gameFowl->acquisition_date->format('F j, Y') }}</dd>
+                            </div>
+                            <div class="sm:col-span-1">
+                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Initial Health Status</dt>
+                                <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ $gameFowl->initial_health_status }}</dd>
+                            </div>
+                            <div class="sm:col-span-1">
+                                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Sexual Maturity</dt>
+                                <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ $gameFowl->sexual_maturity_status }}</dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+
+                <!-- Special Notes -->
+                @if($gameFowl->special_notes)
+                    <div>
+                        <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                            <span class="iconify" data-icon="heroicons:document-text" class="text-yellow-500"></span>
+                            Special Notes
+                        </h3>
+                        <div class="text-sm text-gray-900 dark:text-gray-200 bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-100 dark:border-yellow-900/20 p-4 rounded-lg">
+                            {{ $gameFowl->special_notes }}
+                        </div>
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 </x-layouts.app>
