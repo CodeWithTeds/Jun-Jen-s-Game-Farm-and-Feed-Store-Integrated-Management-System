@@ -115,6 +115,50 @@
                         </div>
                     </div>
                 @endif
+                
+                <!-- Medical Records -->
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white flex items-center gap-2">
+                            <span class="iconify" data-icon="heroicons:heart" class="text-red-500"></span>
+                            Medical Records
+                        </h3>
+                        <a href="{{ route('staff.medical-records.create', ['game_fowl_id' => $gameFowl->id]) }}" class="text-xs font-semibold text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
+                            + Add Record
+                        </a>
+                    </div>
+                    
+                    @if($gameFowl->medicalRecords->count() > 0)
+                        <div class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg overflow-hidden">
+                            <ul class="divide-y divide-gray-200 dark:divide-zinc-700">
+                                @foreach($gameFowl->medicalRecords as $record)
+                                    <li class="p-4 hover:bg-gray-50 dark:hover:bg-zinc-700/50 transition-colors">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <p class="text-sm font-medium text-gray-900 dark:text-white">
+                                                    {{ $record->type }}
+                                                    @if($record->medication_name)
+                                                        - {{ $record->medication_name }}
+                                                    @endif
+                                                </p>
+                                                <p class="text-xs text-gray-500 dark:text-gray-400">
+                                                    {{ $record->date->format('M d, Y') }} &bull; {{ $record->status }}
+                                                </p>
+                                            </div>
+                                            <a href="{{ route('staff.medical-records.show', $record) }}" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                                                <span class="iconify" data-icon="heroicons:chevron-right" data-width="20" data-height="20"></span>
+                                            </a>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @else
+                        <div class="text-sm text-gray-500 dark:text-gray-400 italic bg-gray-50 dark:bg-zinc-800/30 p-4 rounded-lg border border-gray-100 dark:border-zinc-700/30">
+                            No medical records found.
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
     </div>

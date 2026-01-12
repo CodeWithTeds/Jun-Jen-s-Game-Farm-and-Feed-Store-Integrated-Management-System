@@ -15,27 +15,46 @@
                     @if(auth()->user()->role === 'staff')
                         <flux:sidebar.item :href="route('staff.dashboard')" :current="request()->routeIs('staff.dashboard')" wire:navigate>
                             <x-slot:icon>
-                                <span class="iconify text-2xl text-indigo-500" data-icon="solar:home-smile-bold-duotone"></span>
+                                <flux:icon :icon="'layout-grid'" class="size-6 text-indigo-500" />
                             </x-slot:icon>
                             {{ __('Dashboard') }}
                         </flux:sidebar.item>
 
-                        <flux:sidebar.item :href="route('staff.game-fowls.index')" :current="request()->routeIs('staff.game-fowls.*')" wire:navigate>
+                        <flux:sidebar.group expandable :expanded="request()->routeIs('staff.breedings.*') || request()->routeIs('staff.medical-records.*') || request()->routeIs('staff.game-fowls.*')" :heading="__('Game Fowl Hub')">
                             <x-slot:icon>
-                                <span class="iconify text-2xl text-orange-500" data-icon="icon-park-twotone:chicken"></span>
+                                <span class="iconify text-2xl text-indigo-500" data-icon="solar:clipboard-list-bold-duotone"></span>
                             </x-slot:icon>
-                            {{ __('Game Fowl Management') }}
-                        </flux:sidebar.item>
+                            <flux:sidebar.item :href="route('staff.game-fowls.index')" :current="request()->routeIs('staff.game-fowls.*')" wire:navigate>
+                                <x-slot:icon>
+                                    <span class="iconify text-2xl text-orange-500" data-icon="icon-park-twotone:chicken"></span>
+                                </x-slot:icon>
+                                {{ __('GFowl Management') }}
+                            </flux:sidebar.item>
+                            <flux:sidebar.item :href="route('staff.breedings.index')" :current="request()->routeIs('staff.breedings.*')" wire:navigate>
+                                <x-slot:icon>
+                                    <span class="iconify text-2xl text-rose-500" data-icon="icon-park-twotone:baby-one"></span>
+                                </x-slot:icon>
+                                {{ __('Breeding Management') }}
+                            </flux:sidebar.item>
+
+                            <flux:sidebar.item :href="route('staff.medical-records.index')" :current="request()->routeIs('staff.medical-records.*')" wire:navigate>
+                                <x-slot:icon>
+                                    <span class="iconify text-2xl text-red-500" data-icon="solar:medical-kit-bold-duotone"></span>
+                                </x-slot:icon>
+                                {{ __('Medical Records') }}
+                            </flux:sidebar.item>
+                        </flux:sidebar.group>
                     @else
                         <flux:sidebar.item :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                             <x-slot:icon>
-                                <span class="iconify text-2xl text-indigo-500" data-icon="solar:home-smile-bold-duotone"></span>
+                                <flux:icon :icon="'layout-grid'" class="size-6 text-indigo-500" />
                             </x-slot:icon>
                             {{ __('Dashboard') }}
                         </flux:sidebar.item>
                     @endif
 
                     @if(auth()->user()->role === 'staff')
+
                         <flux:sidebar.item href="#" wire:navigate>
                             <x-slot:icon>
                                 <span class="iconify text-2xl text-green-500" data-icon="solar:clipboard-list-bold-duotone"></span>

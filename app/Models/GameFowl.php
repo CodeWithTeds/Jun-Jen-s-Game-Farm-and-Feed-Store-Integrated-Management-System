@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Carbon\Carbon;
 
 class GameFowl extends Model
@@ -20,6 +22,8 @@ class GameFowl extends Model
         'sexual_maturity_status',
         'special_notes',
         'image',
+        'sire_id',
+        'dam_id',
     ];
 
     protected $casts = [
@@ -30,5 +34,30 @@ class GameFowl extends Model
     public function getCurrentAgeAttribute()
     {
         return $this->date_hatched->diffForHumans(null, true);
+    }
+
+    public function sire(): BelongsTo
+    {
+        return $this->belongsTo(GameFowl::class, 'sire_id');
+    }
+
+    public function dam(): BelongsTo
+    {
+        return $this->belongsTo(GameFowl::class, 'dam_id');
+    }
+
+    public function offspringAsSire(): HasMany
+    {
+        return $this->hasMany(GameFowl::class, 'sire_id');
+    }
+
+    public function offspringAsDam(): HasMany
+    {
+        return $this->hasMany(GameFowl::class, 'dam_id');
+    }
+
+    public function medicalRecords(): HasMany
+    {
+        return $this->hasMany(MedicalRecord::class);
     }
 }

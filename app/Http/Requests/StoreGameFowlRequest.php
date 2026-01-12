@@ -34,6 +34,8 @@ class StoreGameFowlRequest extends FormRequest
             'sexual_maturity_status' => 'required|string|max:255',
             'special_notes' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'sire_id' => 'nullable|exists:game_fowls,id',
+            'dam_id' => 'nullable|exists:game_fowls,id',
         ];
     }
 }

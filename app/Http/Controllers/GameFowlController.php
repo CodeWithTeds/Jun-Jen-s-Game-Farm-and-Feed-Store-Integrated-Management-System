@@ -30,7 +30,9 @@ class GameFowlController extends Controller
      */
     public function create()
     {
-        return view('game-fowls.create');
+        $sires = GameFowl::where('sex', 'Male')->orderBy('name')->get();
+        $dams = GameFowl::where('sex', 'Female')->orderBy('name')->get();
+        return view('game-fowls.create', compact('sires', 'dams'));
     }
 
     /**
@@ -49,6 +51,7 @@ class GameFowlController extends Controller
      */
     public function show(GameFowl $gameFowl)
     {
+        $gameFowl->load('medicalRecords');
         return view('game-fowls.show', compact('gameFowl'));
     }
 
@@ -57,7 +60,9 @@ class GameFowlController extends Controller
      */
     public function edit(GameFowl $gameFowl)
     {
-        return view('game-fowls.edit', compact('gameFowl'));
+        $sires = GameFowl::where('sex', 'Male')->where('id', '!=', $gameFowl->id)->orderBy('name')->get();
+        $dams = GameFowl::where('sex', 'Female')->where('id', '!=', $gameFowl->id)->orderBy('name')->get();
+        return view('game-fowls.edit', compact('gameFowl', 'sires', 'dams'));
     }
 
     /**

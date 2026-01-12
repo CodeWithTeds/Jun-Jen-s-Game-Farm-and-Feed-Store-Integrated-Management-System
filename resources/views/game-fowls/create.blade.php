@@ -141,6 +141,33 @@
                             @enderror
                         </div>
 
+                        <!-- Pedigree Information -->
+                        <div class="md:col-span-2 border-t border-gray-200 dark:border-zinc-700 pt-6 mt-2">
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Pedigree / Lineage</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Sire -->
+                                <div>
+                                    <label for="sire_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sire (Father)</label>
+                                    <select name="sire_id" id="sire_id" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow">
+                                        <option value="">Unknown / None</option>
+                                        @foreach($sires as $sire)
+                                            <option value="{{ $sire->id }}" {{ old('sire_id') == $sire->id ? 'selected' : '' }}>{{ $sire->name }} ({{ $sire->tag_id }})</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <!-- Dam -->
+                                <div>
+                                    <label for="dam_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Dam (Mother)</label>
+                                    <select name="dam_id" id="dam_id" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow">
+                                        <option value="">Unknown / None</option>
+                                        @foreach($dams as $dam)
+                                            <option value="{{ $dam->id }}" {{ old('dam_id') == $dam->id ? 'selected' : '' }}>{{ $dam->name }} ({{ $dam->tag_id }})</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Special Notes -->
                         <div class="md:col-span-2">
                             <label for="special_notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Special Notes (Optional)</label>
