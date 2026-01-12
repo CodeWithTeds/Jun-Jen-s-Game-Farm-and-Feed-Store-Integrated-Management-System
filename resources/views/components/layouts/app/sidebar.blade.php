@@ -16,49 +16,73 @@
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
 
-                    @can('view-users')
-                        <flux:sidebar.item icon="users" :href="route('users.index')" :current="request()->routeIs('users.*')" wire:navigate>
-                            {{ __('User Management') }}
+                    @if(auth()->user()->role === 'staff')
+                        <flux:sidebar.item icon="clipboard-document-list" href="#" wire:navigate>
+                            {{ __('Farm Records') }}
                         </flux:sidebar.item>
-                    @endcan
 
-                    <flux:sidebar.item icon="chart-bar" href="#" wire:navigate>
-                        {{ __('Reports') }}
-                    </flux:sidebar.item>
+                        <flux:sidebar.item icon="clipboard-document-check" href="#" wire:navigate>
+                            {{ __('Hatchery Records') }}
+                        </flux:sidebar.item>
 
-                    <flux:sidebar.item icon="cog" href="#" wire:navigate>
-                        {{ __('System Settings') }}
-                    </flux:sidebar.item>
+                        <flux:sidebar.item icon="archive-box" href="#" wire:navigate>
+                            {{ __('Inventory Management') }}
+                        </flux:sidebar.item>
 
-                    <flux:sidebar.item icon="truck" href="#" wire:navigate>
-                        {{ __('Supplier Management') }}
-                    </flux:sidebar.item>
+                        <flux:sidebar.item icon="currency-dollar" href="#" wire:navigate>
+                            {{ __('Sales Transactions') }}
+                        </flux:sidebar.item>
 
-                    <flux:sidebar.item icon="user-group" href="#" wire:navigate>
-                        {{ __('Customer Management') }}
-                    </flux:sidebar.item>
+                        <flux:sidebar.item icon="calendar" href="#" wire:navigate>
+                            {{ __('Schedules / Reminders') }}
+                        </flux:sidebar.item>
 
-                    <flux:sidebar.item icon="server-stack" href="#" wire:navigate>
-                        {{ __('Backup & Maintenance') }}
-                    </flux:sidebar.item>
+                        <flux:sidebar.item icon="users" href="#" wire:navigate>
+                            {{ __('Customer Records') }}
+                        </flux:sidebar.item>
 
-                    <flux:sidebar.item icon="clipboard-document-list" href="#" wire:navigate>
-                        {{ __('Activity Logs') }}
-                    </flux:sidebar.item>
+                        <flux:sidebar.item icon="truck" href="#" wire:navigate>
+                            {{ __('Supplier Records') }}
+                        </flux:sidebar.item>
+                    @endif
+
+                    @if(auth()->user()->role === 'admin')
+                        @can('view-users')
+                            <flux:sidebar.item icon="users" :href="route('users.index')" :current="request()->routeIs('users.*')" wire:navigate>
+                                {{ __('User Management') }}
+                            </flux:sidebar.item>
+                        @endcan
+
+                        <flux:sidebar.item icon="chart-bar" href="#" wire:navigate>
+                            {{ __('Reports') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item icon="cog" href="#" wire:navigate>
+                            {{ __('System Settings') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item icon="truck" href="#" wire:navigate>
+                            {{ __('Supplier Management') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item icon="user-group" href="#" wire:navigate>
+                            {{ __('Customer Management') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item icon="server-stack" href="#" wire:navigate>
+                            {{ __('Backup & Maintenance') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item icon="clipboard-document-list" href="#" wire:navigate>
+                            {{ __('Activity Logs') }}
+                        </flux:sidebar.item>
+                    @endif
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 
             <flux:spacer />
 
-            <flux:sidebar.nav>
-                <flux:sidebar.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                    {{ __('Repository') }}
-                </flux:sidebar.item>
-
-                <flux:sidebar.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                    {{ __('Documentation') }}
-                </flux:sidebar.item>
-            </flux:sidebar.nav>
+        
 
             <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
         </flux:sidebar>

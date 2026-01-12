@@ -29,7 +29,7 @@ class StoreUserRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'username' => ['nullable', 'string', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'role' => ['required', 'string', 'in:admin,user,supplier,customer'], // Example roles
+            'role' => ['required', 'string', 'in:admin,staff'],
             'phone_number' => ['nullable', 'string', 'max:20'],
             'status' => ['required', 'string', 'in:active,inactive'],
             'account_type' => ['nullable', 'string', 'max:50'],

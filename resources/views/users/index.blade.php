@@ -1,10 +1,10 @@
 <x-layouts.app>
     <div class="flex items-center justify-between mb-6">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ __('User Management') }}</h1>
+        <flux:heading size="xl">{{ __('User Management') }}</flux:heading>
         @can('create-users')
-            <a href="{{ route('users.create') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+            <flux:button href="{{ route('users.create') }}" wire:navigate variant="primary" icon="plus">
                 {{ __('Create User') }}
-            </a>
+            </flux:button>
         @endcan
     </div>
 
@@ -14,51 +14,50 @@
         </div>
     @endif
 
-    <form method="GET" action="{{ route('users.index') }}" class="mb-6 flex flex-wrap gap-4 items-end bg-white dark:bg-zinc-800 p-4 rounded-lg shadow-sm border border-zinc-200 dark:border-zinc-700">
-        <div class="w-full max-w-sm">
-            <label for="search" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Search</label>
-            <input 
-                type="search" 
-                id="search"
-                name="search" 
-                placeholder="Search users..." 
-                value="{{ request('search') }}"
-                class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-zinc-900 dark:border-zinc-700 dark:text-gray-300 sm:text-sm"
-            />
-        </div>
-        
-        <div class="w-40">
-            <label for="role" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Role</label>
-            <select id="role" name="role" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-zinc-900 dark:border-zinc-700 dark:text-gray-300 sm:text-sm">
-                <option value="">All Roles</option>
-                <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                <option value="user" {{ request('role') == 'user' ? 'selected' : '' }}>User</option>
-                <option value="supplier" {{ request('role') == 'supplier' ? 'selected' : '' }}>Supplier</option>
-                <option value="customer" {{ request('role') == 'customer' ? 'selected' : '' }}>Customer</option>
-            </select>
-        </div>
-
-        <div class="w-40">
-            <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-            <select id="status" name="status" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-zinc-900 dark:border-zinc-700 dark:text-gray-300 sm:text-sm">
-                <option value="">All Status</option>
-                <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
-                <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
-            </select>
-        </div>
-        
-        <div class="flex gap-2 pb-0.5">
-            <button type="submit" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
-                {{ __('Filter') }}
-            </button>
+    <div class="mb-6 bg-white dark:bg-zinc-900 p-4 rounded-xl border border-zinc-200 dark:border-zinc-700 shadow-sm">
+        <form method="GET" action="{{ route('users.index') }}" class="flex flex-wrap gap-4 items-end">
+            <div class="w-full max-w-sm">
+                <flux:input 
+                    type="search"
+                    name="search" 
+                    label="Search" 
+                    placeholder="Search users..." 
+                    value="{{ request('search') }}"
+                    icon="magnifying-glass"
+                />
+            </div>
             
-            @if(request()->anyFilled(['search', 'role', 'status']))
-                <a href="{{ route('users.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-red-300 rounded-md font-semibold text-xs text-red-700 uppercase tracking-widest shadow-sm hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
-                    {{ __('Clear') }}
-                </a>
-            @endif
-        </div>
-    </form>
+            <div class="w-40">
+                <label for="role" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Role</label>
+                <select id="role" name="role" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow">
+                    <option value="">All Roles</option>
+                    <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                    <option value="staff" {{ request('role') == 'staff' ? 'selected' : '' }}>Staff</option>
+                </select>
+            </div>
+
+            <div class="w-40">
+                <label for="status" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Status</label>
+                <select id="status" name="status" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow">
+                    <option value="">All Status</option>
+                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
+                    <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                </select>
+            </div>
+            
+            <div class="flex gap-2">
+                <flux:button type="submit" variant="primary">
+                    {{ __('Filter') }}
+                </flux:button>
+                
+                @if(request()->anyFilled(['search', 'role', 'status']))
+                    <flux:button href="{{ route('users.index') }}" wire:navigate variant="filled">
+                        {{ __('Clear') }}
+                    </flux:button>
+                @endif
+            </div>
+        </form>
+    </div>
 
     <div class="bg-white dark:bg-zinc-800 overflow-hidden shadow-sm sm:rounded-lg border border-zinc-200 dark:border-zinc-700">
         <div class="overflow-x-auto">
@@ -138,8 +137,8 @@
                                     @can('view-users')
                                         <a href="{{ route('users.show', $user->id) }}" wire:navigate class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             </svg>
                                         </a>
                                     @endcan

@@ -21,7 +21,8 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $userId = $this->route('user') ? $this->route('user')->id : $this->route('id');
+        $user = $this->route('user');
+        $userId = is_object($user) ? $user->id : $user;
 
         return [
             'name' => ['required', 'string', 'max:255'],
@@ -31,7 +32,7 @@ class UpdateUserRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $userId],
             'username' => ['nullable', 'string', 'max:255', 'unique:users,username,' . $userId],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
-            'role' => ['required', 'string', 'in:admin,user,supplier,customer'],
+            'role' => ['required', 'string', 'in:admin,staff'],
             'phone_number' => ['nullable', 'string', 'max:20'],
             'status' => ['required', 'string', 'in:active,inactive'],
             'account_type' => ['nullable', 'string', 'max:50'],

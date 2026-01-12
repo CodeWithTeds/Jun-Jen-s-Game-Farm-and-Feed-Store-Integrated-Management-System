@@ -64,7 +64,7 @@
                 </div>
                 <div class="relative lg:h-auto flex justify-center items-center">
                     <div class="relative max-w-sm w-full">
-                        <img src="{{ asset('images/welcome.png') }}" alt="Jun & Jen's Farm" class="w-full h-auto rounded-xl shadow-lg">
+                        <img src="{{ asset('images/c5.png') }}" alt="Jun & Jen's Farm" class="w-full h-auto rounded-xl shadow-lg">
                     </div>
                 </div>
             </div>
@@ -123,8 +123,8 @@
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Using a loop for images p1 to p8 (skipping p7 as it wasn't listed, but p8 was) -->
-                @foreach(['p1.jpeg', 'p2.jpeg', 'p3.jpeg', 'p4.jpeg', 'p5.jpeg', 'p6.jpeg', 'p8.jpeg'] as $image)
+                <!-- Using a loop for images c1 to c4 (skipping p7 as it wasn't listed, but p8 was) -->
+                @foreach(['c1.png', 'c2.png', 'c3.png', 'c4.png', 'c5.png', 'c6.png', 'c7.png'] as $image)
                     <div class="group relative aspect-square overflow-hidden rounded-xl bg-white shadow-md hover:shadow-xl transition-all">
                         <img src="{{ asset('images/' . $image) }}" alt="Gallery Image" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
                         <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
