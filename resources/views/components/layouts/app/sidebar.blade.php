@@ -13,77 +13,122 @@
             <flux:sidebar.nav>
                 <flux:sidebar.group :heading="__('Platform')" class="grid">
                     @if(auth()->user()->role === 'staff')
-                        <flux:sidebar.item icon="home" :href="route('staff.dashboard')" :current="request()->routeIs('staff.dashboard')" wire:navigate>
+                        <flux:sidebar.item :href="route('staff.dashboard')" :current="request()->routeIs('staff.dashboard')" wire:navigate>
+                            <x-slot:icon>
+                                <span class="iconify text-2xl text-indigo-500" data-icon="solar:home-smile-bold-duotone"></span>
+                            </x-slot:icon>
                             {{ __('Dashboard') }}
                         </flux:sidebar.item>
 
-                        <flux:sidebar.item icon="clipboard-document-list" :href="route('staff.game-fowls.index')" :current="request()->routeIs('staff.game-fowls.*')" wire:navigate>
+                        <flux:sidebar.item :href="route('staff.game-fowls.index')" :current="request()->routeIs('staff.game-fowls.*')" wire:navigate>
+                            <x-slot:icon>
+                                <span class="iconify text-2xl text-orange-500" data-icon="icon-park-twotone:chicken"></span>
+                            </x-slot:icon>
                             {{ __('Game Fowl Management') }}
                         </flux:sidebar.item>
                     @else
-                        <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
+                        <flux:sidebar.item :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
+                            <x-slot:icon>
+                                <span class="iconify text-2xl text-indigo-500" data-icon="solar:home-smile-bold-duotone"></span>
+                            </x-slot:icon>
                             {{ __('Dashboard') }}
                         </flux:sidebar.item>
                     @endif
 
                     @if(auth()->user()->role === 'staff')
-                        <flux:sidebar.item icon="clipboard-document-list" href="#" wire:navigate>
+                        <flux:sidebar.item href="#" wire:navigate>
+                            <x-slot:icon>
+                                <span class="iconify text-2xl text-green-500" data-icon="solar:clipboard-list-bold-duotone"></span>
+                            </x-slot:icon>
                             {{ __('Farm Records') }}
                         </flux:sidebar.item>
 
-                        <flux:sidebar.item icon="clipboard-document-check" href="#" wire:navigate>
-                            {{ __('Hatchery Records') }}
-                        </flux:sidebar.item>
-
-                        <flux:sidebar.item icon="archive-box" href="#" wire:navigate>
+             
+                        <flux:sidebar.item href="#" wire:navigate>
+                            <x-slot:icon>
+                                <span class="iconify text-2xl text-blue-500" data-icon="solar:box-bold-duotone"></span>
+                            </x-slot:icon>
                             {{ __('Inventory Management') }}
                         </flux:sidebar.item>
 
-                        <flux:sidebar.item icon="currency-dollar" href="#" wire:navigate>
+                        <flux:sidebar.item href="#" wire:navigate>
+                            <x-slot:icon>
+                                <span class="iconify text-2xl text-emerald-500" data-icon="solar:dollar-minimalistic-bold-duotone"></span>
+                            </x-slot:icon>
                             {{ __('Sales Transactions') }}
                         </flux:sidebar.item>
 
-                        <flux:sidebar.item icon="calendar" href="#" wire:navigate>
+                        <flux:sidebar.item href="#" wire:navigate>
+                            <x-slot:icon>
+                                <span class="iconify text-2xl text-purple-500" data-icon="solar:calendar-bold-duotone"></span>
+                            </x-slot:icon>
                             {{ __('Schedules / Reminders') }}
                         </flux:sidebar.item>
 
-                        <flux:sidebar.item icon="users" href="#" wire:navigate>
+                        <flux:sidebar.item href="#" wire:navigate>
+                            <x-slot:icon>
+                                <span class="iconify text-2xl text-pink-500" data-icon="solar:users-group-rounded-bold-duotone"></span>
+                            </x-slot:icon>
                             {{ __('Customer Records') }}
                         </flux:sidebar.item>
 
-                        <flux:sidebar.item icon="truck" href="#" wire:navigate>
+                        <flux:sidebar.item href="#" wire:navigate>
+                            <x-slot:icon>
+                                <span class="iconify text-2xl text-cyan-500" data-icon="solar:delivery-bold-duotone"></span>
+                            </x-slot:icon>
                             {{ __('Supplier Records') }}
                         </flux:sidebar.item>
                     @endif
 
                     @if(auth()->user()->role === 'admin')
                         @can('view-users')
-                            <flux:sidebar.item icon="users" :href="route('users.index')" :current="request()->routeIs('users.*')" wire:navigate>
+                            <flux:sidebar.item :href="route('users.index')" :current="request()->routeIs('users.*')" wire:navigate>
+                                <x-slot:icon>
+                                    <span class="iconify text-2xl text-red-500" data-icon="solar:user-id-bold-duotone"></span>
+                                </x-slot:icon>
                                 {{ __('User Management') }}
                             </flux:sidebar.item>
                         @endcan
 
-                        <flux:sidebar.item icon="chart-bar" href="#" wire:navigate>
+                        <flux:sidebar.item href="#" wire:navigate>
+                            <x-slot:icon>
+                                <span class="iconify text-2xl text-teal-500" data-icon="solar:chart-2-bold-duotone"></span>
+                            </x-slot:icon>
                             {{ __('Reports') }}
                         </flux:sidebar.item>
 
-                        <flux:sidebar.item icon="cog" href="#" wire:navigate>
+                        <flux:sidebar.item href="#" wire:navigate>
+                            <x-slot:icon>
+                                <span class="iconify text-2xl text-slate-500" data-icon="solar:settings-bold-duotone"></span>
+                            </x-slot:icon>
                             {{ __('System Settings') }}
                         </flux:sidebar.item>
 
-                        <flux:sidebar.item icon="truck" href="#" wire:navigate>
+                        <flux:sidebar.item href="#" wire:navigate>
+                            <x-slot:icon>
+                                <span class="iconify text-2xl text-cyan-500" data-icon="solar:truck-bold-duotone"></span>
+                            </x-slot:icon>
                             {{ __('Supplier Management') }}
                         </flux:sidebar.item>
 
-                        <flux:sidebar.item icon="user-group" href="#" wire:navigate>
+                        <flux:sidebar.item href="#" wire:navigate>
+                            <x-slot:icon>
+                                <span class="iconify text-2xl text-pink-500" data-icon="solar:users-group-two-rounded-bold-duotone"></span>
+                            </x-slot:icon>
                             {{ __('Customer Management') }}
                         </flux:sidebar.item>
 
-                        <flux:sidebar.item icon="server-stack" href="#" wire:navigate>
+                        <flux:sidebar.item href="#" wire:navigate>
+                            <x-slot:icon>
+                                <span class="iconify text-2xl text-gray-500" data-icon="solar:server-bold-duotone"></span>
+                            </x-slot:icon>
                             {{ __('Backup & Maintenance') }}
                         </flux:sidebar.item>
 
-                        <flux:sidebar.item icon="clipboard-document-list" href="#" wire:navigate>
+                        <flux:sidebar.item href="#" wire:navigate>
+                            <x-slot:icon>
+                                <span class="iconify text-2xl text-amber-500" data-icon="solar:history-bold-duotone"></span>
+                            </x-slot:icon>
                             {{ __('Activity Logs') }}
                         </flux:sidebar.item>
                     @endif
