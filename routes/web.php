@@ -30,6 +30,7 @@ Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(
     Route::resource('egg-collections', EggCollectionController::class);
     Route::resource('hatchery-records', HatcheryRecordController::class);
     Route::resource('chick-rearings', ChickRearingController::class);
+    Route::resource('feeds', FeedController::class);
 });
 
 require __DIR__.'/settings.php';

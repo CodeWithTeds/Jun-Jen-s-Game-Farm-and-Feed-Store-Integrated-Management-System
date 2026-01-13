@@ -80,6 +80,11 @@
                 <tbody class="bg-white dark:bg-zinc-800 divide-y divide-gray-200 dark:divide-zinc-700">
                     @forelse ($feeds as $feed)
                         <tr class="hover:bg-gray-50 dark:hover:bg-zinc-700/50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="h-10 w-10 flex-shrink-0">
+                                    <img class="h-10 w-10 rounded-full object-cover" src="{{ $feed->image ? asset('storage/' . $feed->image) : 'https://ui-avatars.com/api/?name=' . urlencode($feed->feed_name) . '&background=random' }}" alt="{{ $feed->feed_name }}">
+                                </div>
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                                 {{ $feed->feed_name }}
                             </td>

@@ -11,6 +11,7 @@ class Feed extends Model
 
     protected $fillable = [
         'feed_name',
+        'image',
         'feed_type',
         'brand',
         'quantity',

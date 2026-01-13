@@ -15,6 +15,7 @@ class UpdateFeedRequest extends FormRequest
     {
         return [
             'feed_name' => 'sometimes|string|max:255',
+            'image' => ['nullable', 'image', 'max:2048'], // 2MB Max
             'feed_type' => 'sometimes|string|in:Starter,Grower,Finisher,Breeder',
             'brand' => 'sometimes|string|max:255',
             'quantity' => 'sometimes|numeric|min:0',
