@@ -13,9 +13,9 @@ class ChickRearingService
         $this->chickRearingRepository = $chickRearingRepository;
     }
 
-    public function getAllChickRearings(array $filters = [])
+    public function getAllChickRearings(array $filters = [], int $perPage = 10)
     {
-        return $this->chickRearingRepository->getAll($filters);
+        return $this->chickRearingRepository->getAll($filters, $perPage);
     }
 
     public function getChickRearingById($id)

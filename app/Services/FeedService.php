@@ -15,9 +15,9 @@ class FeedService
         $this->feedRepository = $feedRepository;
     }
 
-    public function getAllFeeds(array $filters = [])
+    public function getAllFeeds(array $filters = [], int $perPage = 10)
     {
-        return $this->feedRepository->getAll($filters);
+        return $this->feedRepository->getAll($filters, $perPage);
     }
 
     public function getFeedById($id)

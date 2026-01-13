@@ -86,6 +86,13 @@
                             {{ __('Feed Inventory') }}
                         </flux:sidebar.item>
 
+                        <flux:sidebar.item :href="route('staff.feed-usages.index')" :current="request()->routeIs('staff.feed-usages.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'clipboard-document-list'" class="size-6 text-teal-500" />
+                            </x-slot:icon>
+                            {{ __('Feed Usage Logs') }}
+                        </flux:sidebar.item>
+
                         <flux:sidebar.item href="#" wire:navigate>
                             <x-slot:icon>
                                 <flux:icon :icon="'banknotes'" class="size-6 text-emerald-500" />

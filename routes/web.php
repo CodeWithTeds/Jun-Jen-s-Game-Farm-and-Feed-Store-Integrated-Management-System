@@ -9,6 +9,7 @@ use App\Http\Controllers\EggCollectionController;
 use App\Http\Controllers\HatcheryRecordController;
 use App\Http\Controllers\ChickRearingController;
 use App\Http\Controllers\FeedController;
+use App\Http\Controllers\FeedUsageController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,6 +32,7 @@ Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(
     Route::resource('hatchery-records', HatcheryRecordController::class);
     Route::resource('chick-rearings', ChickRearingController::class);
     Route::resource('feeds', FeedController::class);
+    Route::resource('feed-usages', FeedUsageController::class)->only(['index', 'create', 'store']);
 });
 
 require __DIR__.'/settings.php';
