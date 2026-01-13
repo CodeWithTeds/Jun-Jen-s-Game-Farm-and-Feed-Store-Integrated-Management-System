@@ -45,14 +45,6 @@ class FeedUsageService
             $newQuantity = $feed->quantity - $data['quantity'];
             $updateData = ['quantity' => $newQuantity];
 
-            // Check reorder level
-            if ($newQuantity <= $feed->reorder_level && $feed->status !== 'Expired') {
-                 $updateData['status'] = 'Low Stock';
-            }
-            
-            // If quantity goes back up (not here, but logic wise), status might change back.
-            // But here we only deduct.
-
             $this->feedRepository->update($feed->id, $updateData);
 
             return $usage;

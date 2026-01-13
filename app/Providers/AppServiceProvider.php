@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 
 use Illuminate\Support\Facades\Gate;
 use App\Models\User;
+use App\Models\Feed;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Login;
 use App\Listeners\LogSuccessfulLogin;
@@ -59,6 +60,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         User::observe(\App\Observers\UserObserver::class);
+        Feed::observe(\App\Observers\FeedObserver::class);
         Event::listen(Login::class, LogSuccessfulLogin::class);
 
         Gate::define('view-users', function (User $user) {
