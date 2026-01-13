@@ -11,99 +11,102 @@
             </flux:sidebar.header>
 
             <flux:sidebar.nav>
-                <flux:sidebar.group :heading="__('Platform')" class="grid">
-                    @if(auth()->user()->role === 'staff')
+                @if(auth()->user()->role === 'staff')
+                    <flux:sidebar.group :heading="__('Platform')" class="grid">
                         <flux:sidebar.item :href="route('staff.dashboard')" :current="request()->routeIs('staff.dashboard')" wire:navigate>
                             <x-slot:icon>
                                 <flux:icon :icon="'layout-grid'" class="size-6 text-indigo-500" />
                             </x-slot:icon>
                             {{ __('Dashboard') }}
                         </flux:sidebar.item>
+                    </flux:sidebar.group>
 
-                        <flux:sidebar.group expandable :expanded="request()->routeIs('staff.breedings.*') || request()->routeIs('staff.medical-records.*') || request()->routeIs('staff.game-fowls.*')" :heading="__('Game Fowl Hub')">
+                    <flux:sidebar.group expandable :expanded="request()->routeIs('staff.breedings.*') || request()->routeIs('staff.medical-records.*') || request()->routeIs('staff.game-fowls.*')" :heading="__('Game Fowl Hub')">
+                        <x-slot:icon>
+                            <flux:icon :icon="'clipboard-document-list'" class="size-6 text-indigo-500" />
+                        </x-slot:icon>
+                        
+                        <flux:sidebar.item :href="route('staff.game-fowls.index')" :current="request()->routeIs('staff.game-fowls.*')" wire:navigate>
                             <x-slot:icon>
-                                <span class="iconify text-2xl text-indigo-500" data-icon="solar:clipboard-list-bold-duotone"></span>
+                                <flux:icon :icon="'trophy'" class="size-6 text-orange-500" />
                             </x-slot:icon>
-                            <flux:sidebar.item :href="route('staff.game-fowls.index')" :current="request()->routeIs('staff.game-fowls.*')" wire:navigate>
-                                <x-slot:icon>
-                                    <span class="iconify text-2xl text-orange-500" data-icon="icon-park-twotone:chicken"></span>
-                                </x-slot:icon>
-                                {{ __('GFowl Management') }}
-                            </flux:sidebar.item>
-                            <flux:sidebar.item :href="route('staff.breedings.index')" :current="request()->routeIs('staff.breedings.*')" wire:navigate>
-                                <x-slot:icon>
-                                    <span class="iconify text-2xl text-rose-500" data-icon="icon-park-twotone:baby-one"></span>
-                                </x-slot:icon>
-                                {{ __('Breeding Management') }}
-                            </flux:sidebar.item>
-
-                            <flux:sidebar.item :href="route('staff.medical-records.index')" :current="request()->routeIs('staff.medical-records.*')" wire:navigate>
-                                <x-slot:icon>
-                                    <span class="iconify text-2xl text-red-500" data-icon="solar:medical-kit-bold-duotone"></span>
-                                </x-slot:icon>
-                                {{ __('Medical Records') }}
-                            </flux:sidebar.item>
-                        </flux:sidebar.group>
-                    @else
-                        <flux:sidebar.item :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-                            <x-slot:icon>
-                                <flux:icon :icon="'layout-grid'" class="size-6 text-indigo-500" />
-                            </x-slot:icon>
-                            {{ __('Dashboard') }}
+                            {{ __('GFowl Management') }}
                         </flux:sidebar.item>
-                    @endif
 
-                    @if(auth()->user()->role === 'staff')
+                        <flux:sidebar.item :href="route('staff.breedings.index')" :current="request()->routeIs('staff.breedings.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'heart'" class="size-6 text-rose-500" />
+                            </x-slot:icon>
+                            {{ __('Breeding Management') }}
+                        </flux:sidebar.item>
 
+                        <flux:sidebar.item :href="route('staff.medical-records.index')" :current="request()->routeIs('staff.medical-records.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'plus-circle'" class="size-6 text-red-500" />
+                            </x-slot:icon>
+                            {{ __('Medical Records') }}
+                        </flux:sidebar.item>
+                    </flux:sidebar.group>
+
+                    <flux:sidebar.group :heading="__('Records')" class="grid">
                         <flux:sidebar.item href="#" wire:navigate>
                             <x-slot:icon>
-                                <span class="iconify text-2xl text-green-500" data-icon="solar:clipboard-list-bold-duotone"></span>
+                                <flux:icon :icon="'clipboard-document-check'" class="size-6 text-green-500" />
                             </x-slot:icon>
                             {{ __('Farm Records') }}
                         </flux:sidebar.item>
 
-             
                         <flux:sidebar.item href="#" wire:navigate>
                             <x-slot:icon>
-                                <span class="iconify text-2xl text-blue-500" data-icon="solar:box-bold-duotone"></span>
+                                <flux:icon :icon="'archive-box'" class="size-6 text-blue-500" />
                             </x-slot:icon>
                             {{ __('Inventory Management') }}
                         </flux:sidebar.item>
 
                         <flux:sidebar.item href="#" wire:navigate>
                             <x-slot:icon>
-                                <span class="iconify text-2xl text-emerald-500" data-icon="solar:dollar-minimalistic-bold-duotone"></span>
+                                <flux:icon :icon="'banknotes'" class="size-6 text-emerald-500" />
                             </x-slot:icon>
                             {{ __('Sales Transactions') }}
                         </flux:sidebar.item>
 
                         <flux:sidebar.item href="#" wire:navigate>
                             <x-slot:icon>
-                                <span class="iconify text-2xl text-purple-500" data-icon="solar:calendar-bold-duotone"></span>
+                                <flux:icon :icon="'calendar'" class="size-6 text-purple-500" />
                             </x-slot:icon>
                             {{ __('Schedules / Reminders') }}
                         </flux:sidebar.item>
 
                         <flux:sidebar.item href="#" wire:navigate>
                             <x-slot:icon>
-                                <span class="iconify text-2xl text-pink-500" data-icon="solar:users-group-rounded-bold-duotone"></span>
+                                <flux:icon :icon="'users'" class="size-6 text-pink-500" />
                             </x-slot:icon>
                             {{ __('Customer Records') }}
                         </flux:sidebar.item>
 
                         <flux:sidebar.item href="#" wire:navigate>
                             <x-slot:icon>
-                                <span class="iconify text-2xl text-cyan-500" data-icon="solar:delivery-bold-duotone"></span>
+                                <flux:icon :icon="'truck'" class="size-6 text-cyan-500" />
                             </x-slot:icon>
                             {{ __('Supplier Records') }}
                         </flux:sidebar.item>
-                    @endif
+                    </flux:sidebar.group>
 
-                    @if(auth()->user()->role === 'admin')
+                @elseif(auth()->user()->role === 'admin')
+                    <flux:sidebar.group :heading="__('Platform')" class="grid">
+                        <flux:sidebar.item :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'layout-grid'" class="size-6 text-indigo-500" />
+                            </x-slot:icon>
+                            {{ __('Dashboard') }}
+                        </flux:sidebar.item>
+                    </flux:sidebar.group>
+
+                    <flux:sidebar.group :heading="__('Administration')" class="grid">
                         @can('view-users')
                             <flux:sidebar.item :href="route('users.index')" :current="request()->routeIs('users.*')" wire:navigate>
                                 <x-slot:icon>
-                                    <span class="iconify text-2xl text-red-500" data-icon="solar:user-id-bold-duotone"></span>
+                                    <flux:icon :icon="'user-group'" class="size-6 text-red-500" />
                                 </x-slot:icon>
                                 {{ __('User Management') }}
                             </flux:sidebar.item>
@@ -111,47 +114,57 @@
 
                         <flux:sidebar.item href="#" wire:navigate>
                             <x-slot:icon>
-                                <span class="iconify text-2xl text-teal-500" data-icon="solar:chart-2-bold-duotone"></span>
+                                <flux:icon :icon="'chart-bar'" class="size-6 text-teal-500" />
                             </x-slot:icon>
                             {{ __('Reports') }}
                         </flux:sidebar.item>
 
                         <flux:sidebar.item href="#" wire:navigate>
                             <x-slot:icon>
-                                <span class="iconify text-2xl text-slate-500" data-icon="solar:settings-bold-duotone"></span>
+                                <flux:icon :icon="'cog-6-tooth'" class="size-6 text-slate-500" />
                             </x-slot:icon>
                             {{ __('System Settings') }}
                         </flux:sidebar.item>
 
                         <flux:sidebar.item href="#" wire:navigate>
                             <x-slot:icon>
-                                <span class="iconify text-2xl text-cyan-500" data-icon="solar:truck-bold-duotone"></span>
+                                <flux:icon :icon="'truck'" class="size-6 text-cyan-500" />
                             </x-slot:icon>
                             {{ __('Supplier Management') }}
                         </flux:sidebar.item>
 
                         <flux:sidebar.item href="#" wire:navigate>
                             <x-slot:icon>
-                                <span class="iconify text-2xl text-pink-500" data-icon="solar:users-group-two-rounded-bold-duotone"></span>
+                                <flux:icon :icon="'users'" class="size-6 text-pink-500" />
                             </x-slot:icon>
                             {{ __('Customer Management') }}
                         </flux:sidebar.item>
 
                         <flux:sidebar.item href="#" wire:navigate>
                             <x-slot:icon>
-                                <span class="iconify text-2xl text-gray-500" data-icon="solar:server-bold-duotone"></span>
+                                <flux:icon :icon="'server'" class="size-6 text-gray-500" />
                             </x-slot:icon>
                             {{ __('Backup & Maintenance') }}
                         </flux:sidebar.item>
 
                         <flux:sidebar.item href="#" wire:navigate>
                             <x-slot:icon>
-                                <span class="iconify text-2xl text-amber-500" data-icon="solar:history-bold-duotone"></span>
+                                <flux:icon :icon="'clock'" class="size-6 text-amber-500" />
                             </x-slot:icon>
                             {{ __('Activity Logs') }}
                         </flux:sidebar.item>
-                    @endif
-                </flux:sidebar.group>
+                    </flux:sidebar.group>
+
+                @else
+                    <flux:sidebar.group :heading="__('Platform')" class="grid">
+                        <flux:sidebar.item :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'layout-grid'" class="size-6 text-indigo-500" />
+                            </x-slot:icon>
+                            {{ __('Dashboard') }}
+                        </flux:sidebar.item>
+                    </flux:sidebar.group>
+                @endif
             </flux:sidebar.nav>
 
             <flux:spacer />
