@@ -12,6 +12,7 @@ use App\Http\Controllers\FeedController;
 use App\Http\Controllers\FeedUsageController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\FarmRecordController;
+use App\Livewire\Staff\Dashboard\Dashboard;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,7 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(function () {
-    Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::get('dashboard', Dashboard::class)->name('dashboard');
     Route::resource('game-fowls', GameFowlController::class);
     Route::resource('breedings', BreedingController::class);
     Route::resource('medical-records', MedicalRecordController::class);
