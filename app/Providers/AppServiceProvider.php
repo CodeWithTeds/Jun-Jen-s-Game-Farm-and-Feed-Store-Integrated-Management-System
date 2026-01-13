@@ -52,6 +52,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\FeedUsageRepositoryInterface::class,
             \App\Repositories\Eloquent\FeedUsageRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\ScheduleRepositoryInterface::class,
+            \App\Repositories\Eloquent\ScheduleRepository::class
+        );
     }
 
     /**

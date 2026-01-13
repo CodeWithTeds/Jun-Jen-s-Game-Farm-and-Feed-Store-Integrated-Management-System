@@ -92,34 +92,6 @@
                             </x-slot:icon>
                             {{ __('Feed Usage Logs') }}
                         </flux:sidebar.item>
-
-                        <flux:sidebar.item href="#" wire:navigate>
-                            <x-slot:icon>
-                                <flux:icon :icon="'banknotes'" class="size-6 text-emerald-500" />
-                            </x-slot:icon>
-                            {{ __('Sales Transactions') }}
-                        </flux:sidebar.item>
-
-                        <flux:sidebar.item href="#" wire:navigate>
-                            <x-slot:icon>
-                                <flux:icon :icon="'calendar'" class="size-6 text-purple-500" />
-                            </x-slot:icon>
-                            {{ __('Schedules / Reminders') }}
-                        </flux:sidebar.item>
-
-                        <flux:sidebar.item href="#" wire:navigate>
-                            <x-slot:icon>
-                                <flux:icon :icon="'users'" class="size-6 text-pink-500" />
-                            </x-slot:icon>
-                            {{ __('Customer Records') }}
-                        </flux:sidebar.item>
-
-                        <flux:sidebar.item href="#" wire:navigate>
-                            <x-slot:icon>
-                                <flux:icon :icon="'truck'" class="size-6 text-cyan-500" />
-                            </x-slot:icon>
-                            {{ __('Supplier Records') }}
-                        </flux:sidebar.item>
                     </flux:sidebar.group>
 
                 @elseif(auth()->user()->role === 'admin')
@@ -141,6 +113,20 @@
                                 {{ __('User Management') }}
                             </flux:sidebar.item>
                         @endcan
+
+                        <flux:sidebar.item href="#" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'banknotes'" class="size-6 text-emerald-500" />
+                            </x-slot:icon>
+                            {{ __('Sales Transactions') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item :href="route('schedules.index')" :current="request()->routeIs('schedules.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'calendar'" class="size-6 text-purple-500" />
+                            </x-slot:icon>
+                            {{ __('Schedules / Reminders') }}
+                        </flux:sidebar.item>
 
                         <flux:sidebar.item href="#" wire:navigate>
                             <x-slot:icon>

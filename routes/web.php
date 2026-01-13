@@ -10,6 +10,7 @@ use App\Http\Controllers\HatcheryRecordController;
 use App\Http\Controllers\ChickRearingController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\FeedUsageController;
+use App\Http\Controllers\ScheduleController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,6 +22,7 @@ Route::view('dashboard', 'dashboard')
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('users', UserController::class);
+    Route::resource('schedules', ScheduleController::class);
 });
 
 Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(function () {
