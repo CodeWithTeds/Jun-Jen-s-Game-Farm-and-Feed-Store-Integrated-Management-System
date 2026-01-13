@@ -5,6 +5,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\GameFowlController;
 use App\Http\Controllers\BreedingController;
 use App\Http\Controllers\MedicalRecordController;
+use App\Http\Controllers\EggCollectionController;
+use App\Http\Controllers\HatcheryRecordController;
+use App\Http\Controllers\ChickRearingController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,8 +26,9 @@ Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(
     Route::resource('game-fowls', GameFowlController::class);
     Route::resource('breedings', BreedingController::class);
     Route::resource('medical-records', MedicalRecordController::class);
-    Route::resource('egg-collections', \App\Http\Controllers\EggCollectionController::class);
-    Route::resource('hatchery-records', \App\Http\Controllers\HatcheryRecordController::class);
+    Route::resource('egg-collections', EggCollectionController::class);
+    Route::resource('hatchery-records', HatcheryRecordController::class);
+    Route::resource('chick-rearings', ChickRearingController::class);
 });
 
 require __DIR__.'/settings.php';

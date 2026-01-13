@@ -21,7 +21,7 @@
                         </flux:sidebar.item>
                     </flux:sidebar.group>
 
-                    <flux:sidebar.group expandable :expanded="request()->routeIs('staff.breedings.*') || request()->routeIs('staff.medical-records.*') || request()->routeIs('staff.game-fowls.*') || request()->routeIs('staff.egg-collections.*') || request()->routeIs('staff.hatchery-records.*')" :heading="__('Game Fowl Hub')">
+                    <flux:sidebar.group expandable :expanded="request()->routeIs('staff.breedings.*') || request()->routeIs('staff.medical-records.*') || request()->routeIs('staff.game-fowls.*') || request()->routeIs('staff.egg-collections.*') || request()->routeIs('staff.hatchery-records.*') || request()->routeIs('staff.chick-rearings.*')" :heading="__('Game Fowl Hub')">
                         <x-slot:icon>
                             <flux:icon :icon="'clipboard-document-list'" class="size-6 text-indigo-500" />
                         </x-slot:icon>
@@ -52,6 +52,13 @@
                                 <flux:icon :icon="'fire'" class="size-6 text-red-500" />
                             </x-slot:icon>
                             {{ __('Hatchery Records') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item :href="route('staff.chick-rearings.index')" :current="request()->routeIs('staff.chick-rearings.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'sparkles'" class="size-6 text-yellow-500" />
+                            </x-slot:icon>
+                            {{ __('Chick Rearing') }}
                         </flux:sidebar.item>
 
                         <flux:sidebar.item :href="route('staff.medical-records.index')" :current="request()->routeIs('staff.medical-records.*')" wire:navigate>

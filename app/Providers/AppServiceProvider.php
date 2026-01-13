@@ -36,6 +36,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\HatcheryRecordRepositoryInterface::class,
             \App\Repositories\Eloquent\HatcheryRecordRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\ChickRearingRepositoryInterface::class,
+            \App\Repositories\Eloquent\ChickRearingRepository::class
+        );
     }
 
     /**
