@@ -11,6 +11,7 @@ use App\Http\Controllers\ChickRearingController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\FeedUsageController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\FarmRecordController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -35,6 +36,7 @@ Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(
     Route::resource('chick-rearings', ChickRearingController::class);
     Route::resource('feeds', FeedController::class);
     Route::resource('feed-usages', FeedUsageController::class)->only(['index', 'create', 'store']);
+    Route::resource('farm-records', FarmRecordController::class);
 });
 
 require __DIR__.'/settings.php';

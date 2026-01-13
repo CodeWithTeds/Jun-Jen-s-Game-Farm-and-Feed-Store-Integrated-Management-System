@@ -72,7 +72,7 @@
                     </flux:sidebar.group>
 
                     <flux:sidebar.group :heading="__('Records')" class="grid">
-                        <flux:sidebar.item href="#" wire:navigate>
+                        <flux:sidebar.item :href="route('staff.farm-records.index')" :current="request()->routeIs('staff.farm-records.*')" wire:navigate>
                             <x-slot:icon>
                                 <flux:icon :icon="'clipboard-document-check'" class="size-6 text-green-500" />
                             </x-slot:icon>

@@ -57,6 +57,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\ScheduleRepositoryInterface::class,
             \App\Repositories\Eloquent\ScheduleRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\FarmRecordRepositoryInterface::class,
+            \App\Repositories\Eloquent\FarmRecordRepository::class
+        );
     }
 
     /**
