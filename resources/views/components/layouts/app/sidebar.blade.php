@@ -77,11 +77,11 @@
                             {{ __('Farm Records') }}
                         </flux:sidebar.item>
 
-                        <flux:sidebar.item href="#" wire:navigate>
+                        <flux:sidebar.item :href="route('staff.feeds.index')" :current="request()->routeIs('staff.feeds.*')" wire:navigate>
                             <x-slot:icon>
                                 <flux:icon :icon="'archive-box'" class="size-6 text-blue-500" />
                             </x-slot:icon>
-                            {{ __('Inventory Management') }}
+                            {{ __('Feed Inventory') }}
                         </flux:sidebar.item>
 
                         <flux:sidebar.item href="#" wire:navigate>
