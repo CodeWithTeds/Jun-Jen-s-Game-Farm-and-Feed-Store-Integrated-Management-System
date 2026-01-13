@@ -23,6 +23,8 @@ Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(
     Route::resource('game-fowls', GameFowlController::class);
     Route::resource('breedings', BreedingController::class);
     Route::resource('medical-records', MedicalRecordController::class);
+    Route::resource('egg-collections', \App\Http\Controllers\EggCollectionController::class);
+    Route::resource('hatchery-records', \App\Http\Controllers\HatcheryRecordController::class);
 });
 
 require __DIR__.'/settings.php';

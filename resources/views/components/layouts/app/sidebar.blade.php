@@ -21,7 +21,7 @@
                         </flux:sidebar.item>
                     </flux:sidebar.group>
 
-                    <flux:sidebar.group expandable :expanded="request()->routeIs('staff.breedings.*') || request()->routeIs('staff.medical-records.*') || request()->routeIs('staff.game-fowls.*')" :heading="__('Game Fowl Hub')">
+                    <flux:sidebar.group expandable :expanded="request()->routeIs('staff.breedings.*') || request()->routeIs('staff.medical-records.*') || request()->routeIs('staff.game-fowls.*') || request()->routeIs('staff.egg-collections.*') || request()->routeIs('staff.hatchery-records.*')" :heading="__('Game Fowl Hub')">
                         <x-slot:icon>
                             <flux:icon :icon="'clipboard-document-list'" class="size-6 text-indigo-500" />
                         </x-slot:icon>
@@ -38,6 +38,20 @@
                                 <flux:icon :icon="'heart'" class="size-6 text-rose-500" />
                             </x-slot:icon>
                             {{ __('Breeding Management') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item :href="route('staff.egg-collections.index')" :current="request()->routeIs('staff.egg-collections.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'circle-stack'" class="size-6 text-amber-500" />
+                            </x-slot:icon>
+                            {{ __('Egg Collections') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item :href="route('staff.hatchery-records.index')" :current="request()->routeIs('staff.hatchery-records.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'fire'" class="size-6 text-red-500" />
+                            </x-slot:icon>
+                            {{ __('Hatchery Records') }}
                         </flux:sidebar.item>
 
                         <flux:sidebar.item :href="route('staff.medical-records.index')" :current="request()->routeIs('staff.medical-records.*')" wire:navigate>

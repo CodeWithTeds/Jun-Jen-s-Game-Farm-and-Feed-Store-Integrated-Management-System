@@ -8,7 +8,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class GameFowlRepository implements GameFowlRepositoryInterface
 {
-    public function getAll(array $filters = [], int $perPage = 10): LengthAwarePaginator
+    public function getAll(array $filters = [], int $perPage = 10)
     {
         $query = GameFowl::query();
 
@@ -29,6 +29,10 @@ class GameFowlRepository implements GameFowlRepositoryInterface
 
         if (isset($filters['acquisition_date']) && $filters['acquisition_date']) {
             $query->whereDate('acquisition_date', $filters['acquisition_date']);
+        }
+
+        if (isset($filters['all']) && $filters['all']) {
+            return $query->latest()->get();
         }
 
         return $query->latest()->paginate($perPage);

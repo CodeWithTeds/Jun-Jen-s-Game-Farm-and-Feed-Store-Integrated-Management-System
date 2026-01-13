@@ -26,6 +26,16 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\GameFowlRepositoryInterface::class,
             \App\Repositories\Eloquent\GameFowlRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\EggCollectionRepositoryInterface::class,
+            \App\Repositories\Eloquent\EggCollectionRepository::class
+        );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\HatcheryRecordRepositoryInterface::class,
+            \App\Repositories\Eloquent\HatcheryRecordRepository::class
+        );
     }
 
     /**
