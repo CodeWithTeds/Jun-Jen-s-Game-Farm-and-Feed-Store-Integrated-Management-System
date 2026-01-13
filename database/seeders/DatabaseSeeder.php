@@ -52,5 +52,7 @@ class DatabaseSeeder extends Seeder
             'status' => 'active',
             'username' => 'customer',
         ]);
+
+        $this->call(GameFowlDamSireSeeder::class);
     }
 }
