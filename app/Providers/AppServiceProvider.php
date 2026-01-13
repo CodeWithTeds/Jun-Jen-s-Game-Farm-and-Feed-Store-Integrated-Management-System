@@ -41,6 +41,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\ChickRearingRepositoryInterface::class,
             \App\Repositories\Eloquent\ChickRearingRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\FeedRepositoryInterface::class,
+            \App\Repositories\Eloquent\FeedRepository::class
+        );
     }
 
     /**

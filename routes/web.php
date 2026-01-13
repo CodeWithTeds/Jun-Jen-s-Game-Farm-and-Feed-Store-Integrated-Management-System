@@ -8,6 +8,7 @@ use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\EggCollectionController;
 use App\Http\Controllers\HatcheryRecordController;
 use App\Http\Controllers\ChickRearingController;
+use App\Http\Controllers\FeedController;
 
 Route::get('/', function () {
     return view('welcome');
