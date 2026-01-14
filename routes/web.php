@@ -47,4 +47,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::resource('suppliers', SupplierController::class);
 });
 
+Route::middleware(['auth', 'verified'])->prefix('customer')->name('customer.')->group(function () {
+    Route::resource('feeds', FeedController::class)->only(['index', 'show']);
+});
+
 require __DIR__.'/settings.php';

@@ -94,6 +94,23 @@
                         </flux:sidebar.item>
                     </flux:sidebar.group>
 
+                @elseif(auth()->user()->role === 'customer')
+                    <flux:sidebar.group :heading="__('Platform')" class="grid">
+                        <flux:sidebar.item :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'layout-grid'" class="size-6 text-indigo-500" />
+                            </x-slot:icon>
+                            {{ __('Dashboard') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item :href="route('customer.feeds.index')" :current="request()->routeIs('customer.feeds.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'archive-box'" class="size-6 text-blue-500" />
+                            </x-slot:icon>
+                            {{ __('Product') }}
+                        </flux:sidebar.item>
+                    </flux:sidebar.group>
+
                 @elseif(auth()->user()->role === 'admin')
                     <flux:sidebar.group :heading="__('Platform')" class="grid">
                         <flux:sidebar.item :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
