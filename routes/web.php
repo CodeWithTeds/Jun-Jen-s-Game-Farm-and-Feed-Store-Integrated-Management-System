@@ -40,4 +40,8 @@ Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(
     Route::resource('farm-records', FarmRecordController::class);
 });
 
+Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('feeds', FeedController::class);
+});
+
 require __DIR__.'/settings.php';

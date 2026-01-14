@@ -1,8 +1,11 @@
 <x-layouts.app>
+    @php
+        $routePrefix = request()->routeIs('staff.*') ? 'staff.' : 'admin.';
+    @endphp
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('Feed Inventory Management') }}</h1>
         <div class="flex gap-2">
-            <a href="{{ route('staff.feeds.create') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+            <a href="{{ route($routePrefix . 'feeds.create') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                 {{ __('Add New Feed') }}
             </a>
         </div>
@@ -15,7 +18,7 @@
     @endif
 
     <div class="mb-6 bg-white dark:bg-zinc-900 p-4 rounded-xl border border-zinc-200 dark:border-zinc-700 shadow-sm">
-        <form method="GET" action="{{ route('staff.feeds.index') }}" class="flex flex-wrap gap-4 items-end">
+        <form method="GET" action="{{ route($routePrefix . 'feeds.index') }}" class="flex flex-wrap gap-4 items-end">
             <div class="w-full max-w-sm">
                 <label for="search" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Search</label>
                 <input 
@@ -55,7 +58,7 @@
                 </button>
                 
                 @if(request()->anyFilled(['search', 'feed_type', 'status']))
-                    <a href="{{ route('staff.feeds.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 dark:bg-zinc-800 dark:border-zinc-600 dark:text-gray-300 dark:hover:bg-zinc-700">
+                    <a href="{{ route($routePrefix . 'feeds.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 dark:bg-zinc-800 dark:border-zinc-600 dark:text-gray-300 dark:hover:bg-zinc-700">
                         {{ __('Clear') }}
                     </a>
                 @endif
@@ -117,9 +120,9 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="{{ route('staff.feeds.show', $feed->id) }}" wire:navigate class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-3">{{ __('View') }}</a>
-                                <a href="{{ route('staff.feeds.edit', $feed->id) }}" wire:navigate class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300 mr-3">{{ __('Edit') }}</a>
-                                <form action="{{ route('staff.feeds.destroy', $feed->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this feed?');">
+                                <a href="{{ route($routePrefix . 'feeds.show', $feed->id) }}" wire:navigate class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-3">{{ __('View') }}</a>
+                                <a href="{{ route($routePrefix . 'feeds.edit', $feed->id) }}" wire:navigate class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300 mr-3">{{ __('Edit') }}</a>
+                                <form action="{{ route($routePrefix . 'feeds.destroy', $feed->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this feed?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">{{ __('Delete') }}</button>

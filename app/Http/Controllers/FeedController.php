@@ -30,7 +30,8 @@ class FeedController extends Controller
     public function store(StoreFeedRequest $request)
     {
         $this->feedService->createFeed($request->validated());
-        return redirect()->route('staff.feeds.index')->with('success', 'Feed created successfully.');
+        $route = request()->routeIs('staff.*') ? 'staff.feeds.index' : 'admin.feeds.index';
+        return redirect()->route($route)->with('success', 'Feed created successfully.');
     }
 
     public function show($id)
@@ -48,12 +49,14 @@ class FeedController extends Controller
     public function update(UpdateFeedRequest $request, $id)
     {
         $this->feedService->updateFeed($id, $request->validated());
-        return redirect()->route('staff.feeds.index')->with('success', 'Feed updated successfully.');
+        $route = request()->routeIs('staff.*') ? 'staff.feeds.index' : 'admin.feeds.index';
+        return redirect()->route($route)->with('success', 'Feed updated successfully.');
     }
 
     public function destroy($id)
     {
         $this->feedService->deleteFeed($id);
-        return redirect()->route('staff.feeds.index')->with('success', 'Feed deleted successfully.');
+        $route = request()->routeIs('staff.*') ? 'staff.feeds.index' : 'admin.feeds.index';
+        return redirect()->route($route)->with('success', 'Feed deleted successfully.');
     }
 }

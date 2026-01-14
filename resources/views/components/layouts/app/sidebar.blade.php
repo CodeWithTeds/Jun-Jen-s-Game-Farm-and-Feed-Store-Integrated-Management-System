@@ -104,6 +104,15 @@
                         </flux:sidebar.item>
                     </flux:sidebar.group>
 
+                    <flux:sidebar.group :heading="__('Records')" class="grid">
+                        <flux:sidebar.item :href="route('admin.feeds.index')" :current="request()->routeIs('admin.feeds.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'archive-box'" class="size-6 text-blue-500" />
+                            </x-slot:icon>
+                            {{ __('Feed Inventory') }}
+                        </flux:sidebar.item>
+                    </flux:sidebar.group>
+
                     <flux:sidebar.group :heading="__('Administration')" class="grid">
                         @can('view-users')
                             <flux:sidebar.item :href="route('users.index')" :current="request()->routeIs('users.*')" wire:navigate>
