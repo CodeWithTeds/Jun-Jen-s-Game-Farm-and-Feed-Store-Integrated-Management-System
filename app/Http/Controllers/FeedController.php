@@ -18,6 +18,10 @@ class FeedController extends Controller
 
     public function index(Request $request)
     {
+        if ($request->routeIs('customer.*')) {
+            return view('feeds.customer_index');
+        }
+
         $feeds = $this->feedService->getAllFeeds($request->all());
         return view('feeds.index', compact('feeds'));
     }

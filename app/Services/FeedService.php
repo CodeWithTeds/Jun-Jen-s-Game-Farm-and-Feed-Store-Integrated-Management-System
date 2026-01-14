@@ -68,4 +68,9 @@ class FeedService
         }
         return false;
     }
+
+    public function getFeedTypes()
+    {
+        return $this->feedRepository->getFeedTypes();
+    }
 }

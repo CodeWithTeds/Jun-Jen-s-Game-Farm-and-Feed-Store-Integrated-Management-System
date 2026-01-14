@@ -1,0 +1,187 @@
+<div class="flex h-[calc(100vh-6rem)] gap-6">
+    <!-- Left Side: Order Menu -->
+    <div class="flex-1 flex flex-col bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-700 overflow-hidden">
+        <!-- Header -->
+        <div class="p-4 border-b border-zinc-200 dark:border-zinc-700 flex justify-between items-center">
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white">Order Menu</h2>
+            <div class="relative w-64">
+                <input type="text" wire:model.live="search" placeholder="Search..." class="w-full pl-10 pr-4 py-2 rounded-lg border border-zinc-300 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                <svg class="w-5 h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="p-4 border-b border-zinc-200 dark:border-zinc-700 flex gap-2 overflow-x-auto">
+            <button wire:click="$set('feedType', '')" 
+               class="px-4 py-2 rounded-full font-medium whitespace-nowrap {{ $feedType === '' ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300' : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-zinc-800 dark:text-gray-300 dark:hover:bg-zinc-700' }}">
+                All Items
+            </button>
+            @foreach($categories as $category)
+                <button wire:click="$set('feedType', '{{ $category }}')" 
+                   class="px-4 py-2 rounded-full font-medium whitespace-nowrap {{ $feedType === $category ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300' : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-zinc-800 dark:text-gray-300 dark:hover:bg-zinc-700' }}">
+                    {{ $category }}
+                </button>
+            @endforeach
+        </div>
+
+        <!-- Grid -->
+        <div class="flex-1 overflow-y-auto p-4 relative">
+            <!-- Loading Overlay -->
+            <div wire:loading.flex wire:target="search, feedType" class="absolute inset-0 bg-white/50 dark:bg-zinc-900/50 flex items-center justify-center z-10">
+                <svg class="animate-spin h-8 w-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                @foreach($feeds as $feed)
+                    <div class="bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 shadow-sm hover:shadow-md transition cursor-pointer relative group" wire:click="addToCart({{ $feed->id }})">
+                        <div class="aspect-square w-full overflow-hidden rounded-t-xl bg-gray-100 dark:bg-zinc-700 relative">
+                            @if($feed->image)
+                                <img src="{{ Storage::url($feed->image) }}" alt="{{ $feed->name }}" class="w-full h-full object-cover">
+                            @else
+                                <div class="flex items-center justify-center h-full text-gray-400">
+                                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                </div>
+                            @endif
+                            <div class="absolute bottom-2 right-2 bg-white dark:bg-zinc-900 px-2 py-1 rounded-lg text-xs font-bold shadow-sm">
+                                ${{ number_format($feed->price, 2) }}
+                            </div>
+                            <!-- Hover Overlay for Add to Cart -->
+                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span class="text-white font-bold bg-indigo-600 px-4 py-2 rounded-lg">Add to Cart</span>
+                            </div>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-medium text-gray-900 dark:text-white truncate">{{ $feed->name }}</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">{{ $feed->quantity }} in stock</p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            
+            <div class="mt-4">
+                {{ $feeds->links() }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Side: Order Details -->
+    <div class="w-96 flex flex-col bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-700 h-full">
+        <div class="p-4 border-b border-zinc-200 dark:border-zinc-700 flex justify-between items-center">
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white">Order Details</h2>
+            <span class="px-2 py-1 bg-gray-100 dark:bg-zinc-800 rounded text-xs font-medium text-gray-600 dark:text-gray-400">Table</span>
+        </div>
+
+        <div class="p-4 space-y-4 border-b border-zinc-200 dark:border-zinc-700">
+            <div>
+                <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Customer Name</label>
+                <div class="w-full p-2 bg-gray-50 dark:bg-zinc-800 rounded border border-zinc-200 dark:border-zinc-700 text-sm">
+                    {{ auth()->user()->name }}
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Note</label>
+                <input type="text" wire:model="note" class="w-full p-2 bg-white dark:bg-zinc-800 rounded border border-zinc-200 dark:border-zinc-700 text-sm focus:ring-2 focus:ring-indigo-500" placeholder="Add a note...">
+            </div>
+        </div>
+
+        <!-- Cart Items -->
+        <div class="flex-1 overflow-y-auto p-4 space-y-3 relative">
+             <div wire:loading.flex wire:target="refreshCart, addToCart, updateQuantity, removeFromCart, checkout" class="absolute inset-0 bg-white/50 dark:bg-zinc-900/50 flex items-center justify-center z-10">
+                <svg class="animate-spin h-8 w-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </div>
+
+            @if(!$cart || $cart->items->isEmpty())
+                <div class="text-center text-gray-500 dark:text-gray-400 py-8">
+                    Cart is empty
+                </div>
+            @else
+                @foreach($cart->items as $item)
+                    <div class="flex gap-3 bg-gray-50 dark:bg-zinc-800/50 p-2 rounded-lg relative group">
+                        <div class="w-12 h-12 rounded bg-gray-200 dark:bg-zinc-700 overflow-hidden flex-shrink-0">
+                            @if($item->feed->image)
+                                <img src="{{ Storage::url($item->feed->image) }}" class="w-full h-full object-cover">
+                            @endif
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ $item->feed->name }}</h4>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">${{ number_format($item->feed->price, 2) }}</div>
+                            <div class="flex items-center gap-2 mt-2">
+                                <button wire:click="updateQuantity({{ $item->id }}, {{ $item->quantity - 1 }})" class="w-6 h-6 flex items-center justify-center rounded bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 hover:bg-gray-50 dark:hover:bg-zinc-600">-</button>
+                                <span class="text-sm font-medium w-4 text-center">{{ $item->quantity }}</span>
+                                <button wire:click="updateQuantity({{ $item->id }}, {{ $item->quantity + 1 }})" class="w-6 h-6 flex items-center justify-center rounded bg-indigo-600 text-white hover:bg-indigo-700">+</button>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end justify-between">
+                            <button wire:click="removeFromCart({{ $item->id }})" class="text-gray-400 hover:text-red-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                            <div class="text-sm font-bold text-gray-900 dark:text-white">${{ number_format($item->feed->price * $item->quantity, 2) }}</div>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
+        </div>
+
+        <!-- Footer -->
+        <div class="p-4 bg-gray-50 dark:bg-zinc-800/50 border-t border-zinc-200 dark:border-zinc-700 space-y-3">
+            <div class="flex justify-between text-sm">
+                <span class="text-gray-500 dark:text-gray-400">Sub Total</span>
+                <span class="font-medium text-gray-900 dark:text-white">${{ number_format($this->subtotal, 2) }}</span>
+            </div>
+            <div class="flex justify-between text-sm">
+                <span class="text-gray-500 dark:text-gray-400">Tax (0%)</span>
+                <span class="font-medium text-gray-900 dark:text-white">$0.00</span>
+            </div>
+            <div class="border-t border-dashed border-zinc-300 dark:border-zinc-600 my-2"></div>
+            <div class="flex justify-between text-lg font-bold">
+                <span class="text-gray-900 dark:text-white">Total</span>
+                <span class="text-indigo-600 dark:text-indigo-400">${{ number_format($this->subtotal, 2) }}</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mt-4">
+                <button class="px-4 py-2 rounded-lg border border-zinc-300 dark:border-zinc-600 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-zinc-700">Hold</button>
+                <button class="px-4 py-2 rounded-lg border border-zinc-300 dark:border-zinc-600 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-zinc-700">Discount</button>
+            </div>
+            
+            <button wire:click="checkout" 
+                    wire:loading.attr="disabled"
+                    wire:target="checkout"
+                    class="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold shadow-lg shadow-indigo-200 dark:shadow-none hover:bg-indigo-700 transition active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+                <span wire:loading.remove wire:target="checkout">Proceed Payment</span>
+                <span wire:loading wire:target="checkout">Processing...</span>
+            </button>
+        </div>
+    <!-- Toast Notification -->
+    <div x-data="{ show: false, message: '', type: 'success' }" 
+         x-on:toast.window="show = true; message = $event.detail.message; type = $event.detail.type || 'success'; setTimeout(() => show = false, 3000)"
+         class="fixed bottom-4 right-4 z-50"
+         style="display: none;"
+         x-show="show"
+         x-transition
+         x-cloak>
+        <div :class="type === 'error' ? 'bg-red-500' : 'bg-green-500'" class="text-white px-6 py-3 rounded-lg shadow-lg font-medium">
+            <span x-text="message"></span>
+        </div>
+    </div>
+</div>
+
+@script
+<script>
+    Livewire.on('notify', (data) => {
+        // data might be an object or array depending on how it's dispatched.
+        // In PHP: $this->dispatch('notify', message: 'msg', type: 'error');
+        // Livewire 3: data is an object { message: 'msg', type: 'error' } (if named arguments)
+        // or array if positional?
+        // Let's assume named arguments result in object.
+        // Actually, $this->dispatch('notify', message: '...') results in event.detail having { message: ... } if caught in Alpine directly.
+        // But via Livewire.on, it receives the params.
+        
+        // If dispatched as $this->dispatch('notify', message: 'foo'), JS receives object.
+        window.dispatchEvent(new CustomEvent('toast', { detail: data }));
+    });
+</script>
+@endscript

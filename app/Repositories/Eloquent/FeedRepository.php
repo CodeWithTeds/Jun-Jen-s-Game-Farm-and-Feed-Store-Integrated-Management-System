@@ -24,6 +24,10 @@ class FeedRepository implements FeedRepositoryInterface
             $query->where('status', $filters['status']);
         }
 
+        if (isset($filters['is_displayed'])) {
+            $query->where('is_displayed', $filters['is_displayed']);
+        }
+
         if (isset($filters['feed_type'])) {
             $query->where('feed_type', $filters['feed_type']);
         }
@@ -57,5 +61,10 @@ class FeedRepository implements FeedRepositoryInterface
             return $feed->delete();
         }
         return false;
+    }
+
+    public function getFeedTypes(): array
+    {
+        return Feed::distinct('feed_type')->pluck('feed_type')->toArray();
     }
 }
