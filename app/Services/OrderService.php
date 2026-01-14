@@ -24,6 +24,16 @@ class OrderService
         $this->feedRepository = $feedRepository;
     }
 
+    public function getUserOrders(int $userId)
+    {
+        return $this->orderRepository->getByUserId($userId);
+    }
+
+    public function getOrderById(int $id)
+    {
+        return $this->orderRepository->getById($id);
+    }
+
     public function checkout(int $userId, string $paymentMethod, ?string $note)
     {
         return DB::transaction(function () use ($userId, $paymentMethod, $note) {

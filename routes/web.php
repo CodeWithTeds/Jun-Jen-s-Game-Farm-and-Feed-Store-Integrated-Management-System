@@ -14,6 +14,7 @@ use App\Http\Controllers\FeedUsageController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\FarmRecordController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Livewire\Staff\Dashboard\Dashboard;
 
 Route::get('/', function () {
@@ -55,6 +56,8 @@ Route::middleware(['auth', 'verified'])->prefix('customer')->name('customer.')->
     Route::put('cart/{item}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('cart/{item}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::post('checkout', [CartController::class, 'checkout'])->name('checkout');
+    Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 });
 
 require __DIR__.'/settings.php';
