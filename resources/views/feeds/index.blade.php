@@ -3,11 +3,11 @@
         $routePrefix = request()->routeIs('staff.*') ? 'staff.' : (request()->routeIs('customer.*') ? 'customer.' : 'admin.');
     @endphp
     <div class="flex items-center justify-between mb-6">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('Feed Inventory Management') }}</h1>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('Product Inventory Management') }}</h1>
         @if($routePrefix !== 'customer.')
         <div class="flex gap-2">
-            <a href="{{ route($routePrefix . 'feeds.create') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                {{ __('Add New Feed') }}
+            <a href="{{ route($routePrefix . 'products.create') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                {{ __('Add New Product') }}
             </a>
         </div>
         @endif
@@ -20,7 +20,7 @@
     @endif
 
     <div class="mb-6 bg-white dark:bg-zinc-900 p-4 rounded-xl border border-zinc-200 dark:border-zinc-700 shadow-sm">
-        <form method="GET" action="{{ route($routePrefix . 'feeds.index') }}" class="flex flex-wrap gap-4 items-end">
+        <form method="GET" action="{{ route($routePrefix . 'products.index') }}" class="flex flex-wrap gap-4 items-end">
             <div class="w-full max-w-sm">
                 <label for="search" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Search</label>
                 <input 
@@ -34,13 +34,15 @@
             </div>
 
             <div class="w-40">
-                <label for="feed_type" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Feed Type</label>
+                <label for="feed_type" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Type</label>
                 <select id="feed_type" name="feed_type" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow">
                     <option value="">All</option>
                     <option value="Starter" {{ request('feed_type') == 'Starter' ? 'selected' : '' }}>Starter</option>
                     <option value="Grower" {{ request('feed_type') == 'Grower' ? 'selected' : '' }}>Grower</option>
                     <option value="Finisher" {{ request('feed_type') == 'Finisher' ? 'selected' : '' }}>Finisher</option>
                     <option value="Breeder" {{ request('feed_type') == 'Breeder' ? 'selected' : '' }}>Breeder</option>
+                    <option value="Supplement" {{ request('feed_type') == 'Supplement' ? 'selected' : '' }}>Supplement</option>
+                    <option value="Farm Product" {{ request('feed_type') == 'Farm Product' ? 'selected' : '' }}>Farm Product</option>
                 </select>
             </div>
 
@@ -60,7 +62,7 @@
                 </button>
                 
                 @if(request()->anyFilled(['search', 'feed_type', 'status']))
-                    <a href="{{ route($routePrefix . 'feeds.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 dark:bg-zinc-800 dark:border-zinc-600 dark:text-gray-300 dark:hover:bg-zinc-700">
+                    <a href="{{ route($routePrefix . 'products.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 dark:bg-zinc-800 dark:border-zinc-600 dark:text-gray-300 dark:hover:bg-zinc-700">
                         {{ __('Clear') }}
                     </a>
                 @endif
@@ -74,7 +76,7 @@
                 <thead class="bg-gray-50 dark:bg-zinc-900">
                     <tr>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Image') }}</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Feed Name') }}</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Product Name') }}</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Type') }}</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Brand') }}</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Quantity') }}</th>
@@ -130,7 +132,7 @@
                             </td>
                             @if($routePrefix === 'admin.')
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                    <form action="{{ route('admin.feeds.toggle-display', $feed->id) }}" method="POST">
+                                    <form action="{{ route('admin.products.toggle-display', $feed->id) }}" method="POST">
                                         @csrf
                                         @method('PATCH')
                                         <button type="submit" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $feed->is_displayed ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' }}">
@@ -140,10 +142,10 @@
                                 </td>
                             @endif
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="{{ route($routePrefix . 'feeds.show', $feed->id) }}" wire:navigate class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-3">{{ __('View') }}</a>
+                                <a href="{{ route($routePrefix . 'products.show', $feed->id) }}" wire:navigate class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-3">{{ __('View') }}</a>
                                 @if($routePrefix !== 'customer.')
-                                <a href="{{ route($routePrefix . 'feeds.edit', $feed->id) }}" wire:navigate class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300 mr-3">{{ __('Edit') }}</a>
-                                <form action="{{ route($routePrefix . 'feeds.destroy', $feed->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this feed?');">
+                                <a href="{{ route($routePrefix . 'products.edit', $feed->id) }}" wire:navigate class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300 mr-3">{{ __('Edit') }}</a>
+                                <form action="{{ route($routePrefix . 'products.destroy', $feed->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this product?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">{{ __('Delete') }}</button>
@@ -154,7 +156,7 @@
                     @empty
                         <tr>
                             <td colspan="{{ $routePrefix === 'admin.' ? 9 : 8 }}" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
-                                {{ __('No feeds found.') }}
+                                {{ __('No products found.') }}
                             </td>
                         </tr>
                     @endforelse

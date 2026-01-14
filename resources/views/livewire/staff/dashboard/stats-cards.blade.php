@@ -51,7 +51,7 @@
     <div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-700 p-6 shadow-sm">
         <div class="flex items-center justify-between">
             <div>
-                <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Low Stock Feeds</p>
+                <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400">Low Stock Products</p>
                 <p class="text-2xl font-bold text-zinc-900 dark:text-zinc-100 mt-1 {{ $lowStockFeeds > 0 ? 'text-red-600 dark:text-red-400' : '' }}">{{ $lowStockFeeds }}</p>
             </div>
             <div class="p-3 bg-blue-50 dark:bg-blue-500/10 rounded-full">
@@ -59,7 +59,7 @@
             </div>
         </div>
         <div class="mt-4">
-            <a href="{{ route('staff.feeds.index') }}" class="text-sm text-indigo-600 hover:text-indigo-500 font-medium" wire:navigate>Check Inventory &rarr;</a>
+            <a href="{{ route('staff.products.index') }}" class="text-sm text-indigo-600 hover:text-indigo-500 font-medium" wire:navigate>Check Inventory &rarr;</a>
         </div>
     </div>
 </div>

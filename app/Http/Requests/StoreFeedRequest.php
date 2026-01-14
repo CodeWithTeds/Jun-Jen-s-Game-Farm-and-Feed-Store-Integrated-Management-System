@@ -16,7 +16,7 @@ class StoreFeedRequest extends FormRequest
         return [
             'feed_name' => 'required|string|max:255',
             'image' => 'nullable|image|max:2048', // 2MB Max
-            'feed_type' => 'required|string|in:Starter,Grower,Finisher,Breeder',
+            'feed_type' => 'required|string|in:Starter,Grower,Finisher,Breeder,Supplement,Farm Product',
             'brand' => 'required|string|max:255',
             'quantity' => 'required|numeric|min:0',
             'price' => 'required|numeric|min:0',

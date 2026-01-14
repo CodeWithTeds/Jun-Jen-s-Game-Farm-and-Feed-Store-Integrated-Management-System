@@ -38,19 +38,19 @@ Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(
     Route::resource('egg-collections', EggCollectionController::class);
     Route::resource('hatchery-records', HatcheryRecordController::class);
     Route::resource('chick-rearings', ChickRearingController::class);
-    Route::resource('feeds', FeedController::class);
+    Route::resource('products', FeedController::class);
     Route::resource('feed-usages', FeedUsageController::class)->only(['index', 'create', 'store']);
     Route::resource('farm-records', FarmRecordController::class);
 });
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
-    Route::resource('feeds', FeedController::class);
-    Route::patch('feeds/{feed}/toggle-display', [FeedController::class, 'toggleDisplay'])->name('feeds.toggle-display');
+    Route::resource('products', FeedController::class);
+    Route::patch('products/{feed}/toggle-display', [FeedController::class, 'toggleDisplay'])->name('products.toggle-display');
     Route::resource('suppliers', SupplierController::class);
 });
 
 Route::middleware(['auth', 'verified'])->prefix('customer')->name('customer.')->group(function () {
-    Route::resource('feeds', FeedController::class)->only(['index', 'show']);
+    Route::resource('products', FeedController::class)->only(['index', 'show']);
     Route::get('cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('cart', [CartController::class, 'store'])->name('cart.store');
     Route::put('cart/{item}', [CartController::class, 'update'])->name('cart.update');

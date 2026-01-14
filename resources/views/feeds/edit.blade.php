@@ -3,14 +3,14 @@
 @endphp
 <x-layouts.app>
     <div class="flex items-center justify-between mb-6">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('Edit Feed') }}</h1>
-        <a href="{{ route($routePrefix . 'feeds.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 dark:bg-zinc-700 dark:text-gray-300 dark:hover:bg-zinc-600">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('Edit Product') }}</h1>
+        <a href="{{ route($routePrefix . 'products.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 dark:bg-zinc-700 dark:text-gray-300 dark:hover:bg-zinc-600">
             {{ __('Back to List') }}
         </a>
     </div>
 
     <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm sm:rounded-lg border border-zinc-200 dark:border-zinc-700 p-6">
-        <form method="POST" action="{{ route($routePrefix . 'feeds.update', $feed->id) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route($routePrefix . 'products.update', $feed->id) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             
@@ -19,7 +19,7 @@
                 <div class="space-y-6">
                     <!-- Image Upload -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Feed Image</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Product Image</label>
                         <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-indigo-500 transition-colors dark:border-zinc-700 dark:hover:border-indigo-500 relative group cursor-pointer" onclick="document.getElementById('image').click()">
                             <div class="space-y-1 text-center">
                                 <img id="image-preview" src="{{ $feed->image ? asset('storage/' . $feed->image) : '#' }}" alt="Preview" class="mx-auto h-48 w-full object-cover rounded-md {{ $feed->image ? '' : 'hidden' }} mb-4">
@@ -44,7 +44,7 @@
 
                     <!-- Feed Name -->
                     <div>
-                        <label for="feed_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Feed Name</label>
+                        <label for="feed_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Product Name</label>
                         <input type="text" name="feed_name" id="feed_name" value="{{ old('feed_name', $feed->feed_name) }}" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow" required autofocus>
                         @error('feed_name')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -53,10 +53,10 @@
 
                     <!-- Feed Type -->
                     <div>
-                        <label for="feed_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Feed Type</label>
+                        <label for="feed_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Type</label>
                         <select name="feed_type" id="feed_type" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow" required>
                             <option value="">Select Type</option>
-                            @foreach(['Starter', 'Grower', 'Finisher', 'Breeder'] as $type)
+                            @foreach(['Starter', 'Grower', 'Finisher', 'Breeder', 'Supplement', 'Farm Product'] as $type)
                                 <option value="{{ $type }}" {{ old('feed_type', $feed->feed_type) == $type ? 'selected' : '' }}>{{ $type }}</option>
                             @endforeach
                         </select>
@@ -181,7 +181,7 @@
                         <!-- Display Status (Admin Only) -->
                         @if($routePrefix === 'admin.')
                             <div>
-                                <label for="is_displayed" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Display on Feed Inventory</label>
+                                <label for="is_displayed" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Display on Inventory</label>
                                 <select name="is_displayed" id="is_displayed" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow">
                                     <option value="1" {{ old('is_displayed', $feed->is_displayed) == '1' ? 'selected' : '' }}>Displayed</option>
                                     <option value="0" {{ old('is_displayed', $feed->is_displayed) == '0' ? 'selected' : '' }}>Hidden</option>
@@ -206,7 +206,7 @@
 
             <div class="mt-6 flex justify-end">
                 <button type="submit" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                    {{ __('Update Feed') }}
+                    {{ __('Update Product') }}
                 </button>
             </div>
         </form>

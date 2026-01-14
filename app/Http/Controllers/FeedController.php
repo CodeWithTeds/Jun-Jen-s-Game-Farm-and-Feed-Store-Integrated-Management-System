@@ -34,8 +34,8 @@ class FeedController extends Controller
     public function store(StoreFeedRequest $request)
     {
         $this->feedService->createFeed($request->validated());
-        $route = request()->routeIs('staff.*') ? 'staff.feeds.index' : 'admin.feeds.index';
-        return redirect()->route($route)->with('success', 'Feed created successfully.');
+        $route = request()->routeIs('staff.*') ? 'staff.products.index' : 'admin.products.index';
+        return redirect()->route($route)->with('success', 'Product created successfully.');
     }
 
     public function show($id)
@@ -53,15 +53,15 @@ class FeedController extends Controller
     public function update(UpdateFeedRequest $request, $id)
     {
         $this->feedService->updateFeed($id, $request->validated());
-        $route = request()->routeIs('staff.*') ? 'staff.feeds.index' : 'admin.feeds.index';
-        return redirect()->route($route)->with('success', 'Feed updated successfully.');
+        $route = request()->routeIs('staff.*') ? 'staff.products.index' : 'admin.products.index';
+        return redirect()->route($route)->with('success', 'Product updated successfully.');
     }
 
     public function destroy($id)
     {
         $this->feedService->deleteFeed($id);
-        $route = request()->routeIs('staff.*') ? 'staff.feeds.index' : 'admin.feeds.index';
-        return redirect()->route($route)->with('success', 'Feed deleted successfully.');
+        $route = request()->routeIs('staff.*') ? 'staff.products.index' : 'admin.products.index';
+        return redirect()->route($route)->with('success', 'Product deleted successfully.');
     }
 
     public function toggleDisplay($id)

@@ -79,11 +79,11 @@
                             {{ __('Farm Records') }}
                         </flux:sidebar.item>
 
-                        <flux:sidebar.item :href="route('staff.feeds.index')" :current="request()->routeIs('staff.feeds.*')" wire:navigate>
+                        <flux:sidebar.item :href="route('staff.products.index')" :current="request()->routeIs('staff.products.*')" wire:navigate>
                             <x-slot:icon>
                                 <flux:icon :icon="'archive-box'" class="size-6 text-blue-500" />
                             </x-slot:icon>
-                            {{ __('Feed Inventory') }}
+                            {{ __('Inventory') }}
                         </flux:sidebar.item>
 
                         <flux:sidebar.item :href="route('staff.feed-usages.index')" :current="request()->routeIs('staff.feed-usages.*')" wire:navigate>
@@ -103,7 +103,7 @@
                             {{ __('Dashboard') }}
                         </flux:sidebar.item>
 
-                        <flux:sidebar.item :href="route('customer.feeds.index')" :current="request()->routeIs('customer.feeds.*')" wire:navigate>
+                        <flux:sidebar.item :href="route('customer.products.index')" :current="request()->routeIs('customer.products.*')" wire:navigate>
                             <x-slot:icon>
                                 <flux:icon :icon="'archive-box'" class="size-6 text-blue-500" />
                             </x-slot:icon>
@@ -129,11 +129,11 @@
                     </flux:sidebar.group>
 
                     <flux:sidebar.group :heading="__('Records')" class="grid">
-                        <flux:sidebar.item :href="route('admin.feeds.index')" :current="request()->routeIs('admin.feeds.*')" wire:navigate>
+                        <flux:sidebar.item :href="route('admin.products.index')" :current="request()->routeIs('admin.products.*')" wire:navigate>
                             <x-slot:icon>
                                 <flux:icon :icon="'archive-box'" class="size-6 text-blue-500" />
                             </x-slot:icon>
-                            {{ __('Feed Inventory') }}
+                            {{ __('Inventory') }}
                         </flux:sidebar.item>
                     </flux:sidebar.group>
 
