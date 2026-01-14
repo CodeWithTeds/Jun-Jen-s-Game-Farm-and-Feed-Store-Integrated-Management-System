@@ -59,6 +59,10 @@
                                     <span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider block mb-1">{{ __('Current Quantity') }}</span>
                                     <span class="text-lg font-bold text-gray-900 dark:text-white">{{ number_format($feed->quantity, 2) }} {{ $feed->unit }}</span>
                                 </div>
+                                <div>
+                                    <span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider block mb-1">{{ __('Price') }}</span>
+                                    <span class="text-lg font-bold text-gray-900 dark:text-white">{{ number_format($feed->price, 2) }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -15,6 +15,7 @@ class Feed extends Model
         'feed_type',
         'brand',
         'quantity',
+        'price',
         'unit',
         'batch_number',
         'expiration_date',
@@ -31,6 +32,7 @@ class Feed extends Model
         'expiration_date' => 'date',
         'date_received' => 'date',
         'quantity' => 'decimal:2',
+        'price' => 'decimal:2',
         'reorder_level' => 'integer',
         'is_displayed' => 'boolean',
     ];

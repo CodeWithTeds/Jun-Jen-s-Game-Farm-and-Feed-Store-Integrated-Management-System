@@ -19,6 +19,7 @@ class UpdateFeedRequest extends FormRequest
             'feed_type' => 'sometimes|string|in:Starter,Grower,Finisher,Breeder',
             'brand' => 'sometimes|string|max:255',
             'quantity' => 'sometimes|numeric|min:0',
+            'price' => 'sometimes|numeric|min:0',
             'unit' => 'sometimes|string|in:Sack,Kg',
             'batch_number' => 'sometimes|string|max:255',
             'expiration_date' => 'sometimes|date',

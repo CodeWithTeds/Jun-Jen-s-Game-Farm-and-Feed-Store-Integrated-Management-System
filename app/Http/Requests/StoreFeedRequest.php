@@ -19,6 +19,7 @@ class StoreFeedRequest extends FormRequest
             'feed_type' => 'required|string|in:Starter,Grower,Finisher,Breeder',
             'brand' => 'required|string|max:255',
             'quantity' => 'required|numeric|min:0',
+            'price' => 'required|numeric|min:0',
             'unit' => 'required|string|in:Sack,Kg',
             'batch_number' => 'required|string|max:255',
             'expiration_date' => 'required|date',
