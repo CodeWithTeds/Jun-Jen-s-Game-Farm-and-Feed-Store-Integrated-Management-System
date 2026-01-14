@@ -39,22 +39,25 @@
                     <div class="bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 shadow-sm hover:shadow-md transition cursor-pointer relative group" wire:click="addToCart({{ $feed->id }})">
                         <div class="aspect-square w-full overflow-hidden rounded-t-xl bg-gray-100 dark:bg-zinc-700 relative">
                             @if($feed->image)
-                                <img src="{{ Storage::url($feed->image) }}" alt="{{ $feed->name }}" class="w-full h-full object-cover">
+                                <img src="{{ Storage::url($feed->image) }}" alt="{{ $feed->feed_name }}" class="w-full h-full object-cover">
                             @else
                                 <div class="flex items-center justify-center h-full text-gray-400">
                                     <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                 </div>
                             @endif
                             <div class="absolute bottom-2 right-2 bg-white dark:bg-zinc-900 px-2 py-1 rounded-lg text-xs font-bold shadow-sm">
-                                ${{ number_format($feed->price, 2) }}
+                                ₱{{ number_format($feed->price, 2) }}
                             </div>
-                            <!-- Hover Overlay for Add to Cart -->
-                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                <span class="text-white font-bold bg-indigo-600 px-4 py-2 rounded-lg">Add to Cart</span>
+                            <!-- Hover Overlay for View Details -->
+                            <div class="absolute inset-0 bg-black/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button wire:click.stop="viewFeed({{ $feed->id }})" class="bg-white/90 hover:bg-white text-gray-900 px-4 py-2 rounded-lg shadow-lg font-medium flex items-center gap-2 transform hover:scale-105 transition-all" title="View Details">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                    View Details
+                                </button>
                             </div>
                         </div>
                         <div class="p-3">
-                            <h3 class="font-medium text-gray-900 dark:text-white truncate">{{ $feed->name }}</h3>
+                            <h3 class="font-medium text-gray-900 dark:text-white truncate">{{ $feed->feed_name }}</h3>
                             <p class="text-xs text-gray-500 dark:text-gray-400">{{ $feed->quantity }} in stock</p>
                         </div>
                     </div>
@@ -109,8 +112,8 @@
                             @endif
                         </div>
                         <div class="flex-1 min-w-0">
-                            <h4 class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ $item->feed->name }}</h4>
-                            <div class="text-xs text-gray-500 dark:text-gray-400">${{ number_format($item->feed->price, 2) }}</div>
+                            <h4 class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ $item->feed->feed_name }}</h4>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">₱{{ number_format($item->feed->price, 2) }}</div>
                             <div class="flex items-center gap-2 mt-2">
                                 <button wire:click="updateQuantity({{ $item->id }}, {{ $item->quantity - 1 }})" class="w-6 h-6 flex items-center justify-center rounded bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 hover:bg-gray-50 dark:hover:bg-zinc-600">-</button>
                                 <span class="text-sm font-medium w-4 text-center">{{ $item->quantity }}</span>
@@ -119,7 +122,7 @@
                         </div>
                         <div class="flex flex-col items-end justify-between">
                             <button wire:click="removeFromCart({{ $item->id }})" class="text-gray-400 hover:text-red-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
-                            <div class="text-sm font-bold text-gray-900 dark:text-white">${{ number_format($item->feed->price * $item->quantity, 2) }}</div>
+                            <div class="text-sm font-bold text-gray-900 dark:text-white">₱{{ number_format($item->feed->price * $item->quantity, 2) }}</div>
                         </div>
                     </div>
                 @endforeach
@@ -130,21 +133,12 @@
         <div class="p-4 bg-gray-50 dark:bg-zinc-800/50 border-t border-zinc-200 dark:border-zinc-700 space-y-3">
             <div class="flex justify-between text-sm">
                 <span class="text-gray-500 dark:text-gray-400">Sub Total</span>
-                <span class="font-medium text-gray-900 dark:text-white">${{ number_format($this->subtotal, 2) }}</span>
-            </div>
-            <div class="flex justify-between text-sm">
-                <span class="text-gray-500 dark:text-gray-400">Tax (0%)</span>
-                <span class="font-medium text-gray-900 dark:text-white">$0.00</span>
+                <span class="font-medium text-gray-900 dark:text-white">₱{{ number_format($this->subtotal, 2) }}</span>
             </div>
             <div class="border-t border-dashed border-zinc-300 dark:border-zinc-600 my-2"></div>
             <div class="flex justify-between text-lg font-bold">
                 <span class="text-gray-900 dark:text-white">Total</span>
-                <span class="text-indigo-600 dark:text-indigo-400">${{ number_format($this->subtotal, 2) }}</span>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3 mt-4">
-                <button class="px-4 py-2 rounded-lg border border-zinc-300 dark:border-zinc-600 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-zinc-700">Hold</button>
-                <button class="px-4 py-2 rounded-lg border border-zinc-300 dark:border-zinc-600 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-zinc-700">Discount</button>
+                <span class="text-indigo-600 dark:text-indigo-400">₱{{ number_format($this->subtotal, 2) }}</span>
             </div>
             
             <button wire:click="checkout" 
@@ -167,6 +161,85 @@
             <span x-text="message"></span>
         </div>
     </div>
+
+    <!-- Product Details Modal -->
+    @if($selectedFeed)
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" wire:click.self="closeFeedModal">
+        <div class="bg-white dark:bg-zinc-800 rounded-2xl shadow-xl max-w-2xl w-full overflow-hidden max-h-[90vh] flex flex-col">
+            <!-- Header -->
+            <div class="p-4 border-b border-zinc-200 dark:border-zinc-700 flex justify-between items-center bg-gray-50 dark:bg-zinc-800/50">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white truncate pr-4">{{ $selectedFeed->feed_name }}</h3>
+                <button wire:click="closeFeedModal" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <!-- Body -->
+            <div class="flex-1 overflow-y-auto p-6">
+                <div class="flex flex-col md:flex-row gap-6">
+                    <!-- Image -->
+                    <div class="w-full md:w-1/2 flex-shrink-0">
+                        <div class="aspect-square rounded-xl overflow-hidden bg-gray-100 dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600">
+                            @if($selectedFeed->image)
+                                <img src="{{ Storage::url($selectedFeed->image) }}" alt="{{ $selectedFeed->feed_name }}" class="w-full h-full object-cover">
+                            @else
+                                <div class="flex items-center justify-center h-full text-gray-400">
+                                    <svg class="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    
+                    <!-- Details -->
+                    <div class="w-full md:w-1/2 space-y-4">
+                        <div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
+                                {{ $selectedFeed->feed_type }}
+                            </span>
+                        </div>
+                        
+                        <div>
+                            <div class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">₱{{ number_format($selectedFeed->price, 2) }}</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{ $selectedFeed->quantity }} units available</div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <div class="flex justify-between border-b border-zinc-100 dark:border-zinc-700 py-2">
+                                <span class="text-gray-500 dark:text-gray-400">Brand</span>
+                                <span class="font-medium text-gray-900 dark:text-white">{{ $selectedFeed->brand }}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-zinc-100 dark:border-zinc-700 py-2">
+                                <span class="text-gray-500 dark:text-gray-400">Batch Number</span>
+                                <span class="font-medium text-gray-900 dark:text-white">{{ $selectedFeed->batch_number }}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-zinc-100 dark:border-zinc-700 py-2">
+                                <span class="text-gray-500 dark:text-gray-400">Expiration Date</span>
+                                <span class="font-medium text-gray-900 dark:text-white">{{ $selectedFeed->expiration_date }}</span>
+                            </div>
+                        </div>
+
+                        @if($selectedFeed->remarks)
+                            <div class="pt-4">
+                                <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-1">Description</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{{ $selectedFeed->remarks }}</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="p-4 border-t border-zinc-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800/50 flex justify-end gap-3">
+                <button wire:click="closeFeedModal" class="px-4 py-2 rounded-lg border border-zinc-300 dark:border-zinc-600 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-100 dark:hover:bg-zinc-700 transition">
+                    Close
+                </button>
+                <button wire:click="addToCart({{ $selectedFeed->id }})" class="px-6 py-2 rounded-lg bg-indigo-600 text-white font-bold hover:bg-indigo-700 shadow-lg shadow-indigo-200 dark:shadow-none transition">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
 </div>
 
 @script

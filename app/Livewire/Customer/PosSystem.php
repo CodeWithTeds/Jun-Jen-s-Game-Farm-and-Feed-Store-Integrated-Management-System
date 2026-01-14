@@ -17,6 +17,7 @@ class PosSystem extends Component
     public $feedType = '';
     public $cart;
     public $loading = false;
+    public $selectedFeed = null;
     
     // Checkout fields
     public $paymentMethod = 'cash';
@@ -97,6 +98,16 @@ class PosSystem extends Component
         } catch (\Exception $e) {
             $this->dispatch('notify', message: $e->getMessage(), type: 'error');
         }
+    }
+
+    public function viewFeed($feedId)
+    {
+        $this->selectedFeed = $this->feedService->getFeedById($feedId);
+    }
+
+    public function closeFeedModal()
+    {
+        $this->selectedFeed = null;
     }
 
     public function checkout()

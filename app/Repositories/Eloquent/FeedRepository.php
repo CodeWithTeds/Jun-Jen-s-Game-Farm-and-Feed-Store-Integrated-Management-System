@@ -13,10 +13,10 @@ class FeedRepository implements FeedRepositoryInterface
         $query = Feed::query();
 
         if (isset($filters['search'])) {
-            $query->where(function($q) use ($filters) {
+            $query->where(function ($q) use ($filters) {
                 $q->where('feed_name', 'like', '%' . $filters['search'] . '%')
-                  ->orWhere('brand', 'like', '%' . $filters['search'] . '%')
-                  ->orWhere('batch_number', 'like', '%' . $filters['search'] . '%');
+                    ->orWhere('brand', 'like', '%' . $filters['search'] . '%')
+                    ->orWhere('batch_number', 'like', '%' . $filters['search'] . '%');
             });
         }
 
@@ -28,7 +28,7 @@ class FeedRepository implements FeedRepositoryInterface
             $query->where('is_displayed', $filters['is_displayed']);
         }
 
-        if (isset($filters['feed_type'])) {
+        if (isset($filters['feed_type']) && $filters['feed_type'] !== '') {
             $query->where('feed_type', $filters['feed_type']);
         }
 
