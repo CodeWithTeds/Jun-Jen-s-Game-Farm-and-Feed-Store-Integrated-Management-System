@@ -167,6 +167,20 @@
                                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>
+
+                        <!-- Display Status (Admin Only) -->
+                        @if($routePrefix === 'admin.')
+                            <div>
+                                <label for="is_displayed" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Display on Feed Inventory</label>
+                                <select name="is_displayed" id="is_displayed" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow">
+                                    <option value="1" {{ old('is_displayed', '1') == '1' ? 'selected' : '' }}>Displayed</option>
+                                    <option value="0" {{ old('is_displayed') == '0' ? 'selected' : '' }}>Hidden</option>
+                                </select>
+                                @error('is_displayed')
+                                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        @endif
                     </div>
 
                     <!-- Remarks -->

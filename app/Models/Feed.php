@@ -23,6 +23,7 @@ class Feed extends Model
         'reorder_level',
         'storage_location',
         'status',
+        'is_displayed',
         'remarks',
     ];
 
@@ -31,5 +32,6 @@ class Feed extends Model
         'date_received' => 'date',
         'quantity' => 'decimal:2',
         'reorder_level' => 'integer',
+        'is_displayed' => 'boolean',
     ];
 }

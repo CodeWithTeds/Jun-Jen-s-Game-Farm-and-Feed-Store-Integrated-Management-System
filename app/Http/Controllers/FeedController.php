@@ -59,4 +59,10 @@ class FeedController extends Controller
         $route = request()->routeIs('staff.*') ? 'staff.feeds.index' : 'admin.feeds.index';
         return redirect()->route($route)->with('success', 'Feed deleted successfully.');
     }
+
+    public function toggleDisplay($id)
+    {
+        $this->feedService->toggleDisplay($id);
+        return back()->with('success', 'Feed display status updated.');
+    }
 }

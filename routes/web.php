@@ -42,6 +42,7 @@ Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('feeds', FeedController::class);
+    Route::patch('feeds/{feed}/toggle-display', [FeedController::class, 'toggleDisplay'])->name('feeds.toggle-display');
 });
 
 require __DIR__.'/settings.php';

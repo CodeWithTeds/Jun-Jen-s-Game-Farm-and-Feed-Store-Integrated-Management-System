@@ -27,6 +27,7 @@ class UpdateFeedRequest extends FormRequest
             'reorder_level' => 'sometimes|integer|min:0',
             'storage_location' => 'sometimes|string|in:Warehouse,Feed room',
             'status' => 'sometimes|string|in:Available,Low Stock,Expired',
+            'is_displayed' => 'sometimes|boolean',
             'remarks' => 'nullable|string',
         ];
     }

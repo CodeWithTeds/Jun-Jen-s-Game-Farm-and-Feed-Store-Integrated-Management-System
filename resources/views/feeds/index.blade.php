@@ -78,6 +78,9 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Quantity') }}</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Batch No') }}</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Status') }}</th>
+                        @if($routePrefix === 'admin.')
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Display') }}</th>
+                        @endif
                         <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Actions') }}</th>
                     </tr>
                 </thead>
@@ -119,6 +122,17 @@
                                     {{ $feed->status }}
                                 </span>
                             </td>
+                            @if($routePrefix === 'admin.')
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                    <form action="{{ route('admin.feeds.toggle-display', $feed->id) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $feed->is_displayed ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' }}">
+                                            {{ $feed->is_displayed ? 'Displayed' : 'Hidden' }}
+                                        </button>
+                                    </form>
+                                </td>
+                            @endif
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{{ route($routePrefix . 'feeds.show', $feed->id) }}" wire:navigate class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-3">{{ __('View') }}</a>
                                 <a href="{{ route($routePrefix . 'feeds.edit', $feed->id) }}" wire:navigate class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300 mr-3">{{ __('Edit') }}</a>
@@ -131,7 +145,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                            <td colspan="{{ $routePrefix === 'admin.' ? 9 : 8 }}" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
                                 {{ __('No feeds found.') }}
                             </td>
                         </tr>

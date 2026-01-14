@@ -45,6 +45,14 @@
                                         {{ $feed->status }}
                                     </span>
                                 </div>
+                                @if($routePrefix === 'admin.')
+                                    <div>
+                                        <span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider block mb-1">{{ __('Display Status') }}</span>
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $feed->is_displayed ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' }}">
+                                            {{ $feed->is_displayed ? 'Displayed' : 'Hidden' }}
+                                        </span>
+                                    </div>
+                                @endif
                                 <div>
                                     <span class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider block mb-1">{{ __('Current Quantity') }}</span>
                                     <span class="text-lg font-bold text-gray-900 dark:text-white">{{ number_format($feed->quantity, 2) }} {{ $feed->unit }}</span>

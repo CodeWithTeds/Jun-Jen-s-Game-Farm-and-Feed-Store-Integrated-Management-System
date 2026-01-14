@@ -59,4 +59,13 @@ class FeedService
 
         return $this->feedRepository->delete($id);
     }
+
+    public function toggleDisplay($id)
+    {
+        $feed = $this->feedRepository->getById($id);
+        if ($feed) {
+            return $this->feedRepository->update($id, ['is_displayed' => !$feed->is_displayed]);
+        }
+        return false;
+    }
 }
