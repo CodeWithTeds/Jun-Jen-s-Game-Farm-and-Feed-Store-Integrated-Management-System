@@ -90,7 +90,7 @@
                             <x-slot:icon>
                                 <flux:icon :icon="'clipboard-document-list'" class="size-6 text-teal-500" />
                             </x-slot:icon>
-                            {{ __('Feed Usage Logs') }}
+                            {{ __('Inventory Usage Logs') }}
                         </flux:sidebar.item>
                     </flux:sidebar.group>
 

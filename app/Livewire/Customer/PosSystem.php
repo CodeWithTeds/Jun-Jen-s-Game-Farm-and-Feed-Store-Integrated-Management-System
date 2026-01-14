@@ -7,11 +7,12 @@ use App\Services\FeedService;
 use App\Services\OrderService;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 
 class PosSystem extends Component
 {
-    use WithPagination;
+    use WithPagination, WithFileUploads;
 
     public $search = '';
     public $feedType = '';
@@ -22,6 +23,8 @@ class PosSystem extends Component
     // Checkout fields
     public $paymentMethod = 'cash';
     public $note = '';
+    public $showCheckoutModal = false;
+    public $proofOfPayment;
 
     protected $cartService;
     protected $feedService;
@@ -110,16 +113,55 @@ class PosSystem extends Component
         $this->selectedFeed = null;
     }
 
+    public function openCheckoutModal()
+    {
+        if (!$this->cart || $this->cart->items->isEmpty()) {
+            $this->dispatch('notify', message: 'Your cart is empty.', type: 'error');
+            return;
+        }
+        $this->showCheckoutModal = true;
+    }
+
+    public function closeCheckoutModal()
+    {
+        $this->showCheckoutModal = false;
+        $this->proofOfPayment = null;
+        $this->resetValidation();
+    }
+
     public function checkout()
     {
+        $rules = [
+            'paymentMethod' => 'required|string',
+            'proofOfPayment' => 'nullable|image|max:10240',
+        ];
+
+        if ($this->paymentMethod !== 'cash') {
+            $rules['proofOfPayment'] = 'required|image|max:10240';
+        }
+
+        $this->validate($rules);
+
         try {
-            $order = $this->orderService->checkout(Auth::id(), $this->paymentMethod, $this->note);
+            $proofPath = null;
+            if ($this->paymentMethod !== 'cash' && $this->proofOfPayment) {
+                $proofPath = $this->proofOfPayment->store('proof-of-payments', 'public');
+            }
+
+            $order = $this->orderService->checkout(
+                Auth::id(), 
+                $this->paymentMethod, 
+                $this->note,
+                $proofPath
+            );
+
             $this->refreshCart();
             $this->dispatch('notify', message: 'Order placed successfully! Order #' . $order->order_number);
             
-            // Optional: Redirect to order summary or clear inputs
+            // Reset inputs
             $this->note = '';
             $this->paymentMethod = 'cash';
+            $this->closeCheckoutModal();
             
         } catch (\Exception $e) {
             $this->dispatch('notify', message: $e->getMessage(), type: 'error');

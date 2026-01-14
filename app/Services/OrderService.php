@@ -34,9 +34,9 @@ class OrderService
         return $this->orderRepository->getById($id);
     }
 
-    public function checkout(int $userId, string $paymentMethod, ?string $note)
+    public function checkout(int $userId, string $paymentMethod, ?string $note, ?string $proofOfPayment = null)
     {
-        return DB::transaction(function () use ($userId, $paymentMethod, $note) {
+        return DB::transaction(function () use ($userId, $paymentMethod, $note, $proofOfPayment) {
             // Step 1: Validate Cart and Inventory
             $cart = $this->cartRepository->getActiveCart($userId);
             if (!$cart || $cart->items->isEmpty()) {
@@ -56,13 +56,17 @@ class OrderService
             }
 
             // Step 2: Create Order
+            $paymentStatus = ($paymentMethod === 'cash') ? 'pending' : 'paid';
+
             $orderData = [
                 'user_id' => $userId,
                 'order_number' => 'ORD-' . strtoupper(uniqid()),
                 'total_amount' => $totalAmount,
                 'status' => 'pending',
+                'payment_status' => $paymentStatus,
                 'payment_method' => $paymentMethod,
-                'note' => $note
+                'note' => $note,
+                'proof_of_payment' => $proofOfPayment
             ];
             $order = $this->orderRepository->create($orderData);
 
@@ -87,9 +91,8 @@ class OrderService
             $this->cartRepository->clearCart($cart->id);
 
             // Step 5: Finalize Order
-            // In a real saga, this might trigger a payment gateway. 
-            // Here we assume immediate success for simplicity.
-            $order->update(['status' => 'paid']);
+            // Order status remains pending until staff processes it.
+            // Payment status is set based on method above.
 
             return $order;
         });

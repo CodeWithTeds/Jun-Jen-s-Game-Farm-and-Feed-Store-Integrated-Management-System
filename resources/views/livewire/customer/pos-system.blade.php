@@ -141,12 +141,12 @@
                 <span class="text-indigo-600 dark:text-indigo-400">₱{{ number_format($this->subtotal, 2) }}</span>
             </div>
             
-            <button wire:click="checkout" 
+            <button wire:click="openCheckoutModal" 
                     wire:loading.attr="disabled"
-                    wire:target="checkout"
+                    wire:target="openCheckoutModal"
                     class="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold shadow-lg shadow-indigo-200 dark:shadow-none hover:bg-indigo-700 transition active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
-                <span wire:loading.remove wire:target="checkout">Proceed Payment</span>
-                <span wire:loading wire:target="checkout">Processing...</span>
+                <span wire:loading.remove wire:target="openCheckoutModal">Proceed to Payment</span>
+                <span wire:loading wire:target="openCheckoutModal">Loading...</span>
             </button>
         </div>
     <!-- Toast Notification -->
@@ -235,6 +235,83 @@
                 </button>
                 <button wire:click="addToCart({{ $selectedFeed->id }})" class="px-6 py-2 rounded-lg bg-indigo-600 text-white font-bold hover:bg-indigo-700 shadow-lg shadow-indigo-200 dark:shadow-none transition">
                     Add to Cart
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    <!-- Checkout Modal -->
+    @if($showCheckoutModal)
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" wire:click.self="closeCheckoutModal">
+        <div class="bg-white dark:bg-zinc-800 rounded-2xl shadow-xl max-w-lg w-full overflow-hidden flex flex-col max-h-[90vh]">
+            <!-- Header -->
+            <div class="p-4 border-b border-zinc-200 dark:border-zinc-700 flex justify-between items-center bg-gray-50 dark:bg-zinc-800/50">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Checkout</h3>
+                <button wire:click="closeCheckoutModal" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <!-- Body -->
+            <div class="p-6 space-y-4 overflow-y-auto">
+                <!-- Order Summary -->
+                <div class="bg-gray-50 dark:bg-zinc-700/50 p-4 rounded-lg space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-500 dark:text-gray-400">Total Items</span>
+                        <span class="font-medium text-gray-900 dark:text-white">{{ $cart->items->sum('quantity') }}</span>
+                    </div>
+                    <div class="flex justify-between text-lg font-bold">
+                        <span class="text-gray-900 dark:text-white">Total Amount</span>
+                        <span class="text-indigo-600 dark:text-indigo-400">₱{{ number_format($this->subtotal, 2) }}</span>
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Payment Method</label>
+                    <select wire:model.live="paymentMethod" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white focus:ring-indigo-500 focus:border-indigo-500 p-2.5">
+                        <option value="cash">Cash</option>
+                        <option value="gcash">GCash</option>
+                        <option value="bank_transfer">Bank Transfer</option>
+                    </select>
+                </div>
+
+                <!-- Proof of Payment (if not cash) -->
+                @if($paymentMethod !== 'cash')
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Proof of Payment</label>
+                    <input type="file" wire:model="proofOfPayment" class="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 dark:file:bg-indigo-900 dark:file:text-indigo-300 cursor-pointer">
+                    @error('proofOfPayment') <span class="text-red-500 text-xs block mt-1">{{ $message }}</span> @enderror
+                    
+                    <div wire:loading wire:target="proofOfPayment" class="text-xs text-indigo-500 mt-1 flex items-center gap-1">
+                        <svg class="animate-spin h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Uploading...
+                    </div>
+                    @if ($proofOfPayment) 
+                        <div class="mt-2">
+                            <p class="text-xs text-green-600 dark:text-green-400">Image selected: {{ $proofOfPayment->getClientOriginalName() }}</p>
+                        </div>
+                    @endif
+                </div>
+                @endif
+            </div>
+
+            <!-- Footer -->
+            <div class="p-4 border-t border-zinc-200 dark:border-zinc-700 flex justify-end gap-3 bg-gray-50 dark:bg-zinc-800/50">
+                <button wire:click="closeCheckoutModal" class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium">Cancel</button>
+                <button wire:click="checkout" 
+                        wire:loading.attr="disabled"
+                        class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-indigo-200 dark:shadow-none transition">
+                    <span wire:loading.remove wire:target="checkout">Confirm Payment</span>
+                    <span wire:loading wire:target="checkout">Processing...</span>
+                    <svg wire:loading wire:target="checkout" class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
                 </button>
             </div>
         </div>
