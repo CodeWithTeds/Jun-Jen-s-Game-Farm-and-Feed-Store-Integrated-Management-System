@@ -59,6 +59,10 @@ class FeedController extends Controller
 
     public function destroy($id)
     {
+        if (request()->routeIs('staff.*')) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $this->feedService->deleteFeed($id);
         $route = request()->routeIs('staff.*') ? 'staff.products.index' : 'admin.products.index';
         return redirect()->route($route)->with('success', 'Product deleted successfully.');

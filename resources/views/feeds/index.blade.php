@@ -145,11 +145,13 @@
                                 <a href="{{ route($routePrefix . 'products.show', $feed->id) }}" wire:navigate class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-3">{{ __('View') }}</a>
                                 @if($routePrefix !== 'customer.')
                                 <a href="{{ route($routePrefix . 'products.edit', $feed->id) }}" wire:navigate class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300 mr-3">{{ __('Edit') }}</a>
+                                @if($routePrefix === 'admin.')
                                 <form action="{{ route($routePrefix . 'products.destroy', $feed->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this product?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">{{ __('Delete') }}</button>
                                 </form>
+                                @endif
                                 @endif
                             </td>
                         </tr>
