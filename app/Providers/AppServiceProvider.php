@@ -62,6 +62,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\FarmRecordRepositoryInterface::class,
             \App\Repositories\Eloquent\FarmRecordRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\SupplierRepositoryInterface::class,
+            \App\Repositories\Eloquent\SupplierRepository::class
+        );
     }
 
     /**

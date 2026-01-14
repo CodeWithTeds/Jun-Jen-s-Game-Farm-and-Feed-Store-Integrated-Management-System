@@ -9,6 +9,7 @@ use App\Http\Controllers\EggCollectionController;
 use App\Http\Controllers\HatcheryRecordController;
 use App\Http\Controllers\ChickRearingController;
 use App\Http\Controllers\FeedController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\FeedUsageController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\FarmRecordController;
@@ -43,6 +44,7 @@ Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('feeds', FeedController::class);
     Route::patch('feeds/{feed}/toggle-display', [FeedController::class, 'toggleDisplay'])->name('feeds.toggle-display');
+    Route::resource('suppliers', SupplierController::class);
 });
 
 require __DIR__.'/settings.php';

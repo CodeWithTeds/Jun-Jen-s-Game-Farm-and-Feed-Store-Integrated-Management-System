@@ -151,7 +151,7 @@
                             {{ __('System Settings') }}
                         </flux:sidebar.item>
 
-                        <flux:sidebar.item href="#" wire:navigate>
+                        <flux:sidebar.item :href="route('admin.suppliers.index')" :current="request()->routeIs('admin.suppliers.*')" wire:navigate>
                             <x-slot:icon>
                                 <flux:icon :icon="'truck'" class="size-6 text-cyan-500" />
                             </x-slot:icon>
