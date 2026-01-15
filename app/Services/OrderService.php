@@ -34,13 +34,19 @@ class OrderService
         return $this->orderRepository->getById($id);
     }
 
-    public function checkout(int $userId, string $paymentMethod, ?string $note, ?string $proofOfPayment = null)
+    public function checkout(int $userId, string $paymentMethod, string $shippingAddress, ?string $note, ?string $proofOfPayment = null)
     {
-        return DB::transaction(function () use ($userId, $paymentMethod, $note, $proofOfPayment) {
+        return DB::transaction(function () use ($userId, $paymentMethod, $shippingAddress, $note, $proofOfPayment) {
             // Step 1: Validate Cart and Inventory
             $cart = $this->cartRepository->getActiveCart($userId);
             if (!$cart || $cart->items->isEmpty()) {
                 throw new Exception("Cart is empty.");
+            }
+
+            // Update user address if not set
+            $user = \App\Models\User::find($userId);
+            if ($user && empty($user->address)) {
+                $user->update(['address' => $shippingAddress]);
             }
 
             $totalAmount = 0;
@@ -64,6 +70,7 @@ class OrderService
                 'total_amount' => $totalAmount,
                 'status' => 'pending',
                 'payment_status' => $paymentStatus,
+                'shipping_address' => $shippingAddress,
                 'payment_method' => $paymentMethod,
                 'note' => $note,
                 'proof_of_payment' => $proofOfPayment

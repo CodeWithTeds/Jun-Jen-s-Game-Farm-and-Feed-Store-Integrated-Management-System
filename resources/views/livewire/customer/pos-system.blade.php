@@ -244,60 +244,190 @@
     <!-- Checkout Modal -->
     @if($showCheckoutModal)
     <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" wire:click.self="closeCheckoutModal">
-        <div class="bg-white dark:bg-zinc-800 rounded-2xl shadow-xl max-w-lg w-full overflow-hidden flex flex-col max-h-[90vh]">
+        <div class="bg-white dark:bg-zinc-800 rounded-2xl shadow-xl max-w-5xl w-full overflow-hidden flex flex-col max-h-[90vh]">
             <!-- Header -->
-            <div class="p-4 border-b border-zinc-200 dark:border-zinc-700 flex justify-between items-center bg-gray-50 dark:bg-zinc-800/50">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Checkout</h3>
+            <div class="p-6 border-b border-zinc-200 dark:border-zinc-700 flex justify-between items-center bg-gray-50 dark:bg-zinc-800/50">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Checkout</h3>
                 <button wire:click="closeCheckoutModal" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
             
             <!-- Body -->
-            <div class="p-6 space-y-4 overflow-y-auto">
-                <!-- Order Summary -->
-                <div class="bg-gray-50 dark:bg-zinc-700/50 p-4 rounded-lg space-y-2">
-                    <div class="flex justify-between text-sm">
-                        <span class="text-gray-500 dark:text-gray-400">Total Items</span>
-                        <span class="font-medium text-gray-900 dark:text-white">{{ $cart->items->sum('quantity') }}</span>
-                    </div>
-                    <div class="flex justify-between text-lg font-bold">
-                        <span class="text-gray-900 dark:text-white">Total Amount</span>
-                        <span class="text-indigo-600 dark:text-indigo-400">₱{{ number_format($this->subtotal, 2) }}</span>
-                    </div>
-                </div>
-
-                <!-- Payment Method -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Payment Method</label>
-                    <select wire:model.live="paymentMethod" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:text-white focus:ring-indigo-500 focus:border-indigo-500 p-2.5">
-                        <option value="cash">Cash</option>
-                        <option value="gcash">GCash</option>
-                        <option value="bank_transfer">Bank Transfer</option>
-                    </select>
-                </div>
-
-                <!-- Proof of Payment (if not cash) -->
-                @if($paymentMethod !== 'cash')
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Proof of Payment</label>
-                    <input type="file" wire:model="proofOfPayment" class="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 dark:file:bg-indigo-900 dark:file:text-indigo-300 cursor-pointer">
-                    @error('proofOfPayment') <span class="text-red-500 text-xs block mt-1">{{ $message }}</span> @enderror
+            <div class="flex-1 overflow-hidden flex flex-col md:flex-row">
+                <!-- Left Side: Order Summary -->
+                <div class="w-full md:w-1/2 p-6 overflow-y-auto bg-gray-50 dark:bg-zinc-800/30 border-r border-zinc-200 dark:border-zinc-700">
+                    <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Order Summary</h4>
                     
-                    <div wire:loading wire:target="proofOfPayment" class="text-xs text-indigo-500 mt-1 flex items-center gap-1">
-                        <svg class="animate-spin h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Uploading...
+                    <div class="space-y-4 mb-6">
+                        @foreach($cart->items as $item)
+                            <div class="flex gap-4 bg-white dark:bg-zinc-800 p-3 rounded-lg shadow-sm border border-zinc-100 dark:border-zinc-700">
+                                <div class="w-16 h-16 rounded-lg bg-gray-100 dark:bg-zinc-700 overflow-hidden flex-shrink-0">
+                                    @if($item->feed->image)
+                                        <img src="{{ Storage::url($item->feed->image) }}" class="w-full h-full object-cover">
+                                    @endif
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h5 class="font-medium text-gray-900 dark:text-white truncate">{{ $item->feed->feed_name }}</h5>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ $item->quantity }} x ₱{{ number_format($item->feed->price, 2) }}</p>
+                                </div>
+                                <div class="font-bold text-gray-900 dark:text-white">
+                                    ₱{{ number_format($item->quantity * $item->feed->price, 2) }}
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
-                    @if ($proofOfPayment) 
-                        <div class="mt-2">
-                            <p class="text-xs text-green-600 dark:text-green-400">Image selected: {{ $proofOfPayment->getClientOriginalName() }}</p>
+
+                    <div class="border-t border-zinc-200 dark:border-zinc-700 pt-4 space-y-2">
+                        <div class="flex justify-between text-gray-600 dark:text-gray-400">
+                            <span>Subtotal</span>
+                            <span>₱{{ number_format($this->subtotal, 2) }}</span>
                         </div>
-                    @endif
+                        <div class="flex justify-between text-xl font-bold text-gray-900 dark:text-white pt-2">
+                            <span>Total</span>
+                            <span class="text-indigo-600 dark:text-indigo-400">₱{{ number_format($this->subtotal, 2) }}</span>
+                        </div>
+                    </div>
                 </div>
-                @endif
+
+                <!-- Right Side: Shipping & Payment -->
+                <div class="w-full md:w-1/2 p-6 overflow-y-auto">
+                    <div class="space-y-6">
+                        <!-- Shipping Address Section -->
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                Shipping Details
+                            </h4>
+
+                            @if($hasSavedAddress)
+                                <div class="bg-indigo-50 dark:bg-indigo-900/30 p-4 rounded-lg border border-indigo-100 dark:border-indigo-800 relative">
+                                    <div class="absolute top-4 right-4 text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-white dark:bg-zinc-800 px-2 py-1 rounded shadow-sm">
+                                        Default Address
+                                    </div>
+                                    <h5 class="font-bold text-gray-900 dark:text-white">{{ $location_name }}</h5>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">
+                                        <span class="font-medium">{{ $contact_person }}</span> ({{ $phone_number }})
+                                    </p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">
+                                        {{ $address }}, {{ $city }}, {{ $province }} {{ $postal_code }}
+                                    </p>
+                                </div>
+                            @else
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="col-span-2">
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Location Name</label>
+                                        <input type="text" wire:model="location_name" placeholder="e.g. Home, Office" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 p-2.5 focus:ring-indigo-500 focus:border-indigo-500">
+                                        @error('location_name') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Contact Person</label>
+                                        <input type="text" wire:model="contact_person" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 p-2.5 focus:ring-indigo-500 focus:border-indigo-500">
+                                        @error('contact_person') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone Number</label>
+                                        <input type="text" wire:model="phone_number" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 p-2.5 focus:ring-indigo-500 focus:border-indigo-500">
+                                        @error('phone_number') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                                    </div>
+
+                                    <div class="col-span-2">
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Address</label>
+                                        <textarea wire:model="address" rows="2" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 p-2.5 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                                        @error('address') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">City</label>
+                                        <input type="text" wire:model="city" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 p-2.5 focus:ring-indigo-500 focus:border-indigo-500">
+                                        @error('city') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Province</label>
+                                        <input type="text" wire:model="province" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 p-2.5 focus:ring-indigo-500 focus:border-indigo-500">
+                                        @error('province') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Postal Code</label>
+                                        <input type="text" wire:model="postal_code" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 p-2.5 focus:ring-indigo-500 focus:border-indigo-500">
+                                        @error('postal_code') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Country</label>
+                                        <input type="text" wire:model="country" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 p-2.5 focus:ring-indigo-500 focus:border-indigo-500" readonly>
+                                        @error('country') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                                    </div>
+                                    
+                                    <div class="col-span-2">
+                                         <label class="flex items-center space-x-2 cursor-pointer">
+                                            <input type="checkbox" wire:model="is_default" class="rounded border-zinc-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                            <span class="text-sm text-gray-600 dark:text-gray-400">Save as default address</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+
+                        <hr class="border-zinc-200 dark:border-zinc-700">
+
+                        <!-- Payment Method -->
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                                Payment Method
+                            </h4>
+                            
+                            <div class="grid grid-cols-3 gap-3">
+                                <label class="cursor-pointer relative">
+                                    <input type="radio" wire:model.live="paymentMethod" value="cash" class="peer sr-only">
+                                    <div class="p-3 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800 peer-checked:border-indigo-500 peer-checked:bg-indigo-50 dark:peer-checked:bg-indigo-900/20 peer-checked:ring-1 peer-checked:ring-indigo-500 transition text-center">
+                                        <span class="block text-sm font-medium text-gray-900 dark:text-white">Cash</span>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer relative">
+                                    <input type="radio" wire:model.live="paymentMethod" value="gcash" class="peer sr-only">
+                                    <div class="p-3 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800 peer-checked:border-indigo-500 peer-checked:bg-indigo-50 dark:peer-checked:bg-indigo-900/20 peer-checked:ring-1 peer-checked:ring-indigo-500 transition text-center">
+                                        <span class="block text-sm font-medium text-gray-900 dark:text-white">GCash</span>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer relative">
+                                    <input type="radio" wire:model.live="paymentMethod" value="bank_transfer" class="peer sr-only">
+                                    <div class="p-3 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800 peer-checked:border-indigo-500 peer-checked:bg-indigo-50 dark:peer-checked:bg-indigo-900/20 peer-checked:ring-1 peer-checked:ring-indigo-500 transition text-center">
+                                        <span class="block text-sm font-medium text-gray-900 dark:text-white">Bank</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Proof of Payment -->
+                        @if($paymentMethod !== 'cash')
+                        <div class="animate-fade-in-down">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Upload Proof of Payment</label>
+                            <div class="flex items-center justify-center w-full">
+                                <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-32 border-2 border-zinc-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-zinc-800 dark:bg-zinc-700 hover:bg-gray-100 dark:border-zinc-600 dark:hover:border-zinc-500">
+                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                        @if($proofOfPayment)
+                                            <p class="mb-2 text-sm text-green-500 dark:text-green-400 font-semibold">{{ $proofOfPayment->getClientOriginalName() }}</p>
+                                        @else
+                                            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                                            </svg>
+                                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                        @endif
+                                    </div>
+                                    <input id="dropzone-file" type="file" wire:model="proofOfPayment" class="hidden" />
+                                </label>
+                            </div>
+                            @error('proofOfPayment') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
+                        </div>
+                        @endif
+                    </div>
+                </div>
             </div>
 
             <!-- Footer -->
@@ -305,10 +435,10 @@
                 <button wire:click="closeCheckoutModal" class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium">Cancel</button>
                 <button wire:click="checkout" 
                         wire:loading.attr="disabled"
-                        class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-indigo-200 dark:shadow-none transition">
-                    <span wire:loading.remove wire:target="checkout">Confirm Payment</span>
+                        class="px-8 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 font-bold disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-indigo-200 dark:shadow-none transition transform active:scale-95">
+                    <span wire:loading.remove wire:target="checkout">Confirm Order</span>
                     <span wire:loading wire:target="checkout">Processing...</span>
-                    <svg wire:loading wire:target="checkout" class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <svg wire:loading wire:target="checkout" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>

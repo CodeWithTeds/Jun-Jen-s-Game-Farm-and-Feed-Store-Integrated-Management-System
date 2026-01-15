@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use App\Models\ShippingAddress;
 
 class User extends Authenticatable
 {
@@ -32,6 +33,7 @@ class User extends Authenticatable
         'status',
         'account_type',
         'phone_number',
+        'address',
         'created_by',
         'updated_by',
         'last_login_at',
@@ -88,6 +90,11 @@ class User extends Authenticatable
     /**
      * Get the user's initials
      */
+    public function shippingAddresses()
+    {
+        return $this->hasMany(ShippingAddress::class);
+    }
+
     public function initials(): string
     {
         return Str::of($this->name)
