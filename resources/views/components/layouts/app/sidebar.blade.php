@@ -154,7 +154,7 @@
                             </flux:sidebar.item>
                         @endcan
 
-                        <flux:sidebar.item href="#" wire:navigate>
+                        <flux:sidebar.item :href="route('staff.sales-transactions.index')" :current="request()->routeIs('staff.sales-transactions.*')" wire:navigate>
                             <x-slot:icon>
                                 <flux:icon :icon="'banknotes'" class="size-6 text-emerald-500" />
                             </x-slot:icon>
