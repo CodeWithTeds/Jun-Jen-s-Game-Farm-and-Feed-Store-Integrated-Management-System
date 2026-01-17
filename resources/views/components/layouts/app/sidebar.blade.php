@@ -92,6 +92,13 @@
                             </x-slot:icon>
                             {{ __('Inventory Usage Logs') }}
                         </flux:sidebar.item>
+
+                        <flux:sidebar.item :href="route('staff.orders.index')" :current="request()->routeIs('staff.orders.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'shopping-bag'" class="size-6 text-purple-500" />
+                            </x-slot:icon>
+                            {{ __('Order Management') }}
+                        </flux:sidebar.item>
                     </flux:sidebar.group>
 
                 @elseif(auth()->user()->role === 'customer')

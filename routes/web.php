@@ -41,6 +41,7 @@ Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(
     Route::resource('products', FeedController::class);
     Route::resource('feed-usages', FeedUsageController::class)->only(['index', 'create', 'store']);
     Route::resource('farm-records', FarmRecordController::class);
+    Route::get('orders', \App\Livewire\Staff\Orders\OrderList::class)->name('orders.index');
 });
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
