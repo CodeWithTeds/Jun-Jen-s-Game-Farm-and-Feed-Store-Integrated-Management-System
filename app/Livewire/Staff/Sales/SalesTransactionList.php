@@ -3,6 +3,7 @@
 namespace App\Livewire\Staff\Sales;
 
 use App\Services\SalesTransactionService;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -28,6 +29,15 @@ class SalesTransactionList extends Component
     public function boot(SalesTransactionService $salesService)
     {
         $this->salesService = $salesService;
+    }
+
+    public function mount()
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        if (!$user->isAdmin()) {
+            abort(403);
+        }
     }
 
     public function updatedSearch()

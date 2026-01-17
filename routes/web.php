@@ -42,13 +42,14 @@ Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(
     Route::resource('feed-usages', FeedUsageController::class)->only(['index', 'create', 'store']);
     Route::resource('farm-records', FarmRecordController::class);
     Route::get('orders', \App\Livewire\Staff\Orders\OrderList::class)->name('orders.index');
-    Route::get('sales-transactions', \App\Livewire\Staff\Sales\SalesTransactionList::class)->name('sales-transactions.index');
 });
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('products', FeedController::class);
     Route::patch('products/{feed}/toggle-display', [FeedController::class, 'toggleDisplay'])->name('products.toggle-display');
     Route::resource('suppliers', SupplierController::class);
+    Route::get('sales-transactions', \App\Livewire\Staff\Sales\SalesTransactionList::class)->name('sales-transactions.index');
+    Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
 });
 
 Route::middleware(['auth', 'verified'])->prefix('customer')->name('customer.')->group(function () {

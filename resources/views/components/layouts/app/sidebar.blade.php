@@ -161,7 +161,7 @@
                             </flux:sidebar.item>
                         @endcan
 
-                        <flux:sidebar.item :href="route('staff.sales-transactions.index')" :current="request()->routeIs('staff.sales-transactions.*')" wire:navigate>
+                        <flux:sidebar.item :href="route('admin.sales-transactions.index')" :current="request()->routeIs('admin.sales-transactions.*')" wire:navigate>
                             <x-slot:icon>
                                 <flux:icon :icon="'banknotes'" class="size-6 text-emerald-500" />
                             </x-slot:icon>
@@ -177,13 +177,6 @@
 
                         <flux:sidebar.item href="#" wire:navigate>
                             <x-slot:icon>
-                                <flux:icon :icon="'chart-bar'" class="size-6 text-teal-500" />
-                            </x-slot:icon>
-                            {{ __('Reports') }}
-                        </flux:sidebar.item>
-
-                        <flux:sidebar.item href="#" wire:navigate>
-                            <x-slot:icon>
                                 <flux:icon :icon="'cog-6-tooth'" class="size-6 text-slate-500" />
                             </x-slot:icon>
                             {{ __('System Settings') }}
@@ -191,30 +184,16 @@
 
                         <flux:sidebar.item :href="route('admin.suppliers.index')" :current="request()->routeIs('admin.suppliers.*')" wire:navigate>
                             <x-slot:icon>
-                                <flux:icon :icon="'truck'" class="size-6 text-cyan-500" />
+                                <flux:icon :icon="'truck'" class="size-6 text-purple-500" />
                             </x-slot:icon>
-                            {{ __('Supplier Management') }}
+                            {{ __('Suppliers') }}
                         </flux:sidebar.item>
 
-                        <flux:sidebar.item href="#" wire:navigate>
+                        <flux:sidebar.item :href="route('admin.reports.index')" :current="request()->routeIs('admin.reports.*')" wire:navigate>
                             <x-slot:icon>
-                                <flux:icon :icon="'users'" class="size-6 text-pink-500" />
+                                <flux:icon :icon="'chart-bar'" class="size-6 text-purple-500" />
                             </x-slot:icon>
-                            {{ __('Customer Management') }}
-                        </flux:sidebar.item>
-
-                        <flux:sidebar.item href="#" wire:navigate>
-                            <x-slot:icon>
-                                <flux:icon :icon="'server'" class="size-6 text-gray-500" />
-                            </x-slot:icon>
-                            {{ __('Backup & Maintenance') }}
-                        </flux:sidebar.item>
-
-                        <flux:sidebar.item href="#" wire:navigate>
-                            <x-slot:icon>
-                                <flux:icon :icon="'clock'" class="size-6 text-amber-500" />
-                            </x-slot:icon>
-                            {{ __('Activity Logs') }}
+                            {{ __('Reports') }}
                         </flux:sidebar.item>
                     </flux:sidebar.group>
 
