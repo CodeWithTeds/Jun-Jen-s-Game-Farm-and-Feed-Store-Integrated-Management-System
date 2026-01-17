@@ -99,6 +99,13 @@
                             </x-slot:icon>
                             {{ __('Order Management') }}
                         </flux:sidebar.item>
+
+                        <flux:sidebar.item :href="route('schedules.index')" :current="request()->routeIs('schedules.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'calendar'" class="size-6 text-purple-500" />
+                            </x-slot:icon>
+                            {{ __('Schedules / Reminders') }}
+                        </flux:sidebar.item>
                     </flux:sidebar.group>
 
                 @elseif(auth()->user()->role === 'customer')

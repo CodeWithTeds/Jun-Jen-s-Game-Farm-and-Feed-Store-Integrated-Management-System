@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\ScheduleService;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ScheduleController extends Controller
 {
@@ -17,18 +18,41 @@ class ScheduleController extends Controller
 
     public function index(Request $request)
     {
-        $schedules = $this->scheduleService->getAllSchedules($request->all());
+        $filters = $request->all();
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        if (!$user->isAdmin()) {
+            $filters['assigned_to'] = $user->id;
+        }
+
+        $schedules = $this->scheduleService->getAllSchedules($filters);
         return view('schedules.index', compact('schedules'));
     }
 
     public function create()
     {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        if (!$user->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $users = User::all();
         return view('schedules.create', compact('users'));
     }
 
     public function store(Request $request)
     {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        if (!$user->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'schedule_type' => 'required|string',
@@ -52,6 +76,13 @@ class ScheduleController extends Controller
 
     public function edit($id)
     {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        if (!$user->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $schedule = $this->scheduleService->getScheduleById($id);
         $users = User::all();
         return view('schedules.edit', compact('schedule', 'users'));
@@ -59,6 +90,13 @@ class ScheduleController extends Controller
 
     public function update(Request $request, $id)
     {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        if (!$user->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'schedule_type' => 'required|string',
@@ -82,6 +120,13 @@ class ScheduleController extends Controller
 
     public function destroy($id)
     {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        if (!$user->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $this->scheduleService->deleteSchedule($id);
         return redirect()->route('schedules.index')->with('success', 'Schedule deleted successfully.');
     }

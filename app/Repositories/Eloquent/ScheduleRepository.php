@@ -30,6 +30,10 @@ class ScheduleRepository implements ScheduleRepositoryInterface
             $query->where('priority', $filters['priority']);
         }
 
+        if (isset($filters['assigned_to']) && $filters['assigned_to']) {
+            $query->where('assigned_to', $filters['assigned_to']);
+        }
+
         if (isset($filters['date_from']) && $filters['date_from']) {
             $query->whereDate('start_date', '>=', $filters['date_from']);
         }
