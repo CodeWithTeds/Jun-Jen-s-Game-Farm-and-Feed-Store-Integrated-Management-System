@@ -134,7 +134,7 @@
 
                 @elseif(auth()->user()->role === 'admin')
                     <flux:sidebar.group :heading="__('Platform')" class="grid">
-                        <flux:sidebar.item :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
+                        <flux:sidebar.item :href="route('admin.dashboard')" :current="request()->routeIs('admin.dashboard')" wire:navigate>
                             <x-slot:icon>
                                 <flux:icon :icon="'layout-grid'" class="size-6 text-indigo-500" />
                             </x-slot:icon>

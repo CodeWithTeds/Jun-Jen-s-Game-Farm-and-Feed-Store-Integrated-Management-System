@@ -67,4 +67,12 @@ class FeedRepository implements FeedRepositoryInterface
     {
         return Feed::distinct('feed_type')->pluck('feed_type')->toArray();
     }
+
+    public function getLowStock(int $limit = 5)
+    {
+        return Feed::whereColumn('quantity', '<=', 'reorder_level')
+            ->orderBy('quantity', 'asc')
+            ->take($limit)
+            ->get();
+    }
 }
