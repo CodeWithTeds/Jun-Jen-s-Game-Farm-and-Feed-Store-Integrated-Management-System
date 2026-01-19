@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use App\Models\User;
 use App\Models\Feed;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Login;
 use App\Listeners\LogSuccessfulLogin;
@@ -96,7 +97,12 @@ class AppServiceProvider extends ServiceProvider
     {
         User::observe(\App\Observers\UserObserver::class);
         Feed::observe(\App\Observers\FeedObserver::class);
+        Setting::observe(\App\Observers\SettingObserver::class);
         Event::listen(Login::class, LogSuccessfulLogin::class);
+
+        Gate::define('manage-settings', function (User $user) {
+            return $user->isAdmin();
+        });
 
         Gate::define('view-users', function (User $user) {
             return $user->isAdmin();

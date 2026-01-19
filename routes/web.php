@@ -45,6 +45,7 @@ Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(
 });
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('settings', \App\Livewire\Settings\Index::class)->name('settings.index');
     Route::resource('products', FeedController::class);
     Route::patch('products/{feed}/toggle-display', [FeedController::class, 'toggleDisplay'])->name('products.toggle-display');
     Route::resource('suppliers', SupplierController::class);

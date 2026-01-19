@@ -175,12 +175,14 @@
                             {{ __('Schedules / Reminders') }}
                         </flux:sidebar.item>
 
-                        <flux:sidebar.item href="#" wire:navigate>
-                            <x-slot:icon>
-                                <flux:icon :icon="'cog-6-tooth'" class="size-6 text-slate-500" />
-                            </x-slot:icon>
-                            {{ __('System Settings') }}
-                        </flux:sidebar.item>
+                        @can('manage-settings')
+                            <flux:sidebar.item :href="route('admin.settings.index')" :current="request()->routeIs('admin.settings.*')" wire:navigate>
+                                <x-slot:icon>
+                                    <flux:icon :icon="'cog-6-tooth'" class="size-6 text-slate-500" />
+                                </x-slot:icon>
+                                {{ __('System Settings') }}
+                            </flux:sidebar.item>
+                        @endcan
 
                         <flux:sidebar.item :href="route('admin.suppliers.index')" :current="request()->routeIs('admin.suppliers.*')" wire:navigate>
                             <x-slot:icon>
