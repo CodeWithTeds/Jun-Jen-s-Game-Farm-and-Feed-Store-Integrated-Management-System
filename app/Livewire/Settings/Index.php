@@ -14,7 +14,7 @@ class Index extends Component
 {
     use WithFileUploads;
 
-    public $activeTab = 'general';
+    public $activeTab;
     public $search = '';
 
     // For form binding
@@ -30,6 +30,17 @@ class Index extends Component
     {
         if (!Gate::allows('manage-settings')) {
             abort(403);
+        }
+
+        // Set default active tab if not set or invalid
+        $availableGroups = Setting::select('group')->distinct()->pluck('group')->toArray();
+        if (empty($this->activeTab) || !in_array($this->activeTab, $availableGroups)) {
+             // Default to 'general' if exists, otherwise first available
+             if (in_array('general', $availableGroups)) {
+                 $this->activeTab = 'general';
+             } else {
+                 $this->activeTab = $availableGroups[0] ?? null;
+             }
         }
 
         $this->loadForm();

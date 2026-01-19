@@ -14,41 +14,6 @@ class SettingsSeeder extends Seeder
     public function run(): void
     {
         $settings = [
-            // General
-            [
-                'key' => 'site_name',
-                'value' => 'Feed Store',
-                'group' => 'general',
-                'type' => 'string',
-                'label' => 'Site Name',
-                'description' => 'The name of your application.',
-                'is_system' => true,
-                'is_public' => true,
-                'validation_rules' => 'required|string|max:255',
-            ],
-            [
-                'key' => 'site_logo',
-                'value' => null,
-                'group' => 'general',
-                'type' => 'string',
-                'label' => 'Site Logo URL',
-                'description' => 'URL to the site logo.',
-                'is_system' => false,
-                'is_public' => true,
-                'validation_rules' => 'nullable|url',
-            ],
-            [
-                'key' => 'support_email',
-                'value' => 'support@example.com',
-                'group' => 'general',
-                'type' => 'string',
-                'label' => 'Support Email',
-                'description' => 'Email address for support inquiries.',
-                'is_system' => false,
-                'is_public' => true,
-                'validation_rules' => 'required|email',
-            ],
-
             // Security
             [
                 'key' => 'enable_2fa',
@@ -106,30 +71,6 @@ class SettingsSeeder extends Seeder
                 'is_system' => false,
                 'is_public' => false,
                 'validation_rules' => 'boolean',
-            ],
-
-            // Notifications
-            [
-                'key' => 'enable_email_notifications',
-                'value' => '1',
-                'group' => 'notifications',
-                'type' => 'boolean',
-                'label' => 'Enable Email Notifications',
-                'description' => 'Global switch to enable/disable email notifications.',
-                'is_system' => true,
-                'is_public' => false,
-                'validation_rules' => 'boolean',
-            ],
-            [
-                'key' => 'notification_email_sender',
-                'value' => 'noreply@feedstore.com',
-                'group' => 'notifications',
-                'type' => 'string',
-                'label' => 'Sender Email',
-                'description' => 'Email address used as sender.',
-                'is_system' => false,
-                'is_public' => false,
-                'validation_rules' => 'required|email',
             ],
         ];
 
