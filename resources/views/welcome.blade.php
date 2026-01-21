@@ -15,9 +15,9 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <a href="#" class="flex-shrink-0 flex items-center gap-2">
-                        <!-- You might want to add a logo icon here if available -->
-                        <span class="font-bold text-xl text-emerald-700 tracking-tight">Jun & Jen’s</span>
-                    </a>
+    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10 w-auto">
+    <span class="font-bold text-xl text-emerald-700 tracking-tight">Jun & Jen’s</span>
+</a>
                     <div class="hidden md:ml-10 md:flex md:space-x-8">
                         <a href="#home" class="text-zinc-500 hover:text-emerald-600 px-3 py-2 text-sm font-medium transition-colors">Home</a>
                         <a href="#about" class="text-zinc-500 hover:text-emerald-600 px-3 py-2 text-sm font-medium transition-colors">About</a>
