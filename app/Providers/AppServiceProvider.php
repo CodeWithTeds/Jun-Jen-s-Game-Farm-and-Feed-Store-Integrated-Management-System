@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Feed;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\View;
 use Illuminate\Auth\Events\Login;
 use App\Listeners\LogSuccessfulLogin;
 
@@ -95,6 +96,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        View::addNamespace('layouts', resource_path('views/components/layouts'));
         User::observe(\App\Observers\UserObserver::class);
         Feed::observe(\App\Observers\FeedObserver::class);
         Setting::observe(\App\Observers\SettingObserver::class);
