@@ -4,7 +4,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div class="flex items-center gap-4">
                 <a href="{{ route('users.index') }}" wire:navigate class="p-2 -ml-2 text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800">
-                    <span class="material-icons text-[20px]">arrow_back</span>
+                    <flux:icon icon="arrow-left" class="size-5" />
                 </a>
                 <div>
                     <flux:heading size="xl" class="leading-tight">{{ __('User Details') }}</flux:heading>
