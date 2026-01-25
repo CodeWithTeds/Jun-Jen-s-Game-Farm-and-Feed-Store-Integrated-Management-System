@@ -9,7 +9,6 @@
                     <flux:icon name="arrow-right" class="w-3 h-3" />
                 </a>
                 <a href="{{ route('customer.orders.index') }}" class="hover:text-white transition">My Orders</a>
-                <a href="#" class="hover:text-white transition">Support</a>
             </div>
             <div class="flex items-center gap-4">
                 <div class="text-right">
@@ -63,26 +62,6 @@
                 <div class="absolute right-0 top-0 h-full w-1/2 opacity-10 transform translate-x-1/4 group-hover:translate-x-0 transition duration-500">
                     <flux:icon name="shopping-cart" class="w-full h-full" />
                 </div>
-            </div>
-
-            <!-- Support Card -->
-            <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-lg border border-zinc-100 dark:border-zinc-800">
-                <div class="flex items-center gap-4 mb-4">
-                    <div class="p-3 bg-blue-50 text-blue-600 rounded-xl">
-                        <flux:icon name="chat-bubble-left-right" class="w-6 h-6" />
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-zinc-900 dark:text-zinc-100">Need Help?</h3>
-                        <p class="text-xs text-zinc-500">We're here to assist you</p>
-                    </div>
-                </div>
-                <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
-                    Have questions about your order or our products? Contact our support team.
-                </p>
-                <button class="w-full py-2.5 rounded-xl border-2 border-zinc-100 hover:border-zinc-200 dark:border-zinc-800 dark:hover:border-zinc-700 text-zinc-600 dark:text-zinc-400 font-medium text-sm transition-colors flex items-center justify-center gap-2">
-                    <flux:icon name="envelope" class="w-4 h-4" />
-                    Contact Support
-                </button>
             </div>
         </div>
     </div>

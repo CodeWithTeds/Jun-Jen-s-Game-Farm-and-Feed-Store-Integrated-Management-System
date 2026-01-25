@@ -37,8 +37,12 @@
                         <td class="px-6 py-4">
                             <div class="flex -space-x-2 overflow-hidden">
                                 @foreach($order->items->take(3) as $item)
-                                    <div class="inline-block h-8 w-8 rounded-full ring-2 ring-white dark:ring-zinc-900 bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500 shadow-sm" title="{{ $item->feed->feed_name }}">
-                                        {{ substr($item->feed->feed_name, 0, 1) }}
+                                    <div class="inline-block h-8 w-8 rounded-full ring-2 ring-white dark:ring-zinc-900 bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500 shadow-sm overflow-hidden" title="{{ $item->feed->feed_name }}">
+                                        @if($item->feed->image)
+                                            <img src="{{ asset('storage/' . $item->feed->image) }}" alt="{{ $item->feed->feed_name }}" class="w-full h-full object-cover">
+                                        @else
+                                            {{ substr($item->feed->feed_name, 0, 1) }}
+                                        @endif
                                     </div>
                                 @endforeach
                                 @if($order->items->count() > 3)
