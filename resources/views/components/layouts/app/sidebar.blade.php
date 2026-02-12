@@ -68,6 +68,13 @@
                             {{ __('Medical Records') }}
                         </flux:sidebar.item>
 
+                        <flux:sidebar.item :href="route('staff.fight-schedules.index')" :current="request()->routeIs('staff.fight-schedules.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'calendar-days'" class="size-6 text-purple-600" />
+                            </x-slot:icon>
+                            {{ __('Fight Schedule') }}
+                        </flux:sidebar.item>
+
                         
                     </flux:sidebar.group>
 

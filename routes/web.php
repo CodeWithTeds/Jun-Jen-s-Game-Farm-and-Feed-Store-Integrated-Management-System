@@ -52,6 +52,7 @@ Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(
     Route::resource('products', FeedController::class);
     Route::resource('feed-usages', FeedUsageController::class)->only(['index', 'create', 'store']);
     Route::resource('farm-records', FarmRecordController::class);
+    Route::resource('fight-schedules', \App\Http\Controllers\FightScheduleController::class);
     Route::get('orders', \App\Livewire\Staff\Orders\OrderList::class)->name('orders.index');
 });
 

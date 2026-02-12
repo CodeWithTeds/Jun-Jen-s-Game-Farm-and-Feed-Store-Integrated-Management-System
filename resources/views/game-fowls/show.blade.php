@@ -116,6 +116,60 @@
                     </div>
                 @endif
                 
+                <!-- Fight History -->
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white flex items-center gap-2">
+                            <span class="iconify" data-icon="heroicons:trophy" class="text-yellow-500"></span>
+                            Fight History
+                        </h3>
+                    </div>
+                    
+                    @if($gameFowl->fightSchedules->count() > 0)
+                        <div class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg overflow-hidden">
+                            <ul class="divide-y divide-gray-200 dark:divide-zinc-700">
+                                @foreach($gameFowl->fightSchedules as $fight)
+                                    <li class="p-4 hover:bg-gray-50 dark:hover:bg-zinc-700/50 transition-colors">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <p class="text-sm font-medium text-gray-900 dark:text-white">
+                                                    vs. {{ $fight->opponent ?? 'Unknown' }}
+                                                </p>
+                                                <p class="text-xs text-gray-500 dark:text-gray-400">
+                                                    {{ $fight->date->format('M d, Y') }} at {{ \Carbon\Carbon::parse($fight->time)->format('h:i A') }}
+                                                    &bull; {{ $fight->location }}
+                                                </p>
+                                            </div>
+                                            <div class="text-right">
+                                                @php
+                                                    $statusColors = [
+                                                        'Scheduled' => 'text-blue-600 dark:text-blue-400',
+                                                        'Completed' => 'text-green-600 dark:text-green-400',
+                                                        'Cancelled' => 'text-red-600 dark:text-red-400',
+                                                    ];
+                                                    $statusColor = $statusColors[$fight->status] ?? 'text-gray-600 dark:text-gray-400';
+                                                @endphp
+                                                <p class="text-sm font-bold {{ $statusColor }}">
+                                                    {{ $fight->status }}
+                                                </p>
+                                                @if($fight->result)
+                                                    <p class="text-xs font-semibold text-gray-700 dark:text-gray-300">
+                                                        Result: {{ $fight->result }}
+                                                    </p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @else
+                        <div class="text-sm text-gray-500 dark:text-gray-400 italic bg-gray-50 dark:bg-zinc-800/30 p-4 rounded-lg border border-gray-100 dark:border-zinc-700/30">
+                            No fight history recorded.
+                        </div>
+                    @endif
+                </div>
+
                 <!-- Medical Records -->
                 <div>
                     <div class="flex items-center justify-between mb-4">

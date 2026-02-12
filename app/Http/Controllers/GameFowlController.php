@@ -51,7 +51,7 @@ class GameFowlController extends Controller
      */
     public function show(GameFowl $gameFowl)
     {
-        $gameFowl->load('medicalRecords');
+        $gameFowl->load(['medicalRecords', 'fightSchedules']);
         return view('game-fowls.show', compact('gameFowl'));
     }
 

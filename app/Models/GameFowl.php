@@ -60,4 +60,9 @@ class GameFowl extends Model
     {
         return $this->hasMany(MedicalRecord::class);
     }
+
+    public function fightSchedules(): HasMany
+    {
+        return $this->hasMany(FightSchedule::class)->orderBy('date', 'desc');
+    }
 }

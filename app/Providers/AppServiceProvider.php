@@ -89,6 +89,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\ReportRepositoryInterface::class,
             \App\Repositories\Eloquent\ReportRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\FightScheduleRepositoryInterface::class,
+            \App\Repositories\Eloquent\FightScheduleRepository::class
+        );
     }
 
     /**
