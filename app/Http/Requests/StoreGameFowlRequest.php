@@ -25,6 +25,8 @@ class StoreGameFowlRequest extends FormRequest
             'tag_id' => 'required|string|unique:game_fowls,tag_id',
             'name' => 'required|string|max:255',
             'sex' => 'required|string|in:Male,Female',
+            'reproductive_status' => 'nullable|string|max:255',
+            'gender_identification' => 'nullable|string|max:255',
             'date_hatched' => 'required|date',
             'stage_growth_phase' => 'required|string|max:255',
             'color_feather_pattern' => 'required|string|max:255',

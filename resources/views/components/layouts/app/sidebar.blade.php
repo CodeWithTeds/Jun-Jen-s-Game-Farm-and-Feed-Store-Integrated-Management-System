@@ -75,7 +75,12 @@
                             {{ __('Fight Schedule') }}
                         </flux:sidebar.item>
 
-                        
+                        <flux:sidebar.item :href="route('staff.game-fowl-inventory.index')" :current="request()->routeIs('staff.game-fowl-inventory.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'chart-bar'" class="size-6 text-green-600" />
+                            </x-slot:icon>
+                            {{ __('GFowl Inventory') }}
+                        </flux:sidebar.item>
                     </flux:sidebar.group>
 
                     <flux:sidebar.group :heading="__('Records')" class="grid">

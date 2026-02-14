@@ -64,16 +64,58 @@
 
                 <!-- Right Column: Details -->
                 <div class="lg:col-span-2 space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" x-data="{ sex: '{{ old('sex') }}' }">
                         <!-- Sex -->
                         <div>
                             <label for="sex" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sex</label>
-                            <select name="sex" id="sex" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow" required>
+                            <select name="sex" id="sex" x-model="sex" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow" required>
                                 <option value="">Select Sex</option>
-                                <option value="Male" {{ old('sex') == 'Male' ? 'selected' : '' }}>Male</option>
-                                <option value="Female" {{ old('sex') == 'Female' ? 'selected' : '' }}>Female</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
                             </select>
                             @error('sex')
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Reproductive Status (Female) -->
+                        <div x-show="sex === 'Female'" style="display: none;">
+                            <label for="reproductive_status_female" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Reproductive Status</label>
+                            <select name="reproductive_status" id="reproductive_status_female" :disabled="sex !== 'Female'" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow">
+                                <option value="">Select Status</option>
+                                <option value="Ready to Lay Eggs" {{ old('reproductive_status') == 'Ready to Lay Eggs' ? 'selected' : '' }}>Ready to Lay Eggs</option>
+                                <option value="Too Young" {{ old('reproductive_status') == 'Too Young' ? 'selected' : '' }}>Too Young</option>
+                                <option value="Not Applicable" {{ old('reproductive_status') == 'Not Applicable' ? 'selected' : '' }}>Not Applicable</option>
+                                <option value="Already Laying" {{ old('reproductive_status') == 'Already Laying' ? 'selected' : '' }}>Already Laying</option>
+                                <option value="Retired" {{ old('reproductive_status') == 'Retired' ? 'selected' : '' }}>Retired</option>
+                            </select>
+                        </div>
+
+                        <!-- Reproductive Status (Male) -->
+                        <div x-show="sex === 'Male'" style="display: none;">
+                            <label for="reproductive_status_male" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Reproductive Status</label>
+                            <select name="reproductive_status" id="reproductive_status_male" :disabled="sex !== 'Male'" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow">
+                                <option value="">Select Status</option>
+                                <option value="Ready to Breed" {{ old('reproductive_status') == 'Ready to Breed' ? 'selected' : '' }}>Ready to Breed</option>
+                                <option value="Too Young" {{ old('reproductive_status') == 'Too Young' ? 'selected' : '' }}>Too Young</option>
+                                <option value="Active Breeder" {{ old('reproductive_status') == 'Active Breeder' ? 'selected' : '' }}>Active Breeder</option>
+                                <option value="Retired" {{ old('reproductive_status') == 'Retired' ? 'selected' : '' }}>Retired</option>
+                                <option value="Not Applicable" {{ old('reproductive_status') == 'Not Applicable' ? 'selected' : '' }}>Not Applicable</option>
+                            </select>
+                        </div>
+
+                        <!-- Gender Identification Method -->
+                        <div>
+                            <label for="gender_identification" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Gender Identification Method</label>
+                            <select name="gender_identification" id="gender_identification" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow">
+                                <option value="">Select Method</option>
+                                <option value="Visual" {{ old('gender_identification') == 'Visual' ? 'selected' : '' }}>Visual</option>
+                                <option value="Vent Sexing" {{ old('gender_identification') == 'Vent Sexing' ? 'selected' : '' }}>Vent Sexing</option>
+                                <option value="Feather Sexing" {{ old('gender_identification') == 'Feather Sexing' ? 'selected' : '' }}>Feather Sexing</option>
+                                <option value="DNA" {{ old('gender_identification') == 'DNA' ? 'selected' : '' }}>DNA</option>
+                                <option value="Behavior" {{ old('gender_identification') == 'Behavior' ? 'selected' : '' }}>Behavior</option>
+                            </select>
+                            @error('gender_identification')
                                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>

@@ -94,6 +94,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\FightScheduleRepositoryInterface::class,
             \App\Repositories\Eloquent\FightScheduleRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\GameFowlInventoryRepositoryInterface::class,
+            \App\Repositories\Eloquent\GameFowlInventoryRepository::class
+        );
     }
 
     /**

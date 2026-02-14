@@ -23,6 +23,14 @@ class GameFowlRepository implements GameFowlRepositoryInterface
             $query->where('sex', $filters['sex']);
         }
 
+        if (isset($filters['reproductive_status']) && $filters['reproductive_status']) {
+            $query->where('reproductive_status', $filters['reproductive_status']);
+        }
+
+        if (isset($filters['gender_identification']) && $filters['gender_identification']) {
+            $query->where('gender_identification', $filters['gender_identification']);
+        }
+
         if (isset($filters['date_hatched']) && $filters['date_hatched']) {
             $query->whereDate('date_hatched', $filters['date_hatched']);
         }

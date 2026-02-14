@@ -13,6 +13,8 @@ class GameFowl extends Model
         'tag_id',
         'name',
         'sex',
+        'reproductive_status',
+        'gender_identification',
         'date_hatched',
         'stage_growth_phase',
         'color_feather_pattern',
