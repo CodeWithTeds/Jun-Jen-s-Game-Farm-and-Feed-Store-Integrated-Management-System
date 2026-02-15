@@ -38,7 +38,8 @@ class ChickRearingController extends Controller
     {
         $this->chickRearingService->createChickRearing($request->validated());
 
-        return redirect()->route('staff.chick-rearings.index')
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'chick-rearings.index')
             ->with('success', 'Chick Rearing record created successfully.');
     }
 
@@ -65,7 +66,8 @@ class ChickRearingController extends Controller
     {
         $this->chickRearingService->updateChickRearing($chickRearing->id, $request->validated());
 
-        return redirect()->route('staff.chick-rearings.index')
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'chick-rearings.index')
             ->with('success', 'Chick Rearing record updated successfully.');
     }
 
@@ -76,7 +78,8 @@ class ChickRearingController extends Controller
     {
         $this->chickRearingService->deleteChickRearing($chickRearing->id);
 
-        return redirect()->route('staff.chick-rearings.index')
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'chick-rearings.index')
             ->with('success', 'Chick Rearing record deleted successfully.');
     }
 }

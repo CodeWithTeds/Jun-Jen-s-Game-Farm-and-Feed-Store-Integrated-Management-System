@@ -1,7 +1,10 @@
 <x-layouts.app>
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('Farm Records') }}</h1>
-        <a href="{{ route('staff.farm-records.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+        @php
+            $routePrefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        @endphp
+        <a href="{{ route($routePrefix . 'farm-records.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
             {{ __('Add Record') }}
         </a>
     </div>
@@ -13,7 +16,7 @@
     @endif
 
     <div class="mb-6 bg-white dark:bg-zinc-900 p-4 rounded-xl border border-zinc-200 dark:border-zinc-700 shadow-sm">
-        <form method="GET" action="{{ route('staff.farm-records.index') }}" class="flex flex-wrap gap-4 items-end">
+        <form method="GET" action="{{ route($routePrefix . 'farm-records.index') }}" class="flex flex-wrap gap-4 items-end">
             <div class="w-full max-w-sm">
                 <label for="search" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Search</label>
                 <input 
@@ -64,7 +67,7 @@
                 </button>
                 
                 @if(request()->anyFilled(['search', 'record_type', 'status', 'date_from', 'date_to']))
-                    <a href="{{ route('staff.farm-records.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 dark:bg-zinc-800 dark:border-zinc-600 dark:text-gray-300 dark:hover:bg-zinc-700">
+                    <a href="{{ route($routePrefix . 'farm-records.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 dark:bg-zinc-800 dark:border-zinc-600 dark:text-gray-300 dark:hover:bg-zinc-700">
                         {{ __('Clear') }}
                     </a>
                 @endif
@@ -116,8 +119,8 @@
                                 {{ $record->recorder ? $record->recorder->name : 'Unknown' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="{{ route('staff.farm-records.edit', $record->id) }}" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 mr-3">Edit</a>
-                                <form action="{{ route('staff.farm-records.destroy', $record->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this record?');">
+                                <a href="{{ route($routePrefix . 'farm-records.edit', $record->id) }}" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 mr-3">Edit</a>
+                                <form action="{{ route($routePrefix . 'farm-records.destroy', $record->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this record?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300">Delete</button>

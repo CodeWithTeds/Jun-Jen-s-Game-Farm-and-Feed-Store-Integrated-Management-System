@@ -65,6 +65,16 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::resource('suppliers', SupplierController::class);
     Route::get('sales-transactions', \App\Livewire\Staff\Sales\SalesTransactionList::class)->name('sales-transactions.index');
     Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
+
+    // Game Fowl Hub Routes for Admin
+    Route::resource('game-fowls', GameFowlController::class);
+    Route::resource('breedings', BreedingController::class);
+    Route::resource('medical-records', MedicalRecordController::class);
+    Route::resource('egg-collections', EggCollectionController::class);
+    Route::resource('hatchery-records', HatcheryRecordController::class);
+    Route::resource('chick-rearings', ChickRearingController::class);
+    Route::resource('fight-schedules', \App\Http\Controllers\FightScheduleController::class);
+    Route::resource('game-fowl-inventory', \App\Http\Controllers\GameFowlInventoryController::class);
 });
 
 Route::middleware(['auth', 'verified'])->prefix('customer')->name('customer.')->group(function () {

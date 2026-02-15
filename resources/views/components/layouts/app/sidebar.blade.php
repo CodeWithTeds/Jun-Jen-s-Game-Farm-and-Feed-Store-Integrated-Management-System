@@ -154,6 +154,68 @@
                         </flux:sidebar.item>
                     </flux:sidebar.group>
 
+                    <flux:sidebar.group expandable :expanded="request()->routeIs('admin.game-fowls.*', 'admin.breedings.*', 'admin.egg-collections.*', 'admin.hatchery-records.*', 'admin.chick-rearings.*', 'admin.medical-records.*', 'admin.fight-schedules.*', 'admin.game-fowl-inventory.*')" :heading="__('Game Fowl Hub')">
+                        <x-slot:icon>
+                            <flux:icon :icon="'clipboard-document-list'" class="size-6 text-indigo-500" />
+                        </x-slot:icon>
+                        
+                        <flux:sidebar.item :href="route('admin.game-fowls.index')" :current="request()->routeIs('admin.game-fowls.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'trophy'" class="size-6 text-orange-500" />
+                            </x-slot:icon>
+                            {{ __('GFowl Management') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item :href="route('admin.breedings.index')" :current="request()->routeIs('admin.breedings.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'heart'" class="size-6 text-rose-500" />
+                            </x-slot:icon>
+                            {{ __('Breeding Management') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item :href="route('admin.egg-collections.index')" :current="request()->routeIs('admin.egg-collections.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'circle-stack'" class="size-6 text-amber-500" />
+                            </x-slot:icon>
+                            {{ __('Egg Collections') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item :href="route('admin.hatchery-records.index')" :current="request()->routeIs('admin.hatchery-records.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'fire'" class="size-6 text-red-500" />
+                            </x-slot:icon>
+                            {{ __('Hatchery Records') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item :href="route('admin.chick-rearings.index')" :current="request()->routeIs('admin.chick-rearings.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'sparkles'" class="size-6 text-yellow-500" />
+                            </x-slot:icon>
+                            {{ __('Chick Rearing') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item :href="route('admin.medical-records.index')" :current="request()->routeIs('admin.medical-records.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'plus-circle'" class="size-6 text-red-500" />
+                            </x-slot:icon>
+                            {{ __('Medical Records') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item :href="route('admin.fight-schedules.index')" :current="request()->routeIs('admin.fight-schedules.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'calendar-days'" class="size-6 text-purple-600" />
+                            </x-slot:icon>
+                            {{ __('Fight Schedule') }}
+                        </flux:sidebar.item>
+
+                        <flux:sidebar.item :href="route('admin.game-fowl-inventory.index')" :current="request()->routeIs('admin.game-fowl-inventory.*')" wire:navigate>
+                            <x-slot:icon>
+                                <flux:icon :icon="'chart-bar'" class="size-6 text-green-600" />
+                            </x-slot:icon>
+                            {{ __('GFowl Inventory') }}
+                        </flux:sidebar.item>
+                    </flux:sidebar.group>
+
                     <flux:sidebar.group :heading="__('Records')" class="grid">
                         <flux:sidebar.item :href="route('admin.products.index')" :current="request()->routeIs('admin.products.*')" wire:navigate>
                             <x-slot:icon>

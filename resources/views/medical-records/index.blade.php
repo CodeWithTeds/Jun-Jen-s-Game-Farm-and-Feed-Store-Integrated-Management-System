@@ -1,7 +1,10 @@
 <x-layouts.app>
+    @php
+        $routePrefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+    @endphp
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('Medical Records') }}</h1>
-        <a href="{{ route('staff.medical-records.create') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+        <a href="{{ route($routePrefix . 'medical-records.create') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
             {{ __('Create Medical Record') }}
         </a>
     </div>
@@ -13,7 +16,7 @@
     @endif
 
     <div class="mb-6 bg-white dark:bg-zinc-900 p-4 rounded-xl border border-zinc-200 dark:border-zinc-700 shadow-sm">
-        <form method="GET" action="{{ route('staff.medical-records.index') }}" class="flex flex-wrap gap-4 items-end">
+        <form method="GET" action="{{ route($routePrefix . 'medical-records.index') }}" class="flex flex-wrap gap-4 items-end">
             <div class="w-full max-w-sm">
                 <label for="search" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Search</label>
                 <input 
@@ -55,7 +58,7 @@
                 </button>
                 
                 @if(request()->anyFilled(['search', 'type', 'status']))
-                    <a href="{{ route('staff.medical-records.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 dark:bg-zinc-800 dark:border-zinc-600 dark:text-gray-300 dark:hover:bg-zinc-700">
+                    <a href="{{ route($routePrefix . 'medical-records.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 dark:bg-zinc-800 dark:border-zinc-600 dark:text-gray-300 dark:hover:bg-zinc-700">
                         {{ __('Clear') }}
                     </a>
                 @endif
@@ -83,7 +86,7 @@
                                 {{ $record->date->format('M d, Y') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                                <a href="{{ route('staff.game-fowls.show', $record->gameFowl) }}" class="hover:text-indigo-600 dark:hover:text-indigo-400">
+                                <a href="{{ route($routePrefix . 'game-fowls.show', $record->gameFowl) }}" class="hover:text-indigo-600 dark:hover:text-indigo-400">
                                     {{ $record->gameFowl->tag_id }}
                                 </a>
                             </td>
@@ -109,13 +112,13 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex justify-end gap-2">
-                                    <a href="{{ route('staff.medical-records.show', $record) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
+                                    <a href="{{ route($routePrefix . 'medical-records.show', $record) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
                                         <span class="iconify" data-icon="heroicons:eye" data-width="20" data-height="20"></span>
                                     </a>
-                                    <a href="{{ route('staff.medical-records.edit', $record) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                                    <a href="{{ route($routePrefix . 'medical-records.edit', $record) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
                                         <span class="iconify" data-icon="heroicons:pencil-square" data-width="20" data-height="20"></span>
                                     </a>
-                                    <form action="{{ route('staff.medical-records.destroy', $record) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this medical record?');">
+                                    <form action="{{ route($routePrefix . 'medical-records.destroy', $record) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this medical record?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">

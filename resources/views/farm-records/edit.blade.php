@@ -1,14 +1,17 @@
 <x-layouts.app>
+    @php
+        $routePrefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+    @endphp
     <div class="max-w-4xl mx-auto">
         <div class="flex items-center justify-between mb-6">
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('Edit Farm Record') }}</h1>
-            <a href="{{ route('staff.farm-records.index') }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
+            <a href="{{ route($routePrefix . 'farm-records.index') }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
                 &larr; {{ __('Back to List') }}
             </a>
         </div>
 
         <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm sm:rounded-lg border border-zinc-200 dark:border-zinc-700 p-6">
-            <form method="POST" action="{{ route('staff.farm-records.update', $record->id) }}">
+            <form method="POST" action="{{ route($routePrefix . 'farm-records.update', $record->id) }}">
                 @csrf
                 @method('PUT')
 

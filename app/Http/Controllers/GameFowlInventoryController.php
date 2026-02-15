@@ -46,7 +46,8 @@ class GameFowlInventoryController extends Controller
 
         $this->inventoryRepository->create($request->all());
 
-        return redirect()->route('staff.game-fowl-inventory.index')
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'game-fowl-inventory.index')
             ->with('success', 'Inventory added successfully.');
     }
 
@@ -69,7 +70,8 @@ class GameFowlInventoryController extends Controller
 
         $this->inventoryRepository->update($id, $request->all());
 
-        return redirect()->route('staff.game-fowl-inventory.index')
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'game-fowl-inventory.index')
             ->with('success', 'Inventory updated successfully.');
     }
 
@@ -77,7 +79,8 @@ class GameFowlInventoryController extends Controller
     {
         $this->inventoryRepository->delete($id);
 
-        return redirect()->route('staff.game-fowl-inventory.index')
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'game-fowl-inventory.index')
             ->with('success', 'Inventory deleted successfully.');
     }
 }

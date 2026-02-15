@@ -34,7 +34,8 @@ class HatcheryRecordController extends Controller
     public function store(StoreHatcheryRecordRequest $request)
     {
         $this->hatcheryRecordService->createHatcheryRecord($request->validated());
-        return redirect()->route('staff.hatchery-records.index')->with('success', 'Hatchery record created successfully.');
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'hatchery-records.index')->with('success', 'Hatchery record created successfully.');
     }
 
     public function show($id)
@@ -53,12 +54,14 @@ class HatcheryRecordController extends Controller
     public function update(UpdateHatcheryRecordRequest $request, $id)
     {
         $this->hatcheryRecordService->updateHatcheryRecord($id, $request->validated());
-        return redirect()->route('staff.hatchery-records.index')->with('success', 'Hatchery record updated successfully.');
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'hatchery-records.index')->with('success', 'Hatchery record updated successfully.');
     }
 
     public function destroy($id)
     {
         $this->hatcheryRecordService->deleteHatcheryRecord($id);
-        return redirect()->route('staff.hatchery-records.index')->with('success', 'Hatchery record deleted successfully.');
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'hatchery-records.index')->with('success', 'Hatchery record deleted successfully.');
     }
 }

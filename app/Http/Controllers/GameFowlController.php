@@ -42,7 +42,8 @@ class GameFowlController extends Controller
     {
         $this->gameFowlService->createGameFowl($request->validated());
 
-        return redirect()->route('staff.game-fowls.index')
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'game-fowls.index')
             ->with('success', 'Game Fowl record created successfully.');
     }
 
@@ -72,7 +73,8 @@ class GameFowlController extends Controller
     {
         $this->gameFowlService->updateGameFowl($gameFowl->id, $request->validated());
 
-        return redirect()->route('staff.game-fowls.index')
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'game-fowls.index')
             ->with('success', 'Game Fowl record updated successfully.');
     }
 
@@ -83,7 +85,8 @@ class GameFowlController extends Controller
     {
         $this->gameFowlService->deleteGameFowl($gameFowl->id);
 
-        return redirect()->route('staff.game-fowls.index')
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'game-fowls.index')
             ->with('success', 'Game Fowl record deleted successfully.');
     }
 }

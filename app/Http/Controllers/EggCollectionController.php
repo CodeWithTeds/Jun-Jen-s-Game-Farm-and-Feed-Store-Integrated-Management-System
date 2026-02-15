@@ -37,7 +37,8 @@ class EggCollectionController extends Controller
     public function store(StoreEggCollectionRequest $request)
     {
         $this->eggCollectionService->createEggCollection($request->validated());
-        return redirect()->route('staff.egg-collections.index')->with('success', 'Egg collection created successfully.');
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'egg-collections.index')->with('success', 'Egg collection created successfully.');
     }
 
     public function show($id)
@@ -57,12 +58,14 @@ class EggCollectionController extends Controller
     public function update(UpdateEggCollectionRequest $request, $id)
     {
         $this->eggCollectionService->updateEggCollection($id, $request->validated());
-        return redirect()->route('staff.egg-collections.index')->with('success', 'Egg collection updated successfully.');
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'egg-collections.index')->with('success', 'Egg collection updated successfully.');
     }
 
     public function destroy($id)
     {
         $this->eggCollectionService->deleteEggCollection($id);
-        return redirect()->route('staff.egg-collections.index')->with('success', 'Egg collection deleted successfully.');
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'egg-collections.index')->with('success', 'Egg collection deleted successfully.');
     }
 }

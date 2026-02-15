@@ -61,7 +61,8 @@ class MedicalRecordController extends Controller
     {
         MedicalRecord::create($request->validated());
 
-        return redirect()->route('staff.medical-records.index')
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'medical-records.index')
             ->with('success', 'Medical record created successfully.');
     }
 
@@ -90,7 +91,8 @@ class MedicalRecordController extends Controller
     {
         $medicalRecord->update($request->validated());
 
-        return redirect()->route('staff.medical-records.index')
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'medical-records.index')
             ->with('success', 'Medical record updated successfully.');
     }
 
@@ -101,7 +103,8 @@ class MedicalRecordController extends Controller
     {
         $medicalRecord->delete();
 
-        return redirect()->route('staff.medical-records.index')
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'medical-records.index')
             ->with('success', 'Medical record deleted successfully.');
     }
 }

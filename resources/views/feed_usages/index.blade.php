@@ -1,7 +1,10 @@
 <x-layouts.app>
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('Feed Usage Logs') }}</h1>
-        <a href="{{ route('staff.feed-usages.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+        @php
+            $routePrefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        @endphp
+        <a href="{{ route($routePrefix . 'feed-usages.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
             {{ __('Record Usage') }}
         </a>
     </div>
@@ -13,7 +16,7 @@
     @endif
 
     <div class="mb-6 bg-white dark:bg-zinc-900 p-4 rounded-xl border border-zinc-200 dark:border-zinc-700 shadow-sm">
-        <form method="GET" action="{{ route('staff.feed-usages.index') }}" class="flex flex-wrap gap-4 items-end">
+        <form method="GET" action="{{ route($routePrefix . 'feed-usages.index') }}" class="flex flex-wrap gap-4 items-end">
             <div class="w-full max-w-sm">
                 <label for="search" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Search</label>
                 <input 
@@ -67,7 +70,7 @@
                 </button>
                 
                 @if(request()->anyFilled(['search', 'feed_id', 'chick_rearing_id', 'date_from', 'date_to']))
-                    <a href="{{ route('staff.feed-usages.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 dark:bg-zinc-800 dark:border-zinc-600 dark:text-gray-300 dark:hover:bg-zinc-700">
+                    <a href="{{ route($routePrefix . 'feed-usages.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 dark:bg-zinc-800 dark:border-zinc-600 dark:text-gray-300 dark:hover:bg-zinc-700">
                         {{ __('Clear') }}
                     </a>
                 @endif

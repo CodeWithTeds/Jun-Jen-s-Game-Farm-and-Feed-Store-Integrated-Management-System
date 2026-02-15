@@ -39,7 +39,8 @@ class FightScheduleController extends Controller
     {
         $this->fightScheduleRepository->create($request->validated());
 
-        return redirect()->route('staff.fight-schedules.index')
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'fight-schedules.index')
             ->with('success', 'Fight Schedule created successfully.');
     }
 
@@ -55,7 +56,8 @@ class FightScheduleController extends Controller
     {
         $this->fightScheduleRepository->update($id, $request->validated());
 
-        return redirect()->route('staff.fight-schedules.index')
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'fight-schedules.index')
             ->with('success', 'Fight Schedule updated successfully.');
     }
 
@@ -63,7 +65,8 @@ class FightScheduleController extends Controller
     {
         $this->fightScheduleRepository->delete($id);
 
-        return redirect()->route('staff.fight-schedules.index')
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'fight-schedules.index')
             ->with('success', 'Fight Schedule deleted successfully.');
     }
 }

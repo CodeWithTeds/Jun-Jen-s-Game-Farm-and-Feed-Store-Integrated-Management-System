@@ -1,11 +1,14 @@
 <x-layouts.app>
+    @php
+        $routePrefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+    @endphp
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('Game Fowl Details') }}</h1>
         <div class="flex gap-2">
-            <a href="{{ route('staff.game-fowls.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 dark:bg-zinc-700 dark:text-gray-300 dark:hover:bg-zinc-600">
+            <a href="{{ route($routePrefix . 'game-fowls.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 dark:bg-zinc-700 dark:text-gray-300 dark:hover:bg-zinc-600">
                 {{ __('Back to List') }}
             </a>
-            <a href="{{ route('staff.game-fowls.edit', $gameFowl) }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+            <a href="{{ route($routePrefix . 'game-fowls.edit', $gameFowl) }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                 {{ __('Edit') }}
             </a>
         </div>
@@ -177,7 +180,7 @@
                             <span class="iconify" data-icon="heroicons:heart" class="text-red-500"></span>
                             Medical Records
                         </h3>
-                        <a href="{{ route('staff.medical-records.create', ['game_fowl_id' => $gameFowl->id]) }}" class="text-xs font-semibold text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
+                        <a href="{{ route($routePrefix . 'medical-records.create', ['game_fowl_id' => $gameFowl->id]) }}" class="text-xs font-semibold text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
                             + Add Record
                         </a>
                     </div>
@@ -199,7 +202,7 @@
                                                     {{ $record->date->format('M d, Y') }} &bull; {{ $record->status }}
                                                 </p>
                                             </div>
-                                            <a href="{{ route('staff.medical-records.show', $record) }}" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                                            <a href="{{ route($routePrefix . 'medical-records.show', $record) }}" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
                                                 <span class="iconify" data-icon="heroicons:chevron-right" data-width="20" data-height="20"></span>
                                             </a>
                                         </div>

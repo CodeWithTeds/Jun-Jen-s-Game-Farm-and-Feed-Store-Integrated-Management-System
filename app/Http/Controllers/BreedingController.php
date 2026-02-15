@@ -46,7 +46,8 @@ class BreedingController extends Controller
 
         Breeding::create($validated);
 
-        return redirect()->route('staff.breedings.index')
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'breedings.index')
             ->with('success', 'Breeding record created successfully.');
     }
 
@@ -88,7 +89,8 @@ class BreedingController extends Controller
 
         $breeding->update($validated);
 
-        return redirect()->route('staff.breedings.index')
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'breedings.index')
             ->with('success', 'Breeding record updated successfully.');
     }
 
@@ -99,7 +101,8 @@ class BreedingController extends Controller
     {
         $breeding->delete();
 
-        return redirect()->route('staff.breedings.index')
+        $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        return redirect()->route($prefix . 'breedings.index')
             ->with('success', 'Breeding record deleted successfully.');
     }
 }
