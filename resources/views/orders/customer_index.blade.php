@@ -2,9 +2,9 @@
     <div class="p-6">
         <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Order History</h2>
         
-        <div class="overflow-x-auto bg-white dark:bg-zinc-800 rounded-lg shadow">
+        <div class="overflow-x-auto bg-white dark:bg-slate-800 rounded-lg shadow">
             <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
-                <thead class="bg-gray-50 dark:bg-zinc-700 text-xs uppercase text-gray-700 dark:text-gray-400">
+                <thead class="bg-gray-50 dark:bg-slate-700 text-xs uppercase text-gray-700 dark:text-gray-400">
                     <tr>
                         <th class="px-6 py-3">Order Number</th>
                         <th class="px-6 py-3">Date</th>
@@ -16,7 +16,7 @@
                 </thead>
                 <tbody>
                     @forelse($orders as $order)
-                        <tr class="border-b bg-white dark:border-zinc-700 dark:bg-zinc-800">
+                        <tr class="border-b bg-white dark:border-slate-700 dark:bg-slate-800">
                             <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
                                 {{ $order->order_number }}
                             </td>
@@ -37,7 +37,7 @@
                                 {{ ucfirst($order->payment_method) }}
                             </td>
                             <td class="px-6 py-4 text-right">
-                                <a href="{{ route('customer.orders.show', $order->id) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium">View</a>
+                                <a href="{{ route('customer.orders.show', $order->id) }}" class="text-emerald-600 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300 font-medium">View</a>
                             </td>
                         </tr>
                     @empty

@@ -1,4 +1,4 @@
-<div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-700 p-6 shadow-sm"
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm"
     x-data="{
         labels: @js($labels),
         values: @js($values),
@@ -38,7 +38,7 @@
         }
     }"
 >
-    <h3 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-4">Egg Collection Trend (Last 7 Days)</h3>
+    <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">Egg Collection Trend (Last 7 Days)</h3>
     <div class="relative h-64 w-full">
         <canvas x-ref="canvas"></canvas>
     </div>

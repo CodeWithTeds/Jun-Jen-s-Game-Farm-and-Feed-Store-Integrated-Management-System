@@ -6,7 +6,7 @@
                 $routePrefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
             @endphp
             <div class="flex gap-2">
-                <a href="{{ route($routePrefix . 'fight-schedules.create') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                <a href="{{ route($routePrefix . 'fight-schedules.create') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 focus:bg-emerald-700 active:bg-emerald-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150">
                     {{ __('Schedule Fight') }}
                 </a>
             </div>
@@ -19,24 +19,24 @@
         @endif
 
         <!-- Tabs -->
-        <div class="border-b border-gray-200 dark:border-zinc-700 mb-6">
+        <div class="border-b border-gray-200 dark:border-slate-700 mb-6">
             <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                <button @click="tab = 'upcoming'" :class="{ 'border-indigo-500 text-indigo-600 dark:text-indigo-400': tab === 'upcoming', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300': tab !== 'upcoming' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors">
+                <button @click="tab = 'upcoming'" :class="{ 'border-emerald-500 text-emerald-600 dark:text-emerald-400': tab === 'upcoming', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300': tab !== 'upcoming' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors">
                     {{ __('Upcoming Fights') }}
-                    <span class="ml-2 py-0.5 px-2.5 rounded-full text-xs font-medium bg-gray-100 text-gray-900 dark:bg-zinc-700 dark:text-white">{{ $upcomingSchedules->count() }}</span>
+                    <span class="ml-2 py-0.5 px-2.5 rounded-full text-xs font-medium bg-gray-100 text-gray-900 dark:bg-slate-700 dark:text-white">{{ $upcomingSchedules->count() }}</span>
                 </button>
-                <button @click="tab = 'history'" :class="{ 'border-indigo-500 text-indigo-600 dark:text-indigo-400': tab === 'history', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300': tab !== 'history' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors">
+                <button @click="tab = 'history'" :class="{ 'border-emerald-500 text-emerald-600 dark:text-emerald-400': tab === 'history', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300': tab !== 'history' }" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors">
                     {{ __('Fight History') }}
-                    <span class="ml-2 py-0.5 px-2.5 rounded-full text-xs font-medium bg-gray-100 text-gray-900 dark:bg-zinc-700 dark:text-white">{{ $historySchedules->count() }}</span>
+                    <span class="ml-2 py-0.5 px-2.5 rounded-full text-xs font-medium bg-gray-100 text-gray-900 dark:bg-slate-700 dark:text-white">{{ $historySchedules->count() }}</span>
                 </button>
             </nav>
         </div>
 
         <!-- Upcoming Tab -->
-        <div x-show="tab === 'upcoming'" class="bg-white dark:bg-zinc-800 overflow-hidden shadow-sm sm:rounded-lg border border-zinc-200 dark:border-zinc-700">
+        <div x-show="tab === 'upcoming'" class="bg-white dark:bg-slate-800 overflow-hidden shadow-sm sm:rounded-lg border border-slate-200 dark:border-slate-700">
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200 dark:divide-zinc-700">
-                    <thead class="bg-gray-50 dark:bg-zinc-900">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
+                    <thead class="bg-gray-50 dark:bg-slate-900">
                         <tr>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Date/Time') }}</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Fighter (Tag ID)') }}</th>
@@ -46,9 +46,9 @@
                             <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Actions') }}</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white dark:bg-zinc-800 divide-y divide-gray-200 dark:divide-zinc-700">
+                    <tbody class="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
                         @forelse ($upcomingSchedules as $schedule)
-                            <tr class="hover:bg-gray-50 dark:hover:bg-zinc-700/50 transition-colors">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                                     {{ $schedule->date->format('M d, Y') }} <br>
                                     <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($schedule->time)->format('h:i A') }}</span>
@@ -69,7 +69,7 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="{{ route($routePrefix . 'fight-schedules.edit', $schedule->id) }}" wire:navigate class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 mr-3">{{ __('Edit') }}</a>
+                                    <a href="{{ route($routePrefix . 'fight-schedules.edit', $schedule->id) }}" wire:navigate class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 mr-3">{{ __('Edit') }}</a>
                                     <form action="{{ route($routePrefix . 'fight-schedules.destroy', $schedule->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this schedule?');">
                                         @csrf
                                         @method('DELETE')
@@ -90,10 +90,10 @@
         </div>
 
         <!-- History Tab -->
-        <div x-show="tab === 'history'" style="display: none;" class="bg-white dark:bg-zinc-800 overflow-hidden shadow-sm sm:rounded-lg border border-zinc-200 dark:border-zinc-700">
+        <div x-show="tab === 'history'" style="display: none;" class="bg-white dark:bg-slate-800 overflow-hidden shadow-sm sm:rounded-lg border border-slate-200 dark:border-slate-700">
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200 dark:divide-zinc-700">
-                    <thead class="bg-gray-50 dark:bg-zinc-900">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
+                    <thead class="bg-gray-50 dark:bg-slate-900">
                         <tr>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Date/Time') }}</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Fighter (Tag ID)') }}</th>
@@ -104,9 +104,9 @@
                             <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Actions') }}</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white dark:bg-zinc-800 divide-y divide-gray-200 dark:divide-zinc-700">
+                    <tbody class="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
                         @forelse ($historySchedules as $schedule)
-                            <tr class="hover:bg-gray-50 dark:hover:bg-zinc-700/50 transition-colors">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                                     {{ $schedule->date->format('M d, Y') }} <br>
                                     <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($schedule->time)->format('h:i A') }}</span>
@@ -137,7 +137,7 @@
                                     {{ $schedule->result ?? '-' }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="{{ route($routePrefix . 'fight-schedules.edit', $schedule->id) }}" wire:navigate class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 mr-3">{{ __('Edit') }}</a>
+                                    <a href="{{ route($routePrefix . 'fight-schedules.edit', $schedule->id) }}" wire:navigate class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 mr-3">{{ __('Edit') }}</a>
                                     <form action="{{ route($routePrefix . 'fight-schedules.destroy', $schedule->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this schedule?');">
                                         @csrf
                                         @method('DELETE')

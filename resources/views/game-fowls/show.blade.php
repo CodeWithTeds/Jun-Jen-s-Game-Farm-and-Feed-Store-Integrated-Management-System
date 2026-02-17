@@ -5,28 +5,30 @@
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('Game Fowl Details') }}</h1>
         <div class="flex gap-2">
-            <a href="{{ route($routePrefix . 'game-fowls.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 dark:bg-zinc-700 dark:text-gray-300 dark:hover:bg-zinc-600">
+            <a href="{{ route($routePrefix . 'game-fowls.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150 dark:bg-slate-700 dark:text-gray-300 dark:hover:bg-slate-600">
                 {{ __('Back to List') }}
             </a>
-            <a href="{{ route($routePrefix . 'game-fowls.edit', $gameFowl) }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+            @if(auth()->user()->isAdmin())
+            <a href="{{ route($routePrefix . 'game-fowls.edit', $gameFowl) }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 focus:bg-emerald-700 active:bg-emerald-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150">
                 {{ __('Edit') }}
             </a>
+            @endif
         </div>
     </div>
 
-    <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm sm:rounded-lg border border-zinc-200 dark:border-zinc-700 p-6">
+    <div class="bg-white dark:bg-slate-900 overflow-hidden shadow-sm sm:rounded-lg border border-slate-200 dark:border-slate-700 p-6">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Left Column: Image & Identity -->
             <div class="space-y-6">
                 <!-- Image -->
                 <div>
-                    <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 dark:bg-zinc-800 xl:aspect-w-7 xl:aspect-h-8">
+                    <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 dark:bg-slate-800 xl:aspect-w-7 xl:aspect-h-8">
                         <img src="{{ $gameFowl->image ? Storage::url($gameFowl->image) : 'https://ui-avatars.com/api/?name=' . urlencode($gameFowl->name) . '&background=random&size=512' }}" alt="{{ $gameFowl->name }}" class="h-full w-full object-cover object-center group-hover:opacity-75 rounded-lg shadow-sm">
                     </div>
                 </div>
 
                 <!-- Identity Card -->
-                <div class="bg-gray-50 dark:bg-zinc-800/50 rounded-lg p-4 border border-gray-100 dark:border-zinc-700/50">
+                <div class="bg-gray-50 dark:bg-slate-800/50 rounded-lg p-4 border border-gray-100 dark:border-slate-700/50">
                     <div class="space-y-4">
                         <div>
                             <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tag ID</label>
@@ -57,10 +59,10 @@
                 <!-- Physical Characteristics -->
                 <div>
                     <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                        <span class="iconify" data-icon="heroicons:sparkles" class="text-indigo-500"></span>
+                        <span class="iconify" data-icon="heroicons:sparkles" class="text-emerald-500"></span>
                         Physical Characteristics
                     </h3>
-                    <div class="bg-gray-50 dark:bg-zinc-800/30 rounded-lg p-5 border border-gray-100 dark:border-zinc-700/30">
+                    <div class="bg-gray-50 dark:bg-slate-800/30 rounded-lg p-5 border border-gray-100 dark:border-slate-700/30">
                         <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
                             <div class="sm:col-span-1">
                                 <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Growth Phase</dt>
@@ -84,7 +86,7 @@
                         <span class="iconify" data-icon="heroicons:heart" class="text-red-500"></span>
                         Health & History
                     </h3>
-                    <div class="bg-gray-50 dark:bg-zinc-800/30 rounded-lg p-5 border border-gray-100 dark:border-zinc-700/30">
+                    <div class="bg-gray-50 dark:bg-slate-800/30 rounded-lg p-5 border border-gray-100 dark:border-slate-700/30">
                         <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
                             <div class="sm:col-span-1">
                                 <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Date Hatched</dt>
@@ -129,10 +131,10 @@
                     </div>
                     
                     @if($gameFowl->fightSchedules->count() > 0)
-                        <div class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg overflow-hidden">
-                            <ul class="divide-y divide-gray-200 dark:divide-zinc-700">
+                        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
+                            <ul class="divide-y divide-gray-200 dark:divide-slate-700">
                                 @foreach($gameFowl->fightSchedules as $fight)
-                                    <li class="p-4 hover:bg-gray-50 dark:hover:bg-zinc-700/50 transition-colors">
+                                    <li class="p-4 hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors">
                                         <div class="flex items-center justify-between">
                                             <div>
                                                 <p class="text-sm font-medium text-gray-900 dark:text-white">
@@ -167,7 +169,7 @@
                             </ul>
                         </div>
                     @else
-                        <div class="text-sm text-gray-500 dark:text-gray-400 italic bg-gray-50 dark:bg-zinc-800/30 p-4 rounded-lg border border-gray-100 dark:border-zinc-700/30">
+                        <div class="text-sm text-gray-500 dark:text-gray-400 italic bg-gray-50 dark:bg-slate-800/30 p-4 rounded-lg border border-gray-100 dark:border-slate-700/30">
                             No fight history recorded.
                         </div>
                     @endif
@@ -180,16 +182,16 @@
                             <span class="iconify" data-icon="heroicons:heart" class="text-red-500"></span>
                             Medical Records
                         </h3>
-                        <a href="{{ route($routePrefix . 'medical-records.create', ['game_fowl_id' => $gameFowl->id]) }}" class="text-xs font-semibold text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
+                        <a href="{{ route($routePrefix . 'medical-records.create', ['game_fowl_id' => $gameFowl->id]) }}" class="text-xs font-semibold text-emerald-600 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300">
                             + Add Record
                         </a>
                     </div>
                     
                     @if($gameFowl->medicalRecords->count() > 0)
-                        <div class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg overflow-hidden">
-                            <ul class="divide-y divide-gray-200 dark:divide-zinc-700">
+                        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
+                            <ul class="divide-y divide-gray-200 dark:divide-slate-700">
                                 @foreach($gameFowl->medicalRecords as $record)
-                                    <li class="p-4 hover:bg-gray-50 dark:hover:bg-zinc-700/50 transition-colors">
+                                    <li class="p-4 hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors">
                                         <div class="flex items-center justify-between">
                                             <div>
                                                 <p class="text-sm font-medium text-gray-900 dark:text-white">
@@ -211,7 +213,7 @@
                             </ul>
                         </div>
                     @else
-                        <div class="text-sm text-gray-500 dark:text-gray-400 italic bg-gray-50 dark:bg-zinc-800/30 p-4 rounded-lg border border-gray-100 dark:border-zinc-700/30">
+                        <div class="text-sm text-gray-500 dark:text-gray-400 italic bg-gray-50 dark:bg-slate-800/30 p-4 rounded-lg border border-gray-100 dark:border-slate-700/30">
                             No medical records found.
                         </div>
                     @endif

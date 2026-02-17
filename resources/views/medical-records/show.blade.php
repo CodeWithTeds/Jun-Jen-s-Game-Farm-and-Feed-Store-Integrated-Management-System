@@ -2,16 +2,16 @@
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('Medical Record Details') }}</h1>
         <div class="flex gap-2">
-            <a href="{{ route('staff.medical-records.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 dark:bg-zinc-700 dark:text-gray-300 dark:hover:bg-zinc-600">
+            <a href="{{ route('staff.medical-records.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150 dark:bg-slate-700 dark:text-gray-300 dark:hover:bg-slate-600">
                 {{ __('Back to List') }}
             </a>
-            <a href="{{ route('staff.medical-records.edit', $medicalRecord) }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+            <a href="{{ route('staff.medical-records.edit', $medicalRecord) }}" class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 focus:bg-emerald-700 active:bg-emerald-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150">
                 {{ __('Edit') }}
             </a>
         </div>
     </div>
 
-    <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm sm:rounded-lg border border-zinc-200 dark:border-zinc-700 p-6">
+    <div class="bg-white dark:bg-slate-900 overflow-hidden shadow-sm sm:rounded-lg border border-slate-200 dark:border-slate-700 p-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <!-- Record Information -->
             <div>
@@ -24,7 +24,7 @@
                     <div class="sm:col-span-1">
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Game Fowl</dt>
                         <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">
-                            <a href="{{ route('staff.game-fowls.show', $medicalRecord->gameFowl) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
+                            <a href="{{ route('staff.game-fowls.show', $medicalRecord->gameFowl) }}" class="text-emerald-600 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300">
                                 {{ $medicalRecord->gameFowl->tag_id }} - {{ $medicalRecord->gameFowl->name }}
                             </a>
                         </dd>
@@ -85,7 +85,7 @@
             <!-- Notes -->
             <div class="md:col-span-2">
                 <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white mb-4">Notes</h3>
-                <div class="bg-gray-50 dark:bg-zinc-800/50 rounded-lg p-4 text-sm text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-zinc-700">
+                <div class="bg-gray-50 dark:bg-slate-800/50 rounded-lg p-4 text-sm text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-slate-700">
                     {{ $medicalRecord->notes ?? 'No notes available.' }}
                 </div>
             </div>

@@ -1,11 +1,11 @@
-<div class="bg-white dark:bg-zinc-900 rounded-3xl overflow-hidden shadow-lg border border-zinc-100 dark:border-zinc-800">
-    <div class="p-6 border-b border-zinc-100 dark:border-zinc-800 flex justify-between items-center bg-gray-50/50 dark:bg-zinc-800/30">
+<div class="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-800">
+    <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-gray-50/50 dark:bg-slate-800/30">
         <div>
-            <h3 class="text-lg font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+            <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
                 <flux:icon name="clock" class="w-5 h-5 text-green-500" />
                 Recent Orders
             </h3>
-            <p class="text-sm text-zinc-500 mt-1">Track your latest purchases</p>
+            <p class="text-sm text-slate-500 mt-1">Track your latest purchases</p>
         </div>
         <a href="{{ route('customer.orders.index') }}" class="text-sm font-medium text-green-600 hover:text-green-700 flex items-center gap-1 transition-colors">
             View All
@@ -15,7 +15,7 @@
     <div class="overflow-x-auto">
         <table class="w-full text-left text-sm">
             <thead>
-                <tr class="text-zinc-500 border-b border-zinc-100 dark:border-zinc-800">
+                <tr class="text-slate-500 border-b border-slate-100 dark:border-slate-800">
                     <th class="px-6 py-4 font-medium">Order ID</th>
                     <th class="px-6 py-4 font-medium">Date</th>
                     <th class="px-6 py-4 font-medium">Items</th>
@@ -24,20 +24,20 @@
                     <th class="px-6 py-4 font-medium text-right">Actions</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
                 @forelse($recentOrders as $order)
-                    <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors group">
-                        <td class="px-6 py-4 font-medium text-zinc-900 dark:text-zinc-100">
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+                        <td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">
                             #{{ $order->id }}
                         </td>
-                        <td class="px-6 py-4 text-zinc-500">
+                        <td class="px-6 py-4 text-slate-500">
                             {{ $order->created_at->format('M d, Y') }}
-                            <div class="text-xs text-zinc-400">{{ $order->created_at->format('h:i A') }}</div>
+                            <div class="text-xs text-slate-400">{{ $order->created_at->format('h:i A') }}</div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex -space-x-2 overflow-hidden">
                                 @foreach($order->items->take(3) as $item)
-                                    <div class="inline-block h-8 w-8 rounded-full ring-2 ring-white dark:ring-zinc-900 bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500 shadow-sm overflow-hidden" title="{{ $item->feed->feed_name }}">
+                                    <div class="inline-block h-8 w-8 rounded-full ring-2 ring-white dark:ring-slate-900 bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500 shadow-sm overflow-hidden" title="{{ $item->feed->feed_name }}">
                                         @if($item->feed->image)
                                             <img src="{{ asset('storage/' . $item->feed->image) }}" alt="{{ $item->feed->feed_name }}" class="w-full h-full object-cover">
                                         @else
@@ -46,13 +46,13 @@
                                     </div>
                                 @endforeach
                                 @if($order->items->count() > 3)
-                                    <div class="inline-block h-8 w-8 rounded-full ring-2 ring-white dark:ring-zinc-900 bg-gray-50 flex items-center justify-center text-xs font-bold text-gray-500 shadow-sm">
+                                    <div class="inline-block h-8 w-8 rounded-full ring-2 ring-white dark:ring-slate-900 bg-gray-50 flex items-center justify-center text-xs font-bold text-gray-500 shadow-sm">
                                         +{{ $order->items->count() - 3 }}
                                     </div>
                                 @endif
                             </div>
                         </td>
-                        <td class="px-6 py-4 font-medium text-zinc-900 dark:text-zinc-100">
+                        <td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">
                             ₱{{ number_format($order->total_amount, 2) }}
                         </td>
                         <td class="px-6 py-4">
@@ -72,17 +72,17 @@
                             </span>
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <a href="{{ route('customer.orders.show', $order) }}" class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white border border-zinc-200 text-zinc-400 hover:text-green-600 hover:border-green-200 hover:bg-green-50 transition-all shadow-sm">
+                            <a href="{{ route('customer.orders.show', $order) }}" class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white border border-slate-200 text-slate-400 hover:text-green-600 hover:border-green-200 hover:bg-green-50 transition-all shadow-sm">
                                 <flux:icon name="eye" class="w-4 h-4" />
                             </a>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="px-6 py-12 text-center text-zinc-500">
+                        <td colspan="6" class="px-6 py-12 text-center text-slate-500">
                             <div class="flex flex-col items-center justify-center">
-                                <div class="bg-zinc-100 rounded-full p-4 mb-3">
-                                    <flux:icon name="shopping-cart" class="w-6 h-6 text-zinc-400" />
+                                <div class="bg-slate-100 rounded-full p-4 mb-3">
+                                    <flux:icon name="shopping-cart" class="w-6 h-6 text-slate-400" />
                                 </div>
                                 <p class="font-medium">No orders yet</p>
                                 <p class="text-sm mt-1">Start shopping to see your orders here.</p>

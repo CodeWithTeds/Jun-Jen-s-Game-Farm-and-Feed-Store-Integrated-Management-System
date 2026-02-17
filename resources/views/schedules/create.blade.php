@@ -2,12 +2,12 @@
     <div class="max-w-4xl mx-auto">
         <div class="flex items-center justify-between mb-6">
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('Create Schedule / Reminder') }}</h1>
-            <a href="{{ route('schedules.index') }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
+            <a href="{{ route('schedules.index') }}" class="text-emerald-600 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300">
                 &larr; {{ __('Back to List') }}
             </a>
         </div>
 
-        <div class="bg-white dark:bg-zinc-900 overflow-hidden shadow-sm sm:rounded-lg border border-zinc-200 dark:border-zinc-700 p-6">
+        <div class="bg-white dark:bg-slate-900 overflow-hidden shadow-sm sm:rounded-lg border border-slate-200 dark:border-slate-700 p-6">
             <form method="POST" action="{{ route('schedules.store') }}">
                 @csrf
 
@@ -15,7 +15,7 @@
                     <!-- Title -->
                     <div class="col-span-2">
                         <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Title') }}</label>
-                        <input id="title" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow" type="text" name="title" value="{{ old('title') }}" required autofocus />
+                        <input id="title" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" type="text" name="title" value="{{ old('title') }}" required autofocus />
                         @error('title')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
@@ -24,7 +24,7 @@
                     <!-- Schedule Type -->
                     <div>
                         <label for="schedule_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Schedule Type') }}</label>
-                        <select id="schedule_type" name="schedule_type" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow" required>
+                        <select id="schedule_type" name="schedule_type" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required>
                             <option value="">Select Type</option>
                             <option value="Feeding" {{ old('schedule_type') == 'Feeding' ? 'selected' : '' }}>Feeding</option>
                             <option value="Vaccination" {{ old('schedule_type') == 'Vaccination' ? 'selected' : '' }}>Vaccination</option>
@@ -40,7 +40,7 @@
                     <!-- Related Module -->
                     <div>
                         <label for="related_module" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Related Module') }}</label>
-                        <select id="related_module" name="related_module" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow" required>
+                        <select id="related_module" name="related_module" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required>
                             <option value="">Select Module</option>
                             <option value="Chick Rearing" {{ old('related_module') == 'Chick Rearing' ? 'selected' : '' }}>Chick Rearing</option>
                             <option value="Feeding" {{ old('related_module') == 'Feeding' ? 'selected' : '' }}>Feeding</option>
@@ -56,7 +56,7 @@
                     <!-- Target ID -->
                     <div>
                         <label for="target_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Target ID (Optional)') }}</label>
-                        <input id="target_id" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow" type="number" name="target_id" value="{{ old('target_id') }}" />
+                        <input id="target_id" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" type="number" name="target_id" value="{{ old('target_id') }}" />
                         <p class="text-xs text-gray-500 mt-1">ID of the related record (e.g., Chick Group ID, Feed ID)</p>
                         @error('target_id')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -66,7 +66,7 @@
                     <!-- Assigned To -->
                     <div>
                         <label for="assigned_to" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Assigned To') }}</label>
-                        <select id="assigned_to" name="assigned_to" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow">
+                        <select id="assigned_to" name="assigned_to" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow">
                             <option value="">Unassigned</option>
                             @foreach($users as $user)
                                 <option value="{{ $user->id }}" {{ old('assigned_to') == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
@@ -80,7 +80,7 @@
                     <!-- Start Date -->
                     <div>
                         <label for="start_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Start Date') }}</label>
-                        <input id="start_date" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow" type="date" name="start_date" value="{{ old('start_date', date('Y-m-d')) }}" required />
+                        <input id="start_date" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" type="date" name="start_date" value="{{ old('start_date', date('Y-m-d')) }}" required />
                         @error('start_date')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
@@ -89,7 +89,7 @@
                     <!-- Due Date -->
                     <div>
                         <label for="due_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Due Date (Optional)') }}</label>
-                        <input id="due_date" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow" type="date" name="due_date" value="{{ old('due_date') }}" />
+                        <input id="due_date" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" type="date" name="due_date" value="{{ old('due_date') }}" />
                         @error('due_date')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
@@ -98,7 +98,7 @@
                     <!-- Repeat Type -->
                     <div>
                         <label for="repeat_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Repeat') }}</label>
-                        <select id="repeat_type" name="repeat_type" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow" required>
+                        <select id="repeat_type" name="repeat_type" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required>
                             <option value="None" {{ old('repeat_type') == 'None' ? 'selected' : '' }}>None</option>
                             <option value="Daily" {{ old('repeat_type') == 'Daily' ? 'selected' : '' }}>Daily</option>
                             <option value="Weekly" {{ old('repeat_type') == 'Weekly' ? 'selected' : '' }}>Weekly</option>
@@ -112,7 +112,7 @@
                     <!-- Priority -->
                     <div>
                         <label for="priority" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Priority') }}</label>
-                        <select id="priority" name="priority" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow" required>
+                        <select id="priority" name="priority" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required>
                             <option value="Low" {{ old('priority') == 'Low' ? 'selected' : '' }}>Low</option>
                             <option value="Medium" {{ old('priority', 'Medium') == 'Medium' ? 'selected' : '' }}>Medium</option>
                             <option value="High" {{ old('priority') == 'High' ? 'selected' : '' }}>High</option>
@@ -125,7 +125,7 @@
                     <!-- Status -->
                     <div>
                         <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Status') }}</label>
-                        <select id="status" name="status" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow" required>
+                        <select id="status" name="status" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required>
                             <option value="Pending" {{ old('status', 'Pending') == 'Pending' ? 'selected' : '' }}>Pending</option>
                             <option value="Completed" {{ old('status') == 'Completed' ? 'selected' : '' }}>Completed</option>
                             <option value="Missed" {{ old('status') == 'Missed' ? 'selected' : '' }}>Missed</option>
@@ -138,7 +138,7 @@
                     <!-- Reminder Time -->
                     <div>
                         <label for="reminder_time" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Reminder Time (Optional)') }}</label>
-                        <input id="reminder_time" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow" type="time" name="reminder_time" value="{{ old('reminder_time') }}" />
+                        <input id="reminder_time" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" type="time" name="reminder_time" value="{{ old('reminder_time') }}" />
                         @error('reminder_time')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
@@ -147,7 +147,7 @@
                     <!-- Notification Method -->
                     <div>
                         <label for="notification_method" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Notification Method') }}</label>
-                        <select id="notification_method" name="notification_method" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow" required>
+                        <select id="notification_method" name="notification_method" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required>
                             <option value="System" {{ old('notification_method', 'System') == 'System' ? 'selected' : '' }}>System</option>
                             <option value="Email" {{ old('notification_method') == 'Email' ? 'selected' : '' }}>Email</option>
                         </select>
@@ -159,7 +159,7 @@
                     <!-- Notes -->
                     <div class="col-span-2">
                         <label for="notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Notes') }}</label>
-                        <textarea id="notes" name="notes" rows="3" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:focus:border-indigo-500 transition-shadow">{{ old('notes') }}</textarea>
+                        <textarea id="notes" name="notes" rows="3" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow">{{ old('notes') }}</textarea>
                         @error('notes')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
@@ -167,7 +167,7 @@
                 </div>
 
                 <div class="flex items-center justify-end">
-                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 focus:bg-emerald-700 active:bg-emerald-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150">
                         {{ __('Create Schedule') }}
                     </button>
                 </div>

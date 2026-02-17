@@ -1,24 +1,24 @@
 <div class="flex h-[calc(100vh-6rem)] gap-6">
     <!-- Left Side: Order Menu -->
-    <div class="flex-1 flex flex-col bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-700 overflow-hidden">
+    <div class="flex-1 flex flex-col bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
         <!-- Header -->
-        <div class="p-4 border-b border-zinc-200 dark:border-zinc-700 flex justify-between items-center">
+        <div class="p-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
             <h2 class="text-xl font-bold text-gray-900 dark:text-white">Order Menu</h2>
             <div class="relative w-64">
-                <input type="text" wire:model.live="search" placeholder="Search..." class="w-full pl-10 pr-4 py-2 rounded-lg border border-zinc-300 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white focus:ring-2 focus:ring-indigo-500">
+                <input type="text" wire:model.live="search" placeholder="Search..." class="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white focus:ring-2 focus:ring-emerald-500">
                 <svg class="w-5 h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             </div>
         </div>
 
         <!-- Categories -->
-        <div class="p-4 border-b border-zinc-200 dark:border-zinc-700 flex gap-2 overflow-x-auto">
+        <div class="p-4 border-b border-slate-200 dark:border-slate-700 flex gap-2 overflow-x-auto">
             <button wire:click="$set('feedType', '')" 
-               class="px-4 py-2 rounded-full font-medium whitespace-nowrap {{ $feedType === '' ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300' : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-zinc-800 dark:text-gray-300 dark:hover:bg-zinc-700' }}">
+               class="px-4 py-2 rounded-full font-medium whitespace-nowrap {{ $feedType === '' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300' : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-slate-800 dark:text-gray-300 dark:hover:bg-slate-700' }}">
                 All Items
             </button>
             @foreach($categories as $category)
                 <button wire:click="$set('feedType', '{{ $category }}')" 
-                   class="px-4 py-2 rounded-full font-medium whitespace-nowrap {{ $feedType === $category ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300' : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-zinc-800 dark:text-gray-300 dark:hover:bg-zinc-700' }}">
+                   class="px-4 py-2 rounded-full font-medium whitespace-nowrap {{ $feedType === $category ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300' : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-slate-800 dark:text-gray-300 dark:hover:bg-slate-700' }}">
                     {{ $category }}
                 </button>
             @endforeach
@@ -27,8 +27,8 @@
         <!-- Grid -->
         <div class="flex-1 overflow-y-auto p-4 relative">
             <!-- Loading Overlay -->
-            <div wire:loading.flex wire:target="search, feedType" class="absolute inset-0 bg-white/50 dark:bg-zinc-900/50 flex items-center justify-center z-10">
-                <svg class="animate-spin h-8 w-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <div wire:loading.flex wire:target="search, feedType" class="absolute inset-0 bg-white/50 dark:bg-slate-900/50 flex items-center justify-center z-10">
+                <svg class="animate-spin h-8 w-8 text-emerald-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
@@ -36,8 +36,8 @@
 
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 @foreach($feeds as $feed)
-                    <div class="bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 shadow-sm hover:shadow-md transition cursor-pointer relative group" wire:click="addToCart({{ $feed->id }})">
-                        <div class="aspect-square w-full overflow-hidden rounded-t-xl bg-gray-100 dark:bg-zinc-700 relative">
+                    <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition cursor-pointer relative group" wire:click="addToCart({{ $feed->id }})">
+                        <div class="aspect-square w-full overflow-hidden rounded-t-xl bg-gray-100 dark:bg-slate-700 relative">
                             @if($feed->image)
                                 <img src="{{ Storage::url($feed->image) }}" alt="{{ $feed->feed_name }}" class="w-full h-full object-cover">
                             @else
@@ -45,7 +45,7 @@
                                     <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                 </div>
                             @endif
-                            <div class="absolute bottom-2 right-2 bg-white dark:bg-zinc-900 px-2 py-1 rounded-lg text-xs font-bold shadow-sm">
+                            <div class="absolute bottom-2 right-2 bg-white dark:bg-slate-900 px-2 py-1 rounded-lg text-xs font-bold shadow-sm">
                                 ₱{{ number_format($feed->price, 2) }}
                             </div>
                             <!-- Hover Overlay for View Details -->
@@ -71,29 +71,29 @@
     </div>
 
     <!-- Right Side: Order Details -->
-    <div class="w-96 flex flex-col bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-700 h-full">
-        <div class="p-4 border-b border-zinc-200 dark:border-zinc-700 flex justify-between items-center">
+    <div class="w-96 flex flex-col bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 h-full">
+        <div class="p-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
             <h2 class="text-xl font-bold text-gray-900 dark:text-white">Order Details</h2>
-            <span class="px-2 py-1 bg-gray-100 dark:bg-zinc-800 rounded text-xs font-medium text-gray-600 dark:text-gray-400">Table</span>
+            <span class="px-2 py-1 bg-gray-100 dark:bg-slate-800 rounded text-xs font-medium text-gray-600 dark:text-gray-400">Table</span>
         </div>
 
-        <div class="p-4 space-y-4 border-b border-zinc-200 dark:border-zinc-700">
+        <div class="p-4 space-y-4 border-b border-slate-200 dark:border-slate-700">
             <div>
                 <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Customer Name</label>
-                <div class="w-full p-2 bg-gray-50 dark:bg-zinc-800 rounded border border-zinc-200 dark:border-zinc-700 text-sm">
+                <div class="w-full p-2 bg-gray-50 dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 text-sm">
                     {{ auth()->user()->name }}
                 </div>
             </div>
             <div>
                 <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Note</label>
-                <input type="text" wire:model="note" class="w-full p-2 bg-white dark:bg-zinc-800 rounded border border-zinc-200 dark:border-zinc-700 text-sm focus:ring-2 focus:ring-indigo-500" placeholder="Add a note...">
+                <input type="text" wire:model="note" class="w-full p-2 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 text-sm focus:ring-2 focus:ring-emerald-500" placeholder="Add a note...">
             </div>
         </div>
 
         <!-- Cart Items -->
         <div class="flex-1 overflow-y-auto p-4 space-y-3 relative">
-             <div wire:loading.flex wire:target="refreshCart, addToCart, updateQuantity, removeFromCart, checkout" class="absolute inset-0 bg-white/50 dark:bg-zinc-900/50 flex items-center justify-center z-10">
-                <svg class="animate-spin h-8 w-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+             <div wire:loading.flex wire:target="refreshCart, addToCart, updateQuantity, removeFromCart, checkout" class="absolute inset-0 bg-white/50 dark:bg-slate-900/50 flex items-center justify-center z-10">
+                <svg class="animate-spin h-8 w-8 text-emerald-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
@@ -105,8 +105,8 @@
                 </div>
             @else
                 @foreach($cart->items as $item)
-                    <div class="flex gap-3 bg-gray-50 dark:bg-zinc-800/50 p-2 rounded-lg relative group">
-                        <div class="w-12 h-12 rounded bg-gray-200 dark:bg-zinc-700 overflow-hidden flex-shrink-0">
+                    <div class="flex gap-3 bg-gray-50 dark:bg-slate-800/50 p-2 rounded-lg relative group">
+                        <div class="w-12 h-12 rounded bg-gray-200 dark:bg-slate-700 overflow-hidden flex-shrink-0">
                             @if($item->feed->image)
                                 <img src="{{ Storage::url($item->feed->image) }}" class="w-full h-full object-cover">
                             @endif
@@ -115,9 +115,9 @@
                             <h4 class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ $item->feed->feed_name }}</h4>
                             <div class="text-xs text-gray-500 dark:text-gray-400">₱{{ number_format($item->feed->price, 2) }}</div>
                             <div class="flex items-center gap-2 mt-2">
-                                <button wire:click="updateQuantity({{ $item->id }}, {{ $item->quantity - 1 }})" class="w-6 h-6 flex items-center justify-center rounded bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 hover:bg-gray-50 dark:hover:bg-zinc-600">-</button>
+                                <button wire:click="updateQuantity({{ $item->id }}, {{ $item->quantity - 1 }})" class="w-6 h-6 flex items-center justify-center rounded bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-600">-</button>
                                 <span class="text-sm font-medium w-4 text-center">{{ $item->quantity }}</span>
-                                <button wire:click="updateQuantity({{ $item->id }}, {{ $item->quantity + 1 }})" class="w-6 h-6 flex items-center justify-center rounded bg-indigo-600 text-white hover:bg-indigo-700">+</button>
+                                <button wire:click="updateQuantity({{ $item->id }}, {{ $item->quantity + 1 }})" class="w-6 h-6 flex items-center justify-center rounded bg-emerald-600 text-white hover:bg-emerald-700">+</button>
                             </div>
                         </div>
                         <div class="flex flex-col items-end justify-between">
@@ -130,21 +130,21 @@
         </div>
 
         <!-- Footer -->
-        <div class="p-4 bg-gray-50 dark:bg-zinc-800/50 border-t border-zinc-200 dark:border-zinc-700 space-y-3">
+        <div class="p-4 bg-gray-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-700 space-y-3">
             <div class="flex justify-between text-sm">
                 <span class="text-gray-500 dark:text-gray-400">Sub Total</span>
                 <span class="font-medium text-gray-900 dark:text-white">₱{{ number_format($this->subtotal, 2) }}</span>
             </div>
-            <div class="border-t border-dashed border-zinc-300 dark:border-zinc-600 my-2"></div>
+            <div class="border-t border-dashed border-slate-300 dark:border-slate-600 my-2"></div>
             <div class="flex justify-between text-lg font-bold">
                 <span class="text-gray-900 dark:text-white">Total</span>
-                <span class="text-indigo-600 dark:text-indigo-400">₱{{ number_format($this->subtotal, 2) }}</span>
+                <span class="text-emerald-600 dark:text-emerald-400">₱{{ number_format($this->subtotal, 2) }}</span>
             </div>
             
             <button wire:click="openCheckoutModal" 
                     wire:loading.attr="disabled"
                     wire:target="openCheckoutModal"
-                    class="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold shadow-lg shadow-indigo-200 dark:shadow-none hover:bg-indigo-700 transition active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+                    class="w-full py-3 rounded-xl bg-emerald-600 text-white font-bold shadow-lg shadow-emerald-200 dark:shadow-none hover:bg-emerald-700 transition active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
                 <span wire:loading.remove wire:target="openCheckoutModal">Proceed to Payment</span>
                 <span wire:loading wire:target="openCheckoutModal">Loading...</span>
             </button>
@@ -165,9 +165,9 @@
     <!-- Product Details Modal -->
     @if($selectedFeed)
     <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" wire:click.self="closeFeedModal">
-        <div class="bg-white dark:bg-zinc-800 rounded-2xl shadow-xl max-w-2xl w-full overflow-hidden max-h-[90vh] flex flex-col">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl max-w-2xl w-full overflow-hidden max-h-[90vh] flex flex-col">
             <!-- Header -->
-            <div class="p-4 border-b border-zinc-200 dark:border-zinc-700 flex justify-between items-center bg-gray-50 dark:bg-zinc-800/50">
+            <div class="p-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-gray-50 dark:bg-slate-800/50">
                 <h3 class="text-xl font-bold text-gray-900 dark:text-white truncate pr-4">{{ $selectedFeed->feed_name }}</h3>
                 <button wire:click="closeFeedModal" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -179,7 +179,7 @@
                 <div class="flex flex-col md:flex-row gap-6">
                     <!-- Image -->
                     <div class="w-full md:w-1/2 flex-shrink-0">
-                        <div class="aspect-square rounded-xl overflow-hidden bg-gray-100 dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600">
+                        <div class="aspect-square rounded-xl overflow-hidden bg-gray-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-600">
                             @if($selectedFeed->image)
                                 <img src="{{ Storage::url($selectedFeed->image) }}" alt="{{ $selectedFeed->feed_name }}" class="w-full h-full object-cover">
                             @else
@@ -193,26 +193,26 @@
                     <!-- Details -->
                     <div class="w-full md:w-1/2 space-y-4">
                         <div>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">
                                 {{ $selectedFeed->feed_type }}
                             </span>
                         </div>
                         
                         <div>
-                            <div class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">₱{{ number_format($selectedFeed->price, 2) }}</div>
+                            <div class="text-3xl font-bold text-emerald-600 dark:text-emerald-400">₱{{ number_format($selectedFeed->price, 2) }}</div>
                             <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{ $selectedFeed->quantity }} units available</div>
                         </div>
 
                         <div class="space-y-2">
-                            <div class="flex justify-between border-b border-zinc-100 dark:border-zinc-700 py-2">
+                            <div class="flex justify-between border-b border-slate-100 dark:border-slate-700 py-2">
                                 <span class="text-gray-500 dark:text-gray-400">Brand</span>
                                 <span class="font-medium text-gray-900 dark:text-white">{{ $selectedFeed->brand }}</span>
                             </div>
-                            <div class="flex justify-between border-b border-zinc-100 dark:border-zinc-700 py-2">
+                            <div class="flex justify-between border-b border-slate-100 dark:border-slate-700 py-2">
                                 <span class="text-gray-500 dark:text-gray-400">Batch Number</span>
                                 <span class="font-medium text-gray-900 dark:text-white">{{ $selectedFeed->batch_number }}</span>
                             </div>
-                            <div class="flex justify-between border-b border-zinc-100 dark:border-zinc-700 py-2">
+                            <div class="flex justify-between border-b border-slate-100 dark:border-slate-700 py-2">
                                 <span class="text-gray-500 dark:text-gray-400">Expiration Date</span>
                                 <span class="font-medium text-gray-900 dark:text-white">{{ $selectedFeed->expiration_date }}</span>
                             </div>
@@ -229,11 +229,11 @@
             </div>
 
             <!-- Footer -->
-            <div class="p-4 border-t border-zinc-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800/50 flex justify-end gap-3">
-                <button wire:click="closeFeedModal" class="px-4 py-2 rounded-lg border border-zinc-300 dark:border-zinc-600 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-100 dark:hover:bg-zinc-700 transition">
+            <div class="p-4 border-t border-slate-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/50 flex justify-end gap-3">
+                <button wire:click="closeFeedModal" class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-100 dark:hover:bg-slate-700 transition">
                     Close
                 </button>
-                <button wire:click="addToCart({{ $selectedFeed->id }})" class="px-6 py-2 rounded-lg bg-indigo-600 text-white font-bold hover:bg-indigo-700 shadow-lg shadow-indigo-200 dark:shadow-none transition">
+                <button wire:click="addToCart({{ $selectedFeed->id }})" class="px-6 py-2 rounded-lg bg-emerald-600 text-white font-bold hover:bg-emerald-700 shadow-lg shadow-emerald-200 dark:shadow-none transition">
                     Add to Cart
                 </button>
             </div>
@@ -244,9 +244,9 @@
     <!-- Checkout Modal -->
     @if($showCheckoutModal)
     <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" wire:click.self="closeCheckoutModal">
-        <div class="bg-white dark:bg-zinc-800 rounded-2xl shadow-xl max-w-5xl w-full overflow-hidden flex flex-col max-h-[90vh]">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl max-w-5xl w-full overflow-hidden flex flex-col max-h-[90vh]">
             <!-- Header -->
-            <div class="p-6 border-b border-zinc-200 dark:border-zinc-700 flex justify-between items-center bg-gray-50 dark:bg-zinc-800/50">
+            <div class="p-6 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-gray-50 dark:bg-slate-800/50">
                 <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Checkout</h3>
                 <button wire:click="closeCheckoutModal" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -256,13 +256,13 @@
             <!-- Body -->
             <div class="flex-1 overflow-hidden flex flex-col md:flex-row">
                 <!-- Left Side: Order Summary -->
-                <div class="w-full md:w-1/2 p-6 overflow-y-auto bg-gray-50 dark:bg-zinc-800/30 border-r border-zinc-200 dark:border-zinc-700">
+                <div class="w-full md:w-1/2 p-6 overflow-y-auto bg-gray-50 dark:bg-slate-800/30 border-r border-slate-200 dark:border-slate-700">
                     <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Order Summary</h4>
                     
                     <div class="space-y-4 mb-6">
                         @foreach($cart->items as $item)
-                            <div class="flex gap-4 bg-white dark:bg-zinc-800 p-3 rounded-lg shadow-sm border border-zinc-100 dark:border-zinc-700">
-                                <div class="w-16 h-16 rounded-lg bg-gray-100 dark:bg-zinc-700 overflow-hidden flex-shrink-0">
+                            <div class="flex gap-4 bg-white dark:bg-slate-800 p-3 rounded-lg shadow-sm border border-slate-100 dark:border-slate-700">
+                                <div class="w-16 h-16 rounded-lg bg-gray-100 dark:bg-slate-700 overflow-hidden flex-shrink-0">
                                     @if($item->feed->image)
                                         <img src="{{ Storage::url($item->feed->image) }}" class="w-full h-full object-cover">
                                     @endif
@@ -278,14 +278,14 @@
                         @endforeach
                     </div>
 
-                    <div class="border-t border-zinc-200 dark:border-zinc-700 pt-4 space-y-2">
+                    <div class="border-t border-slate-200 dark:border-slate-700 pt-4 space-y-2">
                         <div class="flex justify-between text-gray-600 dark:text-gray-400">
                             <span>Subtotal</span>
                             <span>₱{{ number_format($this->subtotal, 2) }}</span>
                         </div>
                         <div class="flex justify-between text-xl font-bold text-gray-900 dark:text-white pt-2">
                             <span>Total</span>
-                            <span class="text-indigo-600 dark:text-indigo-400">₱{{ number_format($this->subtotal, 2) }}</span>
+                            <span class="text-emerald-600 dark:text-emerald-400">₱{{ number_format($this->subtotal, 2) }}</span>
                         </div>
                     </div>
                 </div>
@@ -296,13 +296,13 @@
                         <!-- Shipping Address Section -->
                         <div>
                             <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                 Shipping Details
                             </h4>
 
                             @if($hasSavedAddress)
-                                <div class="bg-indigo-50 dark:bg-indigo-900/30 p-4 rounded-lg border border-indigo-100 dark:border-indigo-800 relative">
-                                    <div class="absolute top-4 right-4 text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-white dark:bg-zinc-800 px-2 py-1 rounded shadow-sm">
+                                <div class="bg-emerald-50 dark:bg-emerald-900/30 p-4 rounded-lg border border-emerald-100 dark:border-emerald-800 relative">
+                                    <div class="absolute top-4 right-4 text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-white dark:bg-slate-800 px-2 py-1 rounded shadow-sm">
                                         Default Address
                                     </div>
                                     <h5 class="font-bold text-gray-900 dark:text-white">{{ $location_name }}</h5>
@@ -317,55 +317,55 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div class="col-span-2">
                                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Location Name</label>
-                                        <input type="text" wire:model="location_name" placeholder="e.g. Home, Office" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 p-2.5 focus:ring-indigo-500 focus:border-indigo-500">
+                                        <input type="text" wire:model="location_name" placeholder="e.g. Home, Office" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 dark:bg-slate-900 p-2.5 focus:ring-emerald-500 focus:border-emerald-500">
                                         @error('location_name') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                                     </div>
                                     
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Contact Person</label>
-                                        <input type="text" wire:model="contact_person" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 p-2.5 focus:ring-indigo-500 focus:border-indigo-500">
+                                        <input type="text" wire:model="contact_person" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 dark:bg-slate-900 p-2.5 focus:ring-emerald-500 focus:border-emerald-500">
                                         @error('contact_person') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                                     </div>
 
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone Number</label>
-                                        <input type="text" wire:model="phone_number" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 p-2.5 focus:ring-indigo-500 focus:border-indigo-500">
+                                        <input type="text" wire:model="phone_number" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 dark:bg-slate-900 p-2.5 focus:ring-emerald-500 focus:border-emerald-500">
                                         @error('phone_number') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                                     </div>
 
                                     <div class="col-span-2">
                                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Address</label>
-                                        <textarea wire:model="address" rows="2" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 p-2.5 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                                        <textarea wire:model="address" rows="2" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 dark:bg-slate-900 p-2.5 focus:ring-emerald-500 focus:border-emerald-500"></textarea>
                                         @error('address') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                                     </div>
 
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">City</label>
-                                        <input type="text" wire:model="city" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 p-2.5 focus:ring-indigo-500 focus:border-indigo-500">
+                                        <input type="text" wire:model="city" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 dark:bg-slate-900 p-2.5 focus:ring-emerald-500 focus:border-emerald-500">
                                         @error('city') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                                     </div>
 
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Province</label>
-                                        <input type="text" wire:model="province" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 p-2.5 focus:ring-indigo-500 focus:border-indigo-500">
+                                        <input type="text" wire:model="province" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 dark:bg-slate-900 p-2.5 focus:ring-emerald-500 focus:border-emerald-500">
                                         @error('province') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                                     </div>
 
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Postal Code</label>
-                                        <input type="text" wire:model="postal_code" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 p-2.5 focus:ring-indigo-500 focus:border-indigo-500">
+                                        <input type="text" wire:model="postal_code" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 dark:bg-slate-900 p-2.5 focus:ring-emerald-500 focus:border-emerald-500">
                                         @error('postal_code') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                                     </div>
 
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Country</label>
-                                        <input type="text" wire:model="country" class="w-full rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 p-2.5 focus:ring-indigo-500 focus:border-indigo-500" readonly>
+                                        <input type="text" wire:model="country" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 dark:bg-slate-900 p-2.5 focus:ring-emerald-500 focus:border-emerald-500" readonly>
                                         @error('country') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                                     </div>
                                     
                                     <div class="col-span-2">
                                          <label class="flex items-center space-x-2 cursor-pointer">
-                                            <input type="checkbox" wire:model="is_default" class="rounded border-zinc-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                            <input type="checkbox" wire:model="is_default" class="rounded border-slate-300 text-emerald-600 shadow-sm focus:border-emerald-300 focus:ring focus:ring-emerald-200 focus:ring-opacity-50">
                                             <span class="text-sm text-gray-600 dark:text-gray-400">Save as default address</span>
                                         </label>
                                     </div>
@@ -373,31 +373,31 @@
                             @endif
                         </div>
 
-                        <hr class="border-zinc-200 dark:border-zinc-700">
+                        <hr class="border-slate-200 dark:border-slate-700">
 
                         <!-- Payment Method -->
                         <div>
                             <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
                                 Payment Method
                             </h4>
                             
                             <div class="grid grid-cols-3 gap-3">
                                 <label class="cursor-pointer relative">
                                     <input type="radio" wire:model.live="paymentMethod" value="cash" class="peer sr-only">
-                                    <div class="p-3 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800 peer-checked:border-indigo-500 peer-checked:bg-indigo-50 dark:peer-checked:bg-indigo-900/20 peer-checked:ring-1 peer-checked:ring-indigo-500 transition text-center">
+                                    <div class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 dark:peer-checked:bg-emerald-900/20 peer-checked:ring-1 peer-checked:ring-emerald-500 transition text-center">
                                         <span class="block text-sm font-medium text-gray-900 dark:text-white">Cash</span>
                                     </div>
                                 </label>
                                 <label class="cursor-pointer relative">
                                     <input type="radio" wire:model.live="paymentMethod" value="gcash" class="peer sr-only">
-                                    <div class="p-3 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800 peer-checked:border-indigo-500 peer-checked:bg-indigo-50 dark:peer-checked:bg-indigo-900/20 peer-checked:ring-1 peer-checked:ring-indigo-500 transition text-center">
+                                    <div class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 dark:peer-checked:bg-emerald-900/20 peer-checked:ring-1 peer-checked:ring-emerald-500 transition text-center">
                                         <span class="block text-sm font-medium text-gray-900 dark:text-white">GCash</span>
                                     </div>
                                 </label>
                                 <label class="cursor-pointer relative">
                                     <input type="radio" wire:model.live="paymentMethod" value="bank_transfer" class="peer sr-only">
-                                    <div class="p-3 rounded-lg border border-zinc-200 dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-800 peer-checked:border-indigo-500 peer-checked:bg-indigo-50 dark:peer-checked:bg-indigo-900/20 peer-checked:ring-1 peer-checked:ring-indigo-500 transition text-center">
+                                    <div class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 dark:peer-checked:bg-emerald-900/20 peer-checked:ring-1 peer-checked:ring-emerald-500 transition text-center">
                                         <span class="block text-sm font-medium text-gray-900 dark:text-white">Bank</span>
                                     </div>
                                 </label>
@@ -409,7 +409,7 @@
                         <div class="animate-fade-in-down">
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Upload Proof of Payment</label>
                             <div class="flex items-center justify-center w-full">
-                                <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-32 border-2 border-zinc-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-zinc-800 dark:bg-zinc-700 hover:bg-gray-100 dark:border-zinc-600 dark:hover:border-zinc-500">
+                                <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-32 border-2 border-slate-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-slate-800 dark:bg-slate-700 hover:bg-gray-100 dark:border-slate-600 dark:hover:border-slate-500">
                                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
                                         @if($proofOfPayment)
                                             <p class="mb-2 text-sm text-green-500 dark:text-green-400 font-semibold">{{ $proofOfPayment->getClientOriginalName() }}</p>
@@ -431,11 +431,11 @@
             </div>
 
             <!-- Footer -->
-            <div class="p-4 border-t border-zinc-200 dark:border-zinc-700 flex justify-end gap-3 bg-gray-50 dark:bg-zinc-800/50">
+            <div class="p-4 border-t border-slate-200 dark:border-slate-700 flex justify-end gap-3 bg-gray-50 dark:bg-slate-800/50">
                 <button wire:click="closeCheckoutModal" class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium">Cancel</button>
                 <button wire:click="checkout" 
                         wire:loading.attr="disabled"
-                        class="px-8 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 font-bold disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-indigo-200 dark:shadow-none transition transform active:scale-95">
+                        class="px-8 py-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 font-bold disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-emerald-200 dark:shadow-none transition transform active:scale-95">
                     <span wire:loading.remove wire:target="checkout">Confirm Order</span>
                     <span wire:loading wire:target="checkout">Processing...</span>
                     <svg wire:loading wire:target="checkout" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
