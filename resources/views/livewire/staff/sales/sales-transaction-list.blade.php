@@ -102,6 +102,7 @@
                         <th class="px-6 py-4 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Amount</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Payment</th>
+                        <th class="px-6 py-4 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Proof</th>
                         <th class="px-6 py-4 text-right text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
@@ -149,6 +150,15 @@
                                 <span class="text-xs font-medium {{ $paymentClasses[$transaction->payment_status] ?? 'text-gray-500' }}">
                                     {{ ucfirst($transaction->payment_status ?? 'Pending') }}
                                 </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @if($transaction->proof_of_payment)
+                                    <a href="{{ Storage::url($transaction->proof_of_payment) }}" target="_blank" class="block h-10 w-10 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 hover:opacity-75 transition-opacity">
+                                        <img src="{{ Storage::url($transaction->proof_of_payment) }}" alt="Proof" class="h-full w-full object-cover">
+                                    </a>
+                                @else
+                                    <span class="text-xs text-slate-400 dark:text-slate-500 italic">None</span>
+                                @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <button wire:click="viewTransaction({{ $transaction->id }})" class="text-emerald-600 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300 font-medium hover:underline">
@@ -252,6 +262,14 @@
                                     <p class="text-slate-500 dark:text-slate-400 mt-1">
                                         Total: <span class="font-semibold text-slate-900 dark:text-white">₱{{ number_format($selectedTransaction->total_amount, 2) }}</span>
                                     </p>
+                                    @if($selectedTransaction->proof_of_payment)
+                                        <div class="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700">
+                                            <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-2">Proof of Payment:</p>
+                                            <a href="{{ Storage::url($selectedTransaction->proof_of_payment) }}" target="_blank" class="block rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 hover:opacity-90 transition-opacity">
+                                                <img src="{{ Storage::url($selectedTransaction->proof_of_payment) }}" alt="Proof" class="w-full h-auto object-cover max-h-48">
+                                            </a>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
