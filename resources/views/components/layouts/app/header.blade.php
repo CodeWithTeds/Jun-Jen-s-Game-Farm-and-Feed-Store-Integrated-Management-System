@@ -45,7 +45,7 @@
         </flux:header>
 
         <!-- Mobile Menu -->
-        <flux:sidebar collapsible="mobile" sticky class="lg:hidden border-e border-emerald-100 bg-emerald-50 dark:border-emerald-900 dark:bg-slate-900">
+        <flux:sidebar collapsible="mobile" sticky class="lg:hidden border-e border-[#103e28] bg-[#103e28] dark:border-[#103e28] dark:bg-[#103e28] text-white [&_a]:!text-white [&_button]:!text-white [&_div]:!text-white [&_span]:!text-white [&_a:hover]:!bg-transparent [&_button:hover]:!bg-transparent [&_[aria-current='page']]:!bg-transparent [&_[data-current]]:!bg-transparent">
             <flux:sidebar.header>
                 <x-app-logo :sidebar="true" href="{{ route('dashboard') }}" wire:navigate />
                 <flux:sidebar.collapse class="in-data-flux-sidebar-on-desktop:not-in-data-flux-sidebar-collapsed-desktop:-mr-2" />

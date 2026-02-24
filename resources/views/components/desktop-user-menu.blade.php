@@ -6,7 +6,7 @@
         data-test="sidebar-menu-button"
     />
 
-    <flux:menu>
+    <flux:menu class="bg-[#103e28] !bg-[#103e28] border border-[#103e28] [&_a]:!text-white [&_button]:!text-white [&_span]:!text-white [&_div]:!text-white [&_p]:!text-white [&_h3]:!text-white [&_a:hover]:!bg-emerald-800 [&_button:hover]:!bg-emerald-800">
         <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
             <flux:avatar
                 :name="auth()->user()->name"
