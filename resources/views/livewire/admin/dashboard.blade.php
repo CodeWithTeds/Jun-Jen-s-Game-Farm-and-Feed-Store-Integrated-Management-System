@@ -30,62 +30,62 @@
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Revenue -->
-        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="bg-[#103e28] p-6 rounded-xl border border-[#103e28] shadow-sm text-white">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Total Revenue</p>
-                    <p class="text-2xl font-semibold text-slate-900 dark:text-slate-100 mt-1">
+                    <p class="text-sm font-medium text-emerald-100">Total Revenue</p>
+                    <p class="text-2xl font-semibold mt-1">
                         ₱{{ number_format($stats['total_sales'], 2) }}
                     </p>
                 </div>
-                <div class="p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-full text-emerald-600 dark:text-emerald-400">
+                <div class="p-3 bg-white/20 rounded-full text-white">
                     <flux:icon name="banknotes" class="w-6 h-6" />
                 </div>
             </div>
         </div>
 
         <!-- Orders -->
-        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="bg-[#103e28] p-6 rounded-xl border border-[#103e28] shadow-sm text-white">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Total Orders</p>
-                    <p class="text-2xl font-semibold text-slate-900 dark:text-slate-100 mt-1">
+                    <p class="text-sm font-medium text-emerald-100">Total Orders</p>
+                    <p class="text-2xl font-semibold mt-1">
                         {{ number_format($stats['total_orders']) }}
                     </p>
-                    <p class="text-xs text-amber-500 mt-1">{{ $stats['pending_orders'] }} Pending</p>
+                    <p class="text-xs text-emerald-200 mt-1">{{ $stats['pending_orders'] }} Pending</p>
                 </div>
-                <div class="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-full text-blue-600 dark:text-blue-400">
+                <div class="p-3 bg-white/20 rounded-full text-white">
                     <flux:icon name="shopping-bag" class="w-6 h-6" />
                 </div>
             </div>
         </div>
 
         <!-- Users -->
-        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="bg-[#103e28] p-6 rounded-xl border border-[#103e28] shadow-sm text-white">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Total Users</p>
-                    <p class="text-2xl font-semibold text-slate-900 dark:text-slate-100 mt-1">
+                    <p class="text-sm font-medium text-emerald-100">Total Users</p>
+                    <p class="text-2xl font-semibold mt-1">
                         {{ number_format($stats['total_users']) }}
                     </p>
                 </div>
-                <div class="p-3 bg-green-50 dark:bg-green-900/30 rounded-full text-green-600 dark:text-green-400">
+                <div class="p-3 bg-white/20 rounded-full text-white">
                     <flux:icon name="users" class="w-6 h-6" />
                 </div>
             </div>
         </div>
 
         <!-- Low Stock -->
-        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="bg-[#103e28] p-6 rounded-xl border border-[#103e28] shadow-sm text-white">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Low Stock Items</p>
-                    <p class="text-2xl font-semibold text-slate-900 dark:text-slate-100 mt-1">
+                    <p class="text-sm font-medium text-emerald-100">Low Stock Items</p>
+                    <p class="text-2xl font-semibold mt-1">
                         {{ number_format($stats['low_stock_count']) }}
                     </p>
-                    <p class="text-xs text-slate-500 mt-1">of {{ $stats['total_products'] }} Products</p>
+                    <p class="text-xs text-emerald-200 mt-1">of {{ $stats['total_products'] }} Products</p>
                 </div>
-                <div class="p-3 bg-red-50 dark:bg-red-900/30 rounded-full text-red-600 dark:text-red-400">
+                <div class="p-3 bg-white/20 rounded-full text-white">
                     <flux:icon name="exclamation-triangle" class="w-6 h-6" />
                 </div>
             </div>
@@ -95,102 +95,113 @@
     <!-- Charts Section -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <!-- Sales Trend -->
-        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm"
-             x-data="{
-                init() {
-                    const data = @js($salesChartData);
-                    const ctx = this.$refs.canvas.getContext('2d');
-                    const isDark = document.documentElement.classList.contains('dark');
-                    const gridColor = isDark ? '#27272a' : '#e5e7eb';
-                    const textColor = isDark ? '#a1a1aa' : '#71717a';
-                    
-                    new Chart(ctx, {
-                        type: 'line',
-                        data: {
-                            labels: data.map(d => d.date),
-                            datasets: [{
-                                label: 'Revenue',
-                                data: data.map(d => d.total),
-                                borderColor: '#4f46e5',
-                                backgroundColor: 'rgba(79, 70, 229, 0.1)',
-                                tension: 0.4,
-                                fill: true
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: { legend: { display: false } },
-                            scales: {
-                                y: { 
-                                    beginAtZero: true, 
-                                    grid: { color: gridColor },
-                                    ticks: { color: textColor }
-                                },
-                                x: { 
-                                    grid: { display: false },
-                                    ticks: { color: textColor }
-                                }
-                            }
-                        }
-                    });
-                }
-             }"
-        >
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
             <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-4">Sales Trend</h3>
             <div class="relative h-64 w-full">
-                <canvas x-ref="canvas"></canvas>
+                <canvas id="salesTrendChart"></canvas>
             </div>
         </div>
 
         <!-- Top Products -->
-        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm"
-             x-data="{
-                init() {
-                    const labels = @js($topProducts['labels']);
-                    const data = @js($topProducts['data']);
-                    const ctx = this.$refs.canvas.getContext('2d');
-                    const isDark = document.documentElement.classList.contains('dark');
-                    const gridColor = isDark ? '#27272a' : '#e5e7eb';
-                    const textColor = isDark ? '#a1a1aa' : '#71717a';
-                    
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: labels,
-                            datasets: [{
-                                label: 'Quantity Sold',
-                                data: data,
-                                backgroundColor: '#6366f1',
-                                borderRadius: 4
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: { legend: { display: false } },
-                            scales: {
-                                y: { 
-                                    beginAtZero: true, 
-                                    grid: { color: gridColor },
-                                    ticks: { color: textColor }
-                                },
-                                x: { 
-                                    grid: { display: false },
-                                    ticks: { color: textColor }
-                                }
-                            }
-                        }
-                    });
-                }
-             }"
-        >
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
             <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-4">Top Selling Products</h3>
             <div class="relative h-64 w-full">
-                <canvas x-ref="canvas"></canvas>
+                <canvas id="topProductsChart"></canvas>
             </div>
         </div>
     </div>
+
+    @script
+    <script>
+        const initCharts = () => {
+            // Sales Trend Chart
+            const salesCtx = document.getElementById('salesTrendChart')?.getContext('2d');
+            if (salesCtx) {
+                const salesData = @js($salesChartData);
+                const isDark = document.documentElement.classList.contains('dark');
+                const gridColor = isDark ? '#27272a' : '#e5e7eb';
+                const textColor = isDark ? '#a1a1aa' : '#71717a';
+                
+                new Chart(salesCtx, {
+                    type: 'line',
+                    data: {
+                        labels: salesData.map(d => d.date),
+                        datasets: [{
+                            label: 'Revenue',
+                            data: salesData.map(d => d.total),
+                            borderColor: '#103e28',
+                            backgroundColor: 'rgba(16, 62, 40, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { 
+                                beginAtZero: true, 
+                                grid: { color: gridColor },
+                                ticks: { color: textColor }
+                            },
+                            x: { 
+                                grid: { display: false },
+                                ticks: { color: textColor }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Top Products Chart
+            const productsCtx = document.getElementById('topProductsChart')?.getContext('2d');
+            if (productsCtx) {
+                const productLabels = @js($topProducts['labels']);
+                const productData = @js($topProducts['data']);
+                const isDark = document.documentElement.classList.contains('dark');
+                const gridColor = isDark ? '#27272a' : '#e5e7eb';
+                const textColor = isDark ? '#a1a1aa' : '#71717a';
+                
+                new Chart(productsCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: productLabels,
+                        datasets: [{
+                            label: 'Quantity Sold',
+                            data: productData,
+                            backgroundColor: '#103e28',
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { 
+                                beginAtZero: true, 
+                                grid: { color: gridColor },
+                                ticks: { color: textColor }
+                            },
+                            x: { 
+                                grid: { display: false },
+                                ticks: { color: textColor }
+                            }
+                        }
+                    }
+                });
+            }
+        };
+
+        initCharts();
+        
+        // Re-initialize charts when Livewire updates
+        Livewire.hook('morph.updated', ({ component, el }) => {
+            initCharts();
+        });
+    </script>
+    @endscript
 
     <!-- Tables Section -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
