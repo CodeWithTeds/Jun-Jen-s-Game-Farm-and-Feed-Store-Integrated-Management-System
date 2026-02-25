@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,6 +9,7 @@
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+
 <body class="bg-slate-50 font-sans text-slate-900 antialiased">
     <!-- Navigation -->
     <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200">
@@ -15,9 +17,9 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <a href="#" class="flex-shrink-0 flex items-center gap-2">
-    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10 w-auto">
-    <span class="font-bold text-xl text-emerald-700 tracking-tight">Jun & Jen’s</span>
-</a>
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10 w-auto">
+                        <span class="font-bold text-xl text-emerald-700 tracking-tight">Jun & Jen’s</span>
+                    </a>
                     <div class="hidden md:ml-10 md:flex md:space-x-8">
                         <a href="#home" class="text-slate-500 hover:text-emerald-600 px-3 py-2 text-sm font-medium transition-colors">Home</a>
                         <a href="#about" class="text-slate-500 hover:text-emerald-600 px-3 py-2 text-sm font-medium transition-colors">About</a>
@@ -26,16 +28,16 @@
                 </div>
                 <div class="flex items-center gap-4">
                     @if (Route::has('login'))
-                        <div class="flex items-center gap-2">
-                            @auth
-                                <a href="{{ url('/dashboard') }}" class="text-sm font-medium text-slate-700 hover:text-emerald-600 transition-colors">Dashboard</a>
-                            @else
-                                <a href="{{ route('login') }}" class="text-sm font-medium text-slate-700 hover:text-emerald-600 transition-colors">Log in</a>
-                                @if (Route::has('register'))
-                                    <a href="{{ route('register') }}" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm hover:shadow-md">Get Started</a>
-                                @endif
-                            @endauth
-                        </div>
+                    <div class="flex items-center gap-2">
+                        @auth
+                        <a href="{{ url('/dashboard') }}" class="text-sm font-medium text-slate-700 hover:text-emerald-600 transition-colors">Dashboard</a>
+                        @else
+                        <a href="{{ route('login') }}" class="text-sm font-medium text-slate-700 hover:text-emerald-600 transition-colors">Log in</a>
+                        @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all shadow-sm hover:shadow-md">Get Started</a>
+                        @endif
+                        @endauth
+                    </div>
                     @endif
                 </div>
             </div>
@@ -80,7 +82,7 @@
                 <p class="text-lg text-slate-600 leading-relaxed">
                     Our system incorporates features that support role-based access and the specific tasks of different users. Whether managing the hatchery, tracking feed inventory, or overseeing farm operations, Jun & Jen’s Integrated Management System brings everything together in one place.
                 </p>
-                
+
                 <div class="grid md:grid-cols-3 gap-8 mt-16">
                     <div class="p-6 bg-slate-50 rounded-xl hover:shadow-lg transition-shadow">
                         <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-lg flex items-center justify-center mx-auto mb-4">
@@ -121,17 +123,17 @@
                 <h2 class="text-3xl font-bold text-slate-900 mb-4">Our Gallery</h2>
                 <p class="text-slate-600 max-w-2xl mx-auto">A glimpse into our daily operations and products.</p>
             </div>
-            
+
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Using a loop for images c1 to c4 (skipping p7 as it wasn't listed, but p8 was) -->
                 @foreach(['c1.png', 'c2.png', 'c3.png', 'c4.png', 'c5.png', 'c6.png', 'c7.png'] as $image)
-                    <div class="group relative aspect-square overflow-hidden rounded-xl bg-white shadow-md hover:shadow-xl transition-all">
-                        <img src="{{ asset('images/' . $image) }}" alt="Gallery Image" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
-                    </div>
+                <div class="group relative aspect-square overflow-hidden rounded-xl bg-white shadow-md hover:shadow-xl transition-all">
+                    <img src="{{ asset('images/' . $image) }}" alt="Gallery Image" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"></div>
+                </div>
                 @endforeach
-                 <!-- Placeholder for the 8th slot to make the grid even if needed, or we can just leave it odd -->
-                 <div class="group relative aspect-square overflow-hidden rounded-xl bg-emerald-100 flex items-center justify-center">
+                <!-- Placeholder for the 8th slot to make the grid even if needed, or we can just leave it odd -->
+                <div class="group relative aspect-square overflow-hidden rounded-xl bg-emerald-100 flex items-center justify-center">
                     <span class="text-emerald-800 font-medium">More coming soon...</span>
                 </div>
             </div>
@@ -171,4 +173,5 @@
         </div>
     </footer>
 </body>
+
 </html>
