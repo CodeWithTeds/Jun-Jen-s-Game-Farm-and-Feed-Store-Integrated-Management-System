@@ -33,38 +33,38 @@
 
     <!-- Sales Summary -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="bg-[#103e28] rounded-xl p-6 border border-[#103e28] shadow-sm text-white">
             <div class="flex items-center gap-4">
-                <div class="p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg">
-                    <flux:icon icon="currency-dollar" class="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                <div class="p-3 bg-white/20 rounded-lg">
+                    <flux:icon icon="currency-dollar" class="w-6 h-6 text-white" />
                 </div>
                 <div>
-                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Total Sales</p>
-                    <p class="text-2xl font-bold text-slate-900 dark:text-white">₱{{ number_format($data['sales_report']['total_sales'], 2) }}</p>
+                    <p class="text-sm font-medium text-emerald-100">Total Sales</p>
+                    <p class="text-2xl font-bold">₱{{ number_format($data['sales_report']['total_sales'], 2) }}</p>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="bg-[#103e28] rounded-xl p-6 border border-[#103e28] shadow-sm text-white">
             <div class="flex items-center gap-4">
-                <div class="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
-                    <flux:icon icon="shopping-cart" class="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                <div class="p-3 bg-white/20 rounded-lg">
+                    <flux:icon icon="shopping-cart" class="w-6 h-6 text-white" />
                 </div>
                 <div>
-                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Total Orders</p>
-                    <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $data['sales_report']['total_orders'] }}</p>
+                    <p class="text-sm font-medium text-emerald-100">Total Orders</p>
+                    <p class="text-2xl font-bold">{{ number_format($data['sales_report']['total_orders']) }}</p>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="bg-[#103e28] rounded-xl p-6 border border-[#103e28] shadow-sm text-white">
             <div class="flex items-center gap-4">
-                <div class="p-3 bg-green-50 dark:bg-green-900/30 rounded-lg">
-                    <flux:icon icon="chart-bar" class="w-6 h-6 text-green-600 dark:text-green-400" />
+                <div class="p-3 bg-white/20 rounded-lg">
+                    <flux:icon icon="chart-bar" class="w-6 h-6 text-white" />
                 </div>
                 <div>
-                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Average Order Value</p>
-                    <p class="text-2xl font-bold text-slate-900 dark:text-white">₱{{ number_format($data['sales_report']['average_order_value'], 2) }}</p>
+                    <p class="text-sm font-medium text-emerald-100">Average Order Value</p>
+                    <p class="text-2xl font-bold">₱{{ number_format($data['sales_report']['average_order_value'], 2) }}</p>
                 </div>
             </div>
         </div>
