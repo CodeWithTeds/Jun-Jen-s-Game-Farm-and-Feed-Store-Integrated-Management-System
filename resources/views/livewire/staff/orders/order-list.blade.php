@@ -204,7 +204,7 @@
                                         @foreach($selectedOrder->items as $item)
                                             <tr>
                                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-slate-900 dark:text-white">
-                                                    {{ $item->feed->name }}
+                                                    {{ $item->feed->feed_name }}
                                                 </td>
                                                 <td class="whitespace-nowrap px-3 py-4 text-right text-sm text-slate-500 dark:text-slate-400">
                                                     {{ $item->quantity }}
