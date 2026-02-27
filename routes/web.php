@@ -45,6 +45,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(function () {
     Route::get('dashboard', Dashboard::class)->name('dashboard');
     Route::resource('game-fowls', GameFowlController::class);
+    Route::patch('game-fowls/{gameFowl}/toggle-sale-status', [GameFowlController::class, 'toggleSaleStatus'])->name('game-fowls.toggle-sale-status');
+    Route::patch('game-fowls/{gameFowl}/update-price', [GameFowlController::class, 'updatePrice'])->name('game-fowls.update-price');
     Route::resource('breedings', BreedingController::class);
     Route::resource('medical-records', MedicalRecordController::class);
     Route::resource('egg-collections', EggCollectionController::class);
