@@ -5,7 +5,7 @@
     </div>
 
     <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div class="bg-[#103e28] rounded-xl p-6 border border-[#103e28] shadow-sm text-white">
             <div class="flex items-center gap-4">
                 <div class="p-3 bg-white/20 rounded-lg">
@@ -14,6 +14,30 @@
                 <div>
                     <p class="text-sm font-medium text-emerald-100">Total Sales</p>
                     <p class="text-2xl font-bold">₱{{ number_format($stats['total_sales'], 2) }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-[#103e28] rounded-xl p-6 border border-[#103e28] shadow-sm text-white">
+            <div class="flex items-center gap-4">
+                <div class="p-3 bg-white/20 rounded-lg">
+                    <flux:icon icon="building-storefront" class="w-6 h-6 text-white" />
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-emerald-100">Store Sales</p>
+                    <p class="text-2xl font-bold">₱{{ number_format($stats['store_sales'], 2) }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-[#103e28] rounded-xl p-6 border border-[#103e28] shadow-sm text-white">
+            <div class="flex items-center gap-4">
+                <div class="p-3 bg-white/20 rounded-lg">
+                    <flux:icon icon="trophy" class="w-6 h-6 text-white" />
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-emerald-100">Chicken Sales</p>
+                    <p class="text-2xl font-bold">₱{{ number_format($stats['chicken_sales'], 2) }}</p>
                 </div>
             </div>
         </div>
@@ -291,7 +315,15 @@
                                         @foreach($selectedTransaction->items as $item)
                                             <tr>
                                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-slate-900 dark:text-white">
-                                                    {{ $item->feed->feed_name ?? 'Unknown Item' }}
+                                                    @if($item->feed)
+                                                        {{ $item->feed->feed_name }}
+                                                        <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">Store</span>
+                                                    @elseif($item->gameFowl)
+                                                        {{ $item->gameFowl->name }}
+                                                        <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300">Chicken</span>
+                                                    @else
+                                                        Unknown Item
+                                                    @endif
                                                 </td>
                                                 <td class="whitespace-nowrap px-3 py-4 text-right text-sm text-slate-500 dark:text-slate-400">
                                                     {{ $item->quantity }}

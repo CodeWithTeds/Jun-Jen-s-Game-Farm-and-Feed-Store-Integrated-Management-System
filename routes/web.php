@@ -55,6 +55,10 @@ Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(
     Route::resource('fight-schedules', \App\Http\Controllers\FightScheduleController::class);
     Route::resource('game-fowl-inventory', \App\Http\Controllers\GameFowlInventoryController::class);
     Route::get('orders', \App\Livewire\Staff\Orders\OrderList::class)->name('orders.index');
+    
+    // Reports
+    Route::get('reports/game-fowls', \App\Livewire\Staff\Reports\GameFowlReportList::class)->name('reports.game-fowls.index');
+    Route::get('reports/game-fowls/{gameFowl}', \App\Livewire\Staff\Reports\GameFowlReportShow::class)->name('reports.game-fowls.show');
 });
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
@@ -74,6 +78,10 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::resource('chick-rearings', ChickRearingController::class);
     Route::resource('fight-schedules', \App\Http\Controllers\FightScheduleController::class);
     Route::resource('game-fowl-inventory', \App\Http\Controllers\GameFowlInventoryController::class);
+
+    // Reports (Game Fowl Record)
+    Route::get('reports/game-fowls', \App\Livewire\Staff\Reports\GameFowlReportList::class)->name('reports.game-fowls.index');
+    Route::get('reports/game-fowls/{gameFowl}', \App\Livewire\Staff\Reports\GameFowlReportShow::class)->name('reports.game-fowls.show');
 });
 
 Route::middleware(['auth', 'verified'])->prefix('customer')->name('customer.')->group(function () {

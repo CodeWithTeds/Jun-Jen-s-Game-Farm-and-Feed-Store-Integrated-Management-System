@@ -9,7 +9,7 @@ class OrderItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['order_id', 'feed_id', 'quantity', 'price'];
+    protected $fillable = ['order_id', 'feed_id', 'game_fowl_id', 'quantity', 'price'];
 
     public function order()
     {
@@ -19,5 +19,10 @@ class OrderItem extends Model
     public function feed()
     {
         return $this->belongsTo(Feed::class);
+    }
+
+    public function gameFowl()
+    {
+        return $this->belongsTo(GameFowl::class);
     }
 }

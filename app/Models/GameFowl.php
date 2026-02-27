@@ -26,11 +26,14 @@ class GameFowl extends Model
         'image',
         'sire_id',
         'dam_id',
+        'price',
+        'sale_status',
     ];
 
     protected $casts = [
         'date_hatched' => 'date',
         'acquisition_date' => 'date',
+        'price' => 'decimal:2',
     ];
 
     public function getCurrentAgeAttribute()

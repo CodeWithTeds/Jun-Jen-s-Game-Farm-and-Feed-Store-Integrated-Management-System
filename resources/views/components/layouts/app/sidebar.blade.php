@@ -70,13 +70,25 @@
                     {{ __('Medical Records') }}
                 </flux:sidebar.item>
 
-
+                <flux:sidebar.item :href="route('staff.fight-schedules.index')" :current="request()->routeIs('staff.fight-schedules.*')" wire:navigate>
+                    <x-slot:icon>
+                        <flux:icon :icon="'calendar-days'" class="size-6 text-violet-500" />
+                    </x-slot:icon>
+                    {{ __('Fight Schedule') }}
+                </flux:sidebar.item>
 
                 <flux:sidebar.item :href="route('staff.game-fowl-inventory.index')" :current="request()->routeIs('staff.game-fowl-inventory.*')" wire:navigate>
                     <x-slot:icon>
                         <flux:icon :icon="'chart-bar'" class="size-6 text-green-600" />
                     </x-slot:icon>
                     {{ __('GFowl Inventory') }}
+                </flux:sidebar.item>
+
+                <flux:sidebar.item :href="route('staff.reports.game-fowls.index')" :current="request()->routeIs('staff.reports.game-fowls.*')" wire:navigate>
+                    <x-slot:icon>
+                        <flux:icon :icon="'book-open-text'" class="size-6 text-indigo-500" />
+                    </x-slot:icon>
+                    {{ __('Game Fowl Record') }}
                 </flux:sidebar.item>
             </flux:sidebar.group>
 
@@ -200,6 +212,13 @@
                         <flux:icon :icon="'chart-bar'" class="size-6 text-green-600" />
                     </x-slot:icon>
                     {{ __('GFowl Inventory') }}
+                </flux:sidebar.item>
+
+                <flux:sidebar.item :href="route('admin.reports.game-fowls.index')" :current="request()->routeIs('admin.reports.game-fowls.*')" wire:navigate>
+                    <x-slot:icon>
+                        <flux:icon :icon="'book-open-text'" class="size-6 text-indigo-500" />
+                    </x-slot:icon>
+                    {{ __('Game Fowl Record') }}
                 </flux:sidebar.item>
             </flux:sidebar.group>
 
