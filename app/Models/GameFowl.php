@@ -70,4 +70,9 @@ class GameFowl extends Model
     {
         return $this->hasMany(FightSchedule::class)->orderBy('date', 'desc');
     }
+
+    public function scopeAvailable($query)
+    {
+        return $query->where('sale_status', '!=', 'sold');
+    }
 }

@@ -10,7 +10,7 @@ class CartRepository implements CartRepositoryInterface
 {
     public function getActiveCart(int $userId)
     {
-        return Cart::with(['items.feed'])->where('user_id', $userId)->where('status', 'active')->first();
+        return Cart::with(['items.feed', 'items.gameFowl'])->where('user_id', $userId)->where('status', 'active')->first();
     }
 
     public function create(array $data)

@@ -88,6 +88,7 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('Sex') }}</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('Growth Phase') }}</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('Age') }}</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('For Sale') }}</th>
                         <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('Actions') }}</th>
                     </tr>
                 </thead>
@@ -115,6 +116,34 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                 {{ $gameFowl->current_age }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                <div class="flex flex-col gap-2">
+                                    @if($gameFowl->sale_status === 'sold')
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 w-fit">
+                                            SOLD
+                                        </span>
+                                    @else
+                                        <form action="{{ route($routePrefix . 'game-fowls.toggle-sale-status', $gameFowl) }}" method="POST" class="flex items-center">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 {{ $gameFowl->sale_status === 'for_sale' ? 'bg-emerald-600' : 'bg-gray-200' }}" role="switch" aria-checked="{{ $gameFowl->sale_status === 'for_sale' ? 'true' : 'false' }}">
+                                                <span aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out {{ $gameFowl->sale_status === 'for_sale' ? 'translate-x-5' : 'translate-x-0' }}"></span>
+                                            </button>
+                                            <span class="ml-2 text-xs text-gray-500">{{ $gameFowl->sale_status === 'for_sale' ? 'Selling' : 'Not Selling' }}</span>
+                                        </form>
+                                        
+                                        @if($gameFowl->sale_status === 'for_sale')
+                                            <form action="{{ route($routePrefix . 'game-fowls.update-price', $gameFowl) }}" method="POST" class="flex items-center gap-1">
+                                                @csrf
+                                                @method('PATCH')
+                                                <span class="text-xs text-gray-500">₱</span>
+                                                <input type="number" name="price" value="{{ $gameFowl->price }}" step="0.01" min="0" class="w-20 px-2 py-1 text-xs border border-gray-300 rounded focus:border-emerald-500 focus:ring-emerald-500" placeholder="Price">
+                                                <button type="submit" class="text-xs text-emerald-600 hover:text-emerald-800">Save</button>
+                                            </form>
+                                        @endif
+                                    @endif
+                                </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex justify-end gap-2">

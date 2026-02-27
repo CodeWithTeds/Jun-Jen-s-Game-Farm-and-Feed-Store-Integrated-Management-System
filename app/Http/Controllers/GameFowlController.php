@@ -30,8 +30,8 @@ class GameFowlController extends Controller
      */
     public function create()
     {
-        $sires = GameFowl::where('sex', 'Male')->orderBy('name')->get();
-        $dams = GameFowl::where('sex', 'Female')->orderBy('name')->get();
+        $sires = GameFowl::where('sex', 'Male')->available()->orderBy('name')->get();
+        $dams = GameFowl::where('sex', 'Female')->available()->orderBy('name')->get();
         return view('game-fowls.create', compact('sires', 'dams'));
     }
 
@@ -61,8 +61,8 @@ class GameFowlController extends Controller
      */
     public function edit(GameFowl $gameFowl)
     {
-        $sires = GameFowl::where('sex', 'Male')->where('id', '!=', $gameFowl->id)->orderBy('name')->get();
-        $dams = GameFowl::where('sex', 'Female')->where('id', '!=', $gameFowl->id)->orderBy('name')->get();
+        $sires = GameFowl::where('sex', 'Male')->where('id', '!=', $gameFowl->id)->available()->orderBy('name')->get();
+        $dams = GameFowl::where('sex', 'Female')->where('id', '!=', $gameFowl->id)->available()->orderBy('name')->get();
         return view('game-fowls.edit', compact('gameFowl', 'sires', 'dams'));
     }
 
@@ -88,5 +88,24 @@ class GameFowlController extends Controller
         $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
         return redirect()->route($prefix . 'game-fowls.index')
             ->with('success', 'Game Fowl record deleted successfully.');
+    }
+
+    public function toggleSaleStatus(GameFowl $gameFowl)
+    {
+        $newStatus = $gameFowl->sale_status === 'for_sale' ? 'not_for_sale' : 'for_sale';
+        $gameFowl->update(['sale_status' => $newStatus]);
+
+        return back()->with('success', 'Game Fowl sale status updated successfully.');
+    }
+
+    public function updatePrice(Request $request, GameFowl $gameFowl)
+    {
+        $request->validate([
+            'price' => 'nullable|numeric|min:0',
+        ]);
+
+        $gameFowl->update(['price' => $request->price]);
+
+        return back()->with('success', 'Game Fowl price updated successfully.');
     }
 }

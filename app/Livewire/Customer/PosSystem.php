@@ -19,6 +19,7 @@ class PosSystem extends Component
     public $cart;
     public $loading = false;
     public $selectedFeed = null;
+    public $selectedGameFowl = null;
     
     // Checkout fields
     public $paymentMethod = 'cash';
@@ -72,7 +73,12 @@ class PosSystem extends Component
             return 0;
         }
         return $this->cart->items->sum(function($item) {
-            return $item->quantity * $item->feed->price;
+            if ($item->feed) {
+                return $item->quantity * $item->feed->price;
+            } elseif ($item->gameFowl) {
+                return $item->quantity * $item->gameFowl->price;
+            }
+            return 0;
         });
     }
 
@@ -91,6 +97,21 @@ class PosSystem extends Component
             $this->cartService->addToCart(Auth::id(), $feedId, 1);
             $this->refreshCart();
             $this->dispatch('notify', message: 'Item added to cart.');
+        } catch (\Exception $e) {
+            $this->dispatch('notify', message: $e->getMessage(), type: 'error');
+        }
+    }
+
+    public function addGameFowlToCart($gameFowlId)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        try {
+            $this->cartService->addGameFowlToCart(Auth::id(), $gameFowlId);
+            $this->refreshCart();
+            $this->dispatch('notify', message: 'Game Fowl added to cart.');
         } catch (\Exception $e) {
             $this->dispatch('notify', message: $e->getMessage(), type: 'error');
         }
@@ -120,11 +141,19 @@ class PosSystem extends Component
     public function viewFeed($feedId)
     {
         $this->selectedFeed = $this->feedService->getFeedById($feedId);
+        $this->selectedGameFowl = null;
+    }
+
+    public function viewGameFowl($gameFowlId)
+    {
+        $this->selectedGameFowl = \App\Models\GameFowl::with(['medicalRecords', 'fightSchedules'])->find($gameFowlId);
+        $this->selectedFeed = null;
     }
 
     public function closeFeedModal()
     {
         $this->selectedFeed = null;
+        $this->selectedGameFowl = null;
     }
 
     public function openCheckoutModal()
@@ -254,16 +283,31 @@ class PosSystem extends Component
 
     public function render()
     {
-        $feeds = $this->feedService->getAllFeeds([
-            'search' => $this->search,
-            'is_displayed' => true,
-            'feed_type' => $this->feedType
-        ], 12);
+        $feeds = collect();
+        $gameFowls = collect();
+
+        if ($this->feedType === 'Game Fowl') {
+            $gameFowls = \App\Models\GameFowl::where('sale_status', 'for_sale')
+                ->when($this->search, function ($query) {
+                    $query->where('name', 'like', '%' . $this->search . '%')
+                        ->orWhere('tag_id', 'like', '%' . $this->search . '%');
+                })
+                ->latest()
+                ->paginate(12);
+        } else {
+            $feeds = $this->feedService->getAllFeeds([
+                'search' => $this->search,
+                'is_displayed' => true,
+                'feed_type' => $this->feedType
+            ], 12);
+        }
 
         $categories = $this->feedService->getFeedTypes();
+        $categories[] = 'Game Fowl';
 
         return view('livewire.customer.pos-system', [
             'feeds' => $feeds,
+            'gameFowls' => $gameFowls,
             'categories' => $categories
         ]);
     }

@@ -35,37 +35,71 @@
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                @foreach($feeds as $feed)
-                    <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition cursor-pointer relative group" wire:click="addToCart({{ $feed->id }})">
-                        <div class="aspect-square w-full overflow-hidden rounded-t-xl bg-gray-100 dark:bg-slate-700 relative">
-                            @if($feed->image)
-                                <img src="{{ Storage::url($feed->image) }}" alt="{{ $feed->feed_name }}" class="w-full h-full object-cover">
-                            @else
-                                <div class="flex items-center justify-center h-full text-gray-400">
-                                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                @if($feedType === 'Game Fowl')
+                    @foreach($gameFowls as $fowl)
+                        <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition cursor-pointer relative group" wire:click="addGameFowlToCart({{ $fowl->id }})">
+                            <div class="aspect-square w-full overflow-hidden rounded-t-xl bg-gray-100 dark:bg-slate-700 relative">
+                                @if($fowl->image)
+                                    <img src="{{ Storage::url($fowl->image) }}" alt="{{ $fowl->name }}" class="w-full h-full object-cover">
+                                @else
+                                    <div class="flex items-center justify-center h-full text-gray-400">
+                                        <img src="https://ui-avatars.com/api/?name={{ urlencode($fowl->name) }}&background=random" alt="{{ $fowl->name }}" class="w-full h-full object-cover">
+                                    </div>
+                                @endif
+                                <div class="absolute bottom-2 right-2 bg-white dark:bg-slate-900 px-2 py-1 rounded-lg text-xs font-bold shadow-sm">
+                                    ₱{{ number_format($fowl->price, 2) }}
                                 </div>
-                            @endif
-                            <div class="absolute bottom-2 right-2 bg-white dark:bg-slate-900 px-2 py-1 rounded-lg text-xs font-bold shadow-sm">
-                                ₱{{ number_format($feed->price, 2) }}
+                                <!-- Hover Overlay for View Details -->
+                                <div class="absolute inset-0 bg-black/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button wire:click.stop="viewGameFowl({{ $fowl->id }})" class="bg-white/90 hover:bg-white text-gray-900 px-4 py-2 rounded-lg shadow-lg font-medium flex items-center gap-2 transform hover:scale-105 transition-all" title="View Details">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                        View Details
+                                    </button>
+                                </div>
                             </div>
-                            <!-- Hover Overlay for View Details -->
-                            <div class="absolute inset-0 bg-black/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button wire:click.stop="viewFeed({{ $feed->id }})" class="bg-white/90 hover:bg-white text-gray-900 px-4 py-2 rounded-lg shadow-lg font-medium flex items-center gap-2 transform hover:scale-105 transition-all" title="View Details">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                    View Details
-                                </button>
+                            <div class="p-3">
+                                <h3 class="font-medium text-gray-900 dark:text-white truncate">{{ $fowl->name }}</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">{{ $fowl->sex }} • {{ $fowl->current_age }}</p>
                             </div>
                         </div>
-                        <div class="p-3">
-                            <h3 class="font-medium text-gray-900 dark:text-white truncate">{{ $feed->feed_name }}</h3>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">{{ $feed->quantity }} in stock</p>
+                    @endforeach
+                @else
+                    @foreach($feeds as $feed)
+                        <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition cursor-pointer relative group" wire:click="addToCart({{ $feed->id }})">
+                            <div class="aspect-square w-full overflow-hidden rounded-t-xl bg-gray-100 dark:bg-slate-700 relative">
+                                @if($feed->image)
+                                    <img src="{{ Storage::url($feed->image) }}" alt="{{ $feed->feed_name }}" class="w-full h-full object-cover">
+                                @else
+                                    <div class="flex items-center justify-center h-full text-gray-400">
+                                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    </div>
+                                @endif
+                                <div class="absolute bottom-2 right-2 bg-white dark:bg-slate-900 px-2 py-1 rounded-lg text-xs font-bold shadow-sm">
+                                    ₱{{ number_format($feed->price, 2) }}
+                                </div>
+                                <!-- Hover Overlay for View Details -->
+                                <div class="absolute inset-0 bg-black/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button wire:click.stop="viewFeed({{ $feed->id }})" class="bg-white/90 hover:bg-white text-gray-900 px-4 py-2 rounded-lg shadow-lg font-medium flex items-center gap-2 transform hover:scale-105 transition-all" title="View Details">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                        View Details
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-medium text-gray-900 dark:text-white truncate">{{ $feed->feed_name }}</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">{{ $feed->quantity }} in stock</p>
+                            </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                @endif
             </div>
             
             <div class="mt-4">
-                {{ $feeds->links() }}
+                @if($feedType === 'Game Fowl')
+                    {{ $gameFowls->links() }}
+                @else
+                    {{ $feeds->links() }}
+                @endif
             </div>
         </div>
     </div>
@@ -106,23 +140,47 @@
             @else
                 @foreach($cart->items as $item)
                     <div class="flex gap-3 bg-gray-50 dark:bg-slate-800/50 p-2 rounded-lg relative group">
-                        <div class="w-12 h-12 rounded bg-gray-200 dark:bg-slate-700 overflow-hidden flex-shrink-0">
-                            @if($item->feed->image)
-                                <img src="{{ Storage::url($item->feed->image) }}" class="w-full h-full object-cover">
+                        <div class="w-12 h-12 rounded bg-gray-100 dark:bg-slate-700 overflow-hidden flex-shrink-0">
+                            @if($item->feed)
+                                @if($item->feed->image)
+                                    <img src="{{ Storage::url($item->feed->image) }}" class="w-full h-full object-cover">
+                                @else
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($item->feed->feed_name) }}&background=random" class="w-full h-full object-cover">
+                                @endif
+                            @elseif($item->gameFowl)
+                                @if($item->gameFowl->image)
+                                    <img src="{{ Storage::url($item->gameFowl->image) }}" class="w-full h-full object-cover">
+                                @else
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($item->gameFowl->name) }}&background=random" class="w-full h-full object-cover">
+                                @endif
                             @endif
                         </div>
                         <div class="flex-1 min-w-0">
-                            <h4 class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ $item->feed->feed_name }}</h4>
-                            <div class="text-xs text-gray-500 dark:text-gray-400">₱{{ number_format($item->feed->price, 2) }}</div>
-                            <div class="flex items-center gap-2 mt-2">
-                                <button wire:click="updateQuantity({{ $item->id }}, {{ $item->quantity - 1 }})" class="w-6 h-6 flex items-center justify-center rounded bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-600">-</button>
-                                <span class="text-sm font-medium w-4 text-center">{{ $item->quantity }}</span>
-                                <button wire:click="updateQuantity({{ $item->id }}, {{ $item->quantity + 1 }})" class="w-6 h-6 flex items-center justify-center rounded bg-emerald-600 text-white hover:bg-emerald-700">+</button>
-                            </div>
+                            @if($item->feed)
+                                <h4 class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ $item->feed->feed_name }}</h4>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">₱{{ number_format($item->feed->price, 2) }}</div>
+                                <div class="flex items-center gap-2 mt-2">
+                                    <button wire:click="updateQuantity({{ $item->id }}, {{ $item->quantity - 1 }})" class="w-6 h-6 flex items-center justify-center rounded bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-600">-</button>
+                                    <span class="text-sm font-medium w-4 text-center">{{ $item->quantity }}</span>
+                                    <button wire:click="updateQuantity({{ $item->id }}, {{ $item->quantity + 1 }})" class="w-6 h-6 flex items-center justify-center rounded bg-emerald-600 text-white hover:bg-emerald-700">+</button>
+                                </div>
+                            @elseif($item->gameFowl)
+                                <h4 class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ $item->gameFowl->name }}</h4>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">₱{{ number_format($item->gameFowl->price, 2) }}</div>
+                                <div class="flex items-center gap-2 mt-2">
+                                    <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Qty: 1</span>
+                                </div>
+                            @endif
                         </div>
                         <div class="flex flex-col items-end justify-between">
                             <button wire:click="removeFromCart({{ $item->id }})" class="text-gray-400 hover:text-red-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
-                            <div class="text-sm font-bold text-gray-900 dark:text-white">₱{{ number_format($item->feed->price * $item->quantity, 2) }}</div>
+                            <div class="text-sm font-bold text-gray-900 dark:text-white">
+                                @if($item->feed)
+                                    ₱{{ number_format($item->feed->price * $item->quantity, 2) }}
+                                @elseif($item->gameFowl)
+                                    ₱{{ number_format($item->gameFowl->price * $item->quantity, 2) }}
+                                @endif
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -241,6 +299,85 @@
     </div>
     @endif
 
+    <!-- Game Fowl Details Modal -->
+    @if($selectedGameFowl)
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" wire:click.self="closeFeedModal">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl max-w-2xl w-full overflow-hidden max-h-[90vh] flex flex-col">
+            <!-- Header -->
+            <div class="p-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-gray-50 dark:bg-slate-800/50">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white truncate pr-4">{{ $selectedGameFowl->name }}</h3>
+                <button wire:click="closeFeedModal" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <!-- Body -->
+            <div class="flex-1 overflow-y-auto p-6">
+                <div class="flex flex-col md:flex-row gap-6">
+                    <!-- Image -->
+                    <div class="w-full md:w-1/2 flex-shrink-0">
+                        <div class="aspect-square rounded-xl overflow-hidden bg-gray-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-600">
+                            @if($selectedGameFowl->image)
+                                <img src="{{ Storage::url($selectedGameFowl->image) }}" alt="{{ $selectedGameFowl->name }}" class="w-full h-full object-cover">
+                            @else
+                                <div class="flex items-center justify-center h-full text-gray-400">
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($selectedGameFowl->name) }}&background=random" alt="{{ $selectedGameFowl->name }}" class="w-full h-full object-cover">
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    
+                    <!-- Details -->
+                    <div class="w-full md:w-1/2 space-y-4">
+                        <div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">
+                                Game Fowl
+                            </span>
+                        </div>
+                        
+                        <div>
+                            <div class="text-3xl font-bold text-emerald-600 dark:text-emerald-400">₱{{ number_format($selectedGameFowl->price, 2) }}</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">Tag ID: {{ $selectedGameFowl->tag_id }}</div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <div class="flex justify-between border-b border-slate-100 dark:border-slate-700 py-2">
+                                <span class="text-gray-500 dark:text-gray-400">Sex</span>
+                                <span class="font-medium text-gray-900 dark:text-white">{{ $selectedGameFowl->sex }}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-slate-100 dark:border-slate-700 py-2">
+                                <span class="text-gray-500 dark:text-gray-400">Age</span>
+                                <span class="font-medium text-gray-900 dark:text-white">{{ $selectedGameFowl->current_age }}</span>
+                            </div>
+                            <div class="flex justify-between border-b border-slate-100 dark:border-slate-700 py-2">
+                                <span class="text-gray-500 dark:text-gray-400">Growth Phase</span>
+                                <span class="font-medium text-gray-900 dark:text-white">{{ $selectedGameFowl->stage_growth_phase }}</span>
+                            </div>
+                        </div>
+
+                        @if($selectedGameFowl->special_notes)
+                            <div class="pt-4">
+                                <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-1">Description</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{{ $selectedGameFowl->special_notes }}</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="p-4 border-t border-slate-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/50 flex justify-end gap-3">
+                <button wire:click="closeFeedModal" class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-100 dark:hover:bg-slate-700 transition">
+                    Close
+                </button>
+                <button wire:click="addGameFowlToCart({{ $selectedGameFowl->id }})" class="px-6 py-2 rounded-lg bg-emerald-600 text-white font-bold hover:bg-emerald-700 shadow-lg shadow-emerald-200 dark:shadow-none transition">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
+
     <!-- Checkout Modal -->
     @if($showCheckoutModal)
     <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" wire:click.self="closeCheckoutModal">
@@ -263,16 +400,33 @@
                         @foreach($cart->items as $item)
                             <div class="flex gap-4 bg-white dark:bg-slate-800 p-3 rounded-lg shadow-sm border border-slate-100 dark:border-slate-700">
                                 <div class="w-16 h-16 rounded-lg bg-gray-100 dark:bg-slate-700 overflow-hidden flex-shrink-0">
-                                    @if($item->feed->image)
-                                        <img src="{{ Storage::url($item->feed->image) }}" class="w-full h-full object-cover">
+                                    @if($item->feed)
+                                        @if($item->feed->image)
+                                            <img src="{{ Storage::url($item->feed->image) }}" class="w-full h-full object-cover">
+                                        @endif
+                                    @elseif($item->gameFowl)
+                                        @if($item->gameFowl->image)
+                                            <img src="{{ Storage::url($item->gameFowl->image) }}" class="w-full h-full object-cover">
+                                        @else
+                                            <img src="https://ui-avatars.com/api/?name={{ urlencode($item->gameFowl->name) }}&background=random" class="w-full h-full object-cover">
+                                        @endif
                                     @endif
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <h5 class="font-medium text-gray-900 dark:text-white truncate">{{ $item->feed->feed_name }}</h5>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ $item->quantity }} x ₱{{ number_format($item->feed->price, 2) }}</p>
+                                    @if($item->feed)
+                                        <h5 class="font-medium text-gray-900 dark:text-white truncate">{{ $item->feed->feed_name }}</h5>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ $item->quantity }} x ₱{{ number_format($item->feed->price, 2) }}</p>
+                                    @elseif($item->gameFowl)
+                                        <h5 class="font-medium text-gray-900 dark:text-white truncate">{{ $item->gameFowl->name }}</h5>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">Qty: 1 x ₱{{ number_format($item->gameFowl->price, 2) }}</p>
+                                    @endif
                                 </div>
                                 <div class="font-bold text-gray-900 dark:text-white">
-                                    ₱{{ number_format($item->quantity * $item->feed->price, 2) }}
+                                    @if($item->feed)
+                                        ₱{{ number_format($item->quantity * $item->feed->price, 2) }}
+                                    @elseif($item->gameFowl)
+                                        ₱{{ number_format($item->quantity * $item->gameFowl->price, 2) }}
+                                    @endif
                                 </div>
                             </div>
                         @endforeach

@@ -51,14 +51,25 @@ class OrderService
 
             $totalAmount = 0;
             foreach ($cart->items as $item) {
-                $feed = $this->feedRepository->getById($item->feed_id);
-                if (!$feed) {
-                    throw new Exception("Feed {$item->feed_id} not found.");
+                if ($item->feed_id) {
+                    $feed = $this->feedRepository->getById($item->feed_id);
+                    if (!$feed) {
+                        throw new Exception("Feed {$item->feed_id} not found.");
+                    }
+                    if ($feed->quantity < $item->quantity) {
+                        throw new Exception("Insufficient stock for {$feed->feed_name}.");
+                    }
+                    $totalAmount += $item->quantity * $feed->price;
+                } elseif ($item->game_fowl_id) {
+                    $gameFowl = \App\Models\GameFowl::find($item->game_fowl_id);
+                    if (!$gameFowl) {
+                        throw new Exception("Game Fowl {$item->game_fowl_id} not found.");
+                    }
+                    if ($gameFowl->sale_status !== 'for_sale') {
+                        throw new Exception("Game Fowl {$gameFowl->name} is no longer for sale.");
+                    }
+                    $totalAmount += $gameFowl->price;
                 }
-                if ($feed->quantity < $item->quantity) {
-                    throw new Exception("Insufficient stock for {$feed->feed_name}.");
-                }
-                $totalAmount += $item->quantity * $feed->price;
             }
 
             // Step 2: Create Order
@@ -79,19 +90,33 @@ class OrderService
 
             // Step 3: Create Order Items and Deduct Stock
             foreach ($cart->items as $item) {
-                $feed = $this->feedRepository->getById($item->feed_id);
-                
-                $this->orderRepository->createItem([
-                    'order_id' => $order->id,
-                    'feed_id' => $item->feed_id,
-                    'quantity' => $item->quantity,
-                    'price' => $feed->price
-                ]);
+                if ($item->feed_id) {
+                    $feed = $this->feedRepository->getById($item->feed_id);
+                    
+                    $this->orderRepository->createItem([
+                        'order_id' => $order->id,
+                        'feed_id' => $item->feed_id,
+                        'quantity' => $item->quantity,
+                        'price' => $feed->price
+                    ]);
 
-                // Deduct stock
-                $this->feedRepository->update($feed->id, [
-                    'quantity' => $feed->quantity - $item->quantity
-                ]);
+                    // Deduct stock
+                    $this->feedRepository->update($feed->id, [
+                        'quantity' => $feed->quantity - $item->quantity
+                    ]);
+                } elseif ($item->game_fowl_id) {
+                    $gameFowl = \App\Models\GameFowl::find($item->game_fowl_id);
+
+                    $this->orderRepository->createItem([
+                        'order_id' => $order->id,
+                        'game_fowl_id' => $item->game_fowl_id,
+                        'quantity' => 1,
+                        'price' => $gameFowl->price
+                    ]);
+
+                    // Mark game fowl as sold
+                    $gameFowl->update(['sale_status' => 'sold']);
+                }
             }
 
             // Step 4: Clear Cart
@@ -101,6 +126,44 @@ class OrderService
             // Order status remains pending until staff processes it.
             // Payment status is set based on method above.
 
+            return $order;
+        });
+    }
+
+    public function cancelOrder(int $orderId)
+    {
+        return DB::transaction(function () use ($orderId) {
+            $order = $this->orderRepository->getById($orderId);
+            if (!$order) {
+                throw new Exception("Order not found.");
+            }
+
+            if ($order->status === 'cancelled') {
+                throw new Exception("Order is already cancelled.");
+            }
+
+            if ($order->status === 'completed') {
+                throw new Exception("Cannot cancel a completed order.");
+            }
+
+            // Restore stock and game fowl status
+            foreach ($order->items as $item) {
+                if ($item->feed_id) {
+                    $feed = $this->feedRepository->getById($item->feed_id);
+                    if ($feed) {
+                        $this->feedRepository->update($feed->id, [
+                            'quantity' => $feed->quantity + $item->quantity
+                        ]);
+                    }
+                } elseif ($item->game_fowl_id) {
+                    $gameFowl = \App\Models\GameFowl::find($item->game_fowl_id);
+                    if ($gameFowl) {
+                        $gameFowl->update(['sale_status' => 'for_sale']);
+                    }
+                }
+            }
+
+            $order->update(['status' => 'cancelled']);
             return $order;
         });
     }

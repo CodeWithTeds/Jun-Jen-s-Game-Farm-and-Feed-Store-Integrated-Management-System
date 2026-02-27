@@ -9,7 +9,7 @@ class CartItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cart_id', 'feed_id', 'quantity'];
+    protected $fillable = ['cart_id', 'feed_id', 'game_fowl_id', 'quantity'];
 
     public function cart()
     {
@@ -19,5 +19,10 @@ class CartItem extends Model
     public function feed()
     {
         return $this->belongsTo(Feed::class);
+    }
+
+    public function gameFowl()
+    {
+        return $this->belongsTo(GameFowl::class);
     }
 }

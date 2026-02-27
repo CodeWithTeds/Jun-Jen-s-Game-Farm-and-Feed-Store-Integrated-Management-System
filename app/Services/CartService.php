@@ -62,6 +62,38 @@ class CartService
         return $this->getCart($userId);
     }
 
+    public function addGameFowlToCart(int $userId, int $gameFowlId)
+    {
+        $gameFowl = \App\Models\GameFowl::find($gameFowlId);
+        if (!$gameFowl) {
+            throw new Exception("Game Fowl not found.");
+        }
+
+        if ($gameFowl->sale_status !== 'for_sale') {
+            throw new Exception("Game Fowl is not for sale.");
+        }
+
+        $cart = $this->getCart($userId);
+
+        // Check if item already exists
+        $existingItem = $cart->items->where('game_fowl_id', $gameFowlId)->first();
+        if ($existingItem) {
+            throw new Exception("This game fowl is already in your cart.");
+        }
+
+        $this->cartRepository->addItem($cart->id, [
+            'game_fowl_id' => $gameFowlId,
+            'quantity' => 1
+        ]);
+
+        return $this->getCart($userId);
+    }
+
+    public function addItem($cartId, array $data)
+    {
+        return \App\Models\CartItem::create(array_merge(['cart_id' => $cartId], $data));
+    }
+
     public function updateItemQuantity(int $userId, int $itemId, int $quantity)
     {
         if ($quantity <= 0) {
@@ -74,6 +106,14 @@ class CartService
 
         if (!$item) {
             throw new Exception("Item not found in cart.");
+        }
+
+        if ($item->game_fowl_id) {
+            // Game fowls can only have quantity 1
+            if ($quantity > 1) {
+                throw new Exception("Game fowls can only be purchased one at a time.");
+            }
+            return $this->getCart($userId);
         }
 
         // Check stock
