@@ -110,6 +110,43 @@
             </div>
         </div>
 
+        <!-- Top Selling Chickens -->
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Sold Chickens</h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-slate-50 dark:bg-slate-950/50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Game Fowl</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Sold</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Revenue</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+                        @forelse($data['top_chickens'] as $chicken)
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                <td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">
+                                    {{ $chicken->gameFowl->name ?? 'Unknown Chicken' }}
+                                </td>
+                                <td class="px-6 py-4 text-sm text-right text-slate-600 dark:text-slate-300">
+                                    {{ $chicken->total_quantity }}
+                                </td>
+                                <td class="px-6 py-4 text-sm text-right text-slate-600 dark:text-slate-300">
+                                    ₱{{ number_format($chicken->total_revenue, 2) }}
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="px-6 py-4 text-center text-sm text-slate-500 dark:text-slate-400">No data available</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- Inventory Summary -->
         <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
             <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800">

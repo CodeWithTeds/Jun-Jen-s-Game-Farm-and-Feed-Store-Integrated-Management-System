@@ -18,6 +18,7 @@ class ReportService
         return [
             'sales_report' => $this->reportRepository->getSalesReport($filters),
             'top_products' => $this->reportRepository->getTopSellingProducts($filters),
+            'top_chickens' => $this->reportRepository->getTopSellingChickens($filters),
             'inventory_summary' => $this->reportRepository->getInventorySummary(),
         ];
     }

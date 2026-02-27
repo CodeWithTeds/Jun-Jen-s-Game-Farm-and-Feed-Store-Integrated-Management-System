@@ -107,6 +107,13 @@
             </select>
         </div>
         <div class="w-full md:w-40">
+            <select wire:model.live="transactionTypeFilter" class="block w-full rounded-lg border-slate-200 bg-white text-sm focus:border-emerald-500 focus:ring-emerald-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white">
+                <option value="">All Types</option>
+                <option value="store">Store Items</option>
+                <option value="chicken">Chickens</option>
+            </select>
+        </div>
+        <div class="w-full md:w-40">
             <input wire:model.live="dateFrom" type="date" class="block w-full rounded-lg border-slate-200 bg-white text-sm focus:border-emerald-500 focus:ring-emerald-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white">
         </div>
         <div class="w-full md:w-40">

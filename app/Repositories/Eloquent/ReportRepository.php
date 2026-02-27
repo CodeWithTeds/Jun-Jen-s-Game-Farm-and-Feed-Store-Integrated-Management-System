@@ -38,10 +38,33 @@ class ReportRepository implements ReportRepositoryInterface
         $query = OrderItem::query()
             ->join('orders', 'order_items.order_id', '=', 'orders.id')
             ->where('orders.status', 'completed')
+            ->whereNotNull('feed_id')
             ->select('feed_id', DB::raw('SUM(order_items.quantity) as total_quantity'), DB::raw('SUM(order_items.price * order_items.quantity) as total_revenue'))
             ->groupBy('feed_id')
             ->orderByDesc('total_quantity')
             ->with('feed');
+
+        if (isset($filters['date_from'])) {
+            $query->whereDate('orders.created_at', '>=', $filters['date_from']);
+        }
+
+        if (isset($filters['date_to'])) {
+            $query->whereDate('orders.created_at', '<=', $filters['date_to']);
+        }
+
+        return $query->take($limit)->get();
+    }
+
+    public function getTopSellingChickens(array $filters, int $limit = 5)
+    {
+        $query = OrderItem::query()
+            ->join('orders', 'order_items.order_id', '=', 'orders.id')
+            ->where('orders.status', 'completed')
+            ->whereNotNull('game_fowl_id')
+            ->select('game_fowl_id', DB::raw('COUNT(*) as total_quantity'), DB::raw('SUM(order_items.price * order_items.quantity) as total_revenue'))
+            ->groupBy('game_fowl_id')
+            ->orderByDesc('total_quantity')
+            ->with('gameFowl');
 
         if (isset($filters['date_from'])) {
             $query->whereDate('orders.created_at', '>=', $filters['date_from']);

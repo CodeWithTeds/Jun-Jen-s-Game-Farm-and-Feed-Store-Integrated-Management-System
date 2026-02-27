@@ -44,6 +44,18 @@ class SalesTransactionRepository implements SalesTransactionRepositoryInterface
             $query->whereDate('created_at', '<=', $filters['date_to']);
         }
 
+        if (isset($filters['transaction_type']) && $filters['transaction_type']) {
+            if ($filters['transaction_type'] === 'store') {
+                $query->whereHas('items', function ($q) {
+                    $q->whereNotNull('feed_id');
+                });
+            } elseif ($filters['transaction_type'] === 'chicken') {
+                $query->whereHas('items', function ($q) {
+                    $q->whereNotNull('game_fowl_id');
+                });
+            }
+        }
+
         if (isset($filters['sort_by']) && isset($filters['sort_order'])) {
             $query->orderBy($filters['sort_by'], $filters['sort_order']);
         } else {

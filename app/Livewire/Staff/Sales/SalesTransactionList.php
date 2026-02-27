@@ -17,6 +17,7 @@ class SalesTransactionList extends Component
     public $statusFilter = '';
     public $paymentStatusFilter = '';
     public $paymentMethodFilter = '';
+    public $transactionTypeFilter = '';
     public $dateFrom = '';
     public $dateTo = '';
     public $perPage = 10;
@@ -118,6 +119,7 @@ class SalesTransactionList extends Component
             'payment_method' => $this->paymentMethodFilter,
             'date_from' => $this->dateFrom,
             'date_to' => $this->dateTo,
+            'transaction_type' => $this->transactionTypeFilter,
         ];
 
         $transactions = $this->salesService->getAllTransactions($filters, $this->perPage);
