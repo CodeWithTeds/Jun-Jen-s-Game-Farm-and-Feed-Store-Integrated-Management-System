@@ -29,11 +29,16 @@
                     </div>
                     <div class="divide-y divide-slate-200 dark:divide-slate-800">
                         @foreach($order->items as $item)
+                            @php
+                                $itemName = $item->feed ? $item->feed->feed_name : ($item->gameFowl ? $item->gameFowl->name : 'Unknown Item');
+                                $itemImage = $item->feed ? $item->feed->image : ($item->gameFowl ? $item->gameFowl->image : null);
+                                $itemDescription = $item->feed ? ($item->feed->brand ?? 'Generic Brand') : ($item->gameFowl ? ($item->gameFowl->sex . ' • ' . $item->gameFowl->current_age) : '');
+                            @endphp
                             <div class="p-6 flex gap-4 sm:gap-6 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
                                 <!-- Image -->
                                 <div class="shrink-0">
-                                     @if($item->feed->image)
-                                        <img class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800" src="{{ asset('storage/' . $item->feed->image) }}" alt="{{ $item->feed->feed_name }}">
+                                     @if($itemImage)
+                                        <img class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800" src="{{ asset('storage/' . $itemImage) }}" alt="{{ $itemName }}">
                                     @else
                                         <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-400">
                                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -43,8 +48,8 @@
                                 <!-- Content -->
                                 <div class="flex-1 flex flex-col sm:flex-row sm:justify-between">
                                     <div class="flex-1 pr-4">
-                                        <h3 class="text-base font-bold text-slate-900 dark:text-white mb-1">{{ $item->feed->feed_name }}</h3>
-                                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-2">{{ $item->feed->brand ?? 'Generic Brand' }}</p>
+                                        <h3 class="text-base font-bold text-slate-900 dark:text-white mb-1">{{ $itemName }}</h3>
+                                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-2">{{ $itemDescription }}</p>
                                         <div class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-200">
                                             Qty: {{ $item->quantity }}
                                         </div>
