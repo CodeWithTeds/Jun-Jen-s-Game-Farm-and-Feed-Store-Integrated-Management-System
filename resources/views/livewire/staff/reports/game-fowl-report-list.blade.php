@@ -55,7 +55,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <flux:button href="{{ auth()->user()->role === 'admin' ? route('admin.reports.game-fowls.show', $fowl) : route('staff.reports.game-fowls.show', $fowl) }}" size="sm" variant="primary" icon="document-text" wire:navigate>
-                                    View Report
+                                    View Details
                                 </flux:button>
                             </td>
                         </tr>
