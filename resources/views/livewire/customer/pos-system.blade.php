@@ -441,6 +441,64 @@
                             <span>Total</span>
                             <span class="text-emerald-600 dark:text-emerald-400">₱{{ number_format($this->subtotal, 2) }}</span>
                         </div>
+                        
+                        @if($paymentMethod === 'gcash')
+                        <div class="mt-4 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50/60 dark:bg-emerald-900/20 p-4 space-y-3">
+                            <div class="text-sm font-bold text-gray-900 dark:text-white">Send payment to GCash</div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div x-data="{copied:false}">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Account Name</span>
+                                        <button @click="navigator.clipboard.writeText($refs.val.innerText); copied=true; setTimeout(()=>copied=false,1500)" class="text-xs px-2 py-1 rounded-lg bg-white dark:bg-slate-800 border border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/30">Copy</button>
+                                    </div>
+                                    <div x-ref="val" class="mt-1 font-mono text-sm text-gray-900 dark:text-white">{{ env('GCASH_ACCOUNT_NAME', 'Feed Store') }}</div>
+                                    <div x-show="copied" class="text-emerald-600 dark:text-emerald-400 text-xs mt-1">Copied</div>
+                                </div>
+                                <div x-data="{copied:false}">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">GCash Number</span>
+                                        <button @click="navigator.clipboard.writeText($refs.val.innerText); copied=true; setTimeout(()=>copied=false,1500)" class="text-xs px-2 py-1 rounded-lg bg-white dark:bg-slate-800 border border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/30">Copy</button>
+                                    </div>
+                                    <div x-ref="val" class="mt-1 font-mono text-sm text-gray-900 dark:text-white">{{ env('GCASH_NUMBER', '09999999999') }}</div>
+                                    <div x-show="copied" class="text-emerald-600 dark:text-emerald-400 text-xs mt-1">Copied</div>
+                                </div>
+                            </div>
+                            <div class="text-xs text-gray-600 dark:text-gray-400">Include your order number in the transfer message.</div>
+                        </div>
+                        @endif
+                        
+                        @if($paymentMethod === 'bank_transfer')
+                        <div class="mt-4 rounded-xl border border-blue-200 dark:border-slate-700 bg-blue-50/60 dark:bg-slate-800/40 p-4 space-y-3">
+                            <div class="text-sm font-bold text-gray-900 dark:text-white">Send payment to Bank</div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div x-data="{copied:false}">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Bank</span>
+                                        <button @click="navigator.clipboard.writeText($refs.val.innerText); copied=true; setTimeout(()=>copied=false,1500)" class="text-xs px-2 py-1 rounded-lg bg-white dark:bg-slate-800 border border-blue-300 dark:border-slate-600 text-blue-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-700">Copy</button>
+                                    </div>
+                                    <div x-ref="val" class="mt-1 font-mono text-sm text-gray-900 dark:text-white">{{ env('BANK_NAME', 'BDO') }}</div>
+                                    <div x-show="copied" class="text-emerald-600 dark:text-emerald-400 text-xs mt-1">Copied</div>
+                                </div>
+                                <div x-data="{copied:false}">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Account Name</span>
+                                        <button @click="navigator.clipboard.writeText($refs.val.innerText); copied=true; setTimeout(()=>copied=false,1500)" class="text-xs px-2 py-1 rounded-lg bg-white dark:bg-slate-800 border border-blue-300 dark:border-slate-600 text-blue-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-700">Copy</button>
+                                    </div>
+                                    <div x-ref="val" class="mt-1 font-mono text-sm text-gray-900 dark:text-white">{{ env('BANK_ACCOUNT_NAME', 'Feed Store') }}</div>
+                                    <div x-show="copied" class="text-emerald-600 dark:text-emerald-400 text-xs mt-1">Copied</div>
+                                </div>
+                                <div x-data="{copied:false}" class="sm:col-span-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Account Number</span>
+                                        <button @click="navigator.clipboard.writeText($refs.val.innerText); copied=true; setTimeout(()=>copied=false,1500)" class="text-xs px-2 py-1 rounded-lg bg-white dark:bg-slate-800 border border-blue-300 dark:border-slate-600 text-blue-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-700">Copy</button>
+                                    </div>
+                                    <div x-ref="val" class="mt-1 font-mono text-sm text-gray-900 dark:text-white">{{ env('BANK_ACCOUNT_NUMBER', '0000000000') }}</div>
+                                    <div x-show="copied" class="text-emerald-600 dark:text-emerald-400 text-xs mt-1">Copied</div>
+                                </div>
+                            </div>
+                            <div class="text-xs text-gray-600 dark:text-gray-400">Include your order number in the transfer reference.</div>
+                        </div>
+                        @endif
                     </div>
                 </div>
 
@@ -556,6 +614,7 @@
                                     </div>
                                 </label>
                             </div>
+                            
                         </div>
 
                         <!-- Proof of Payment -->
