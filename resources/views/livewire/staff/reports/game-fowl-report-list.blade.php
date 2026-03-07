@@ -24,7 +24,12 @@
                 </thead>
                 <tbody class="divide-y divide-slate-200 dark:divide-slate-700 bg-white dark:bg-slate-900">
                     @forelse($gameFowls as $fowl)
-                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+                        @php
+                            $detailsUrl = auth()->user()->role === 'admin'
+                                ? route('admin.reports.game-fowls.show', $fowl)
+                                : route('staff.reports.game-fowls.show', $fowl);
+                        @endphp
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group cursor-pointer" onclick="window.location='{{ $detailsUrl }}'">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10">
@@ -37,7 +42,9 @@
                                         @endif
                                     </div>
                                     <div class="ml-4">
-                                        <div class="text-sm font-semibold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">{{ $fowl->name }}</div>
+                                        <a href="{{ $detailsUrl }}" class="text-sm font-semibold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors" wire:navigate>
+                                            {{ $fowl->name }}
+                                        </a>
                                         <div class="text-xs text-slate-500 dark:text-slate-400 font-mono">ID: {{ $fowl->tag_id }}</div>
                                     </div>
                                 </div>
@@ -54,7 +61,7 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <flux:button href="{{ auth()->user()->role === 'admin' ? route('admin.reports.game-fowls.show', $fowl) : route('staff.reports.game-fowls.show', $fowl) }}" size="sm" variant="primary" icon="document-text" wire:navigate>
+                                <flux:button href="{{ $detailsUrl }}" size="sm" variant="primary" icon="document-text" wire:navigate>
                                     View Details
                                 </flux:button>
                             </td>

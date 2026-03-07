@@ -264,7 +264,7 @@
                     {{ __('Suppliers') }}
                 </flux:sidebar.item>
 
-                <flux:sidebar.item :href="route('admin.reports.index')" :current="request()->routeIs('admin.reports.*')" wire:navigate>
+                <flux:sidebar.item :href="route('admin.reports.index')" :current="request()->routeIs('admin.reports.index')" wire:navigate>
                     <x-slot:icon>
                         <flux:icon :icon="'chart-bar'" class="size-6 text-purple-500" />
                     </x-slot:icon>
