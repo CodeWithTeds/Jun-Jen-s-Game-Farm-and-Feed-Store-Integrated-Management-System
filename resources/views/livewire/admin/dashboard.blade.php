@@ -9,22 +9,7 @@
             <flux:heading size="xl" class="leading-tight">{{ __('Dashboard') }}</flux:heading>
             <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">{{ __('Overview of your store performance.') }}</p>
         </div>
-        
-        <div class="flex items-center gap-2">
-            <select wire:model.live="dateRange" class="rounded-lg border-slate-200 text-sm focus:ring-emerald-500 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300">
-                <option value="7_days">Last 7 Days</option>
-                <option value="30_days">Last 30 Days</option>
-                <option value="this_month">This Month</option>
-                <option value="last_month">Last Month</option>
-                <option value="custom">Custom Range</option>
-            </select>
 
-            @if($dateRange === 'custom')
-                <input type="date" wire:model.live="customDateFrom" class="rounded-lg border-slate-200 text-sm dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300">
-                <span class="text-slate-400">-</span>
-                <input type="date" wire:model.live="customDateTo" class="rounded-lg border-slate-200 text-sm dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300">
-            @endif
-        </div>
     </div>
 
     <!-- Stats Cards -->
