@@ -467,36 +467,31 @@
                         </div>
                         @endif
                         
-                        @if($paymentMethod === 'bank_transfer')
-                        <div class="mt-4 rounded-xl border border-blue-200 dark:border-slate-700 bg-blue-50/60 dark:bg-slate-800/40 p-4 space-y-3">
-                            <div class="text-sm font-bold text-gray-900 dark:text-white">Send payment to Bank</div>
+                        @if($paymentMethod === 'paymaya')
+                        <div class="mt-4 rounded-xl border border-green-200 dark:border-green-800 bg-green-50/60 dark:bg-green-900/20 p-4 space-y-3">
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm font-bold text-gray-900 dark:text-white">Send payment to Maya</span>
+                                <span class="text-xs px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 font-semibold">e-Wallet</span>
+                            </div>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div x-data="{copied:false}">
                                     <div class="flex items-center justify-between">
-                                        <span class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Bank</span>
-                                        <button @click="navigator.clipboard.writeText($refs.val.innerText); copied=true; setTimeout(()=>copied=false,1500)" class="text-xs px-2 py-1 rounded-lg bg-white dark:bg-slate-800 border border-blue-300 dark:border-slate-600 text-blue-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-700">Copy</button>
+                                        <span class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Account Name</span>
+                                        <button @click="navigator.clipboard.writeText($refs.val.innerText); copied=true; setTimeout(()=>copied=false,1500)" class="text-xs px-2 py-1 rounded-lg bg-white dark:bg-slate-800 border border-green-300 dark:border-green-700 text-green-700 dark:text-green-300 hover:bg-green-50 dark:hover:bg-green-900/30">Copy</button>
                                     </div>
-                                    <div x-ref="val" class="mt-1 font-mono text-sm text-gray-900 dark:text-white">{{ env('BANK_NAME', 'BDO') }}</div>
-                                    <div x-show="copied" class="text-emerald-600 dark:text-emerald-400 text-xs mt-1">Copied</div>
+                                    <div x-ref="val" class="mt-1 font-mono text-sm text-gray-900 dark:text-white">{{ env('PAYMAYA_ACCOUNT_NAME', 'Feed Store') }}</div>
+                                    <div x-show="copied" class="text-green-600 dark:text-green-400 text-xs mt-1">Copied</div>
                                 </div>
                                 <div x-data="{copied:false}">
                                     <div class="flex items-center justify-between">
-                                        <span class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Account Name</span>
-                                        <button @click="navigator.clipboard.writeText($refs.val.innerText); copied=true; setTimeout(()=>copied=false,1500)" class="text-xs px-2 py-1 rounded-lg bg-white dark:bg-slate-800 border border-blue-300 dark:border-slate-600 text-blue-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-700">Copy</button>
+                                        <span class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Maya Number</span>
+                                        <button @click="navigator.clipboard.writeText($refs.val.innerText); copied=true; setTimeout(()=>copied=false,1500)" class="text-xs px-2 py-1 rounded-lg bg-white dark:bg-slate-800 border border-green-300 dark:border-green-700 text-green-700 dark:text-green-300 hover:bg-green-50 dark:hover:bg-green-900/30">Copy</button>
                                     </div>
-                                    <div x-ref="val" class="mt-1 font-mono text-sm text-gray-900 dark:text-white">{{ env('BANK_ACCOUNT_NAME', 'Feed Store') }}</div>
-                                    <div x-show="copied" class="text-emerald-600 dark:text-emerald-400 text-xs mt-1">Copied</div>
-                                </div>
-                                <div x-data="{copied:false}" class="sm:col-span-2">
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">Account Number</span>
-                                        <button @click="navigator.clipboard.writeText($refs.val.innerText); copied=true; setTimeout(()=>copied=false,1500)" class="text-xs px-2 py-1 rounded-lg bg-white dark:bg-slate-800 border border-blue-300 dark:border-slate-600 text-blue-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-700">Copy</button>
-                                    </div>
-                                    <div x-ref="val" class="mt-1 font-mono text-sm text-gray-900 dark:text-white">{{ env('BANK_ACCOUNT_NUMBER', '0000000000') }}</div>
-                                    <div x-show="copied" class="text-emerald-600 dark:text-emerald-400 text-xs mt-1">Copied</div>
+                                    <div x-ref="val" class="mt-1 font-mono text-sm text-gray-900 dark:text-white">{{ env('PAYMAYA_NUMBER', '09999999999') }}</div>
+                                    <div x-show="copied" class="text-green-600 dark:text-green-400 text-xs mt-1">Copied</div>
                                 </div>
                             </div>
-                            <div class="text-xs text-gray-600 dark:text-gray-400">Include your order number in the transfer reference.</div>
+                            <div class="text-xs text-gray-600 dark:text-gray-400">Include your order number in the transfer message.</div>
                         </div>
                         @endif
                     </div>
@@ -505,87 +500,7 @@
                 <!-- Right Side: Shipping & Payment -->
                 <div class="w-full md:w-1/2 p-6 overflow-y-auto">
                     <div class="space-y-6">
-                        <!-- Shipping Address Section -->
-                        <div>
-                            <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                Shipping Details
-                            </h4>
 
-                            @if($hasSavedAddress)
-                                <div class="bg-emerald-50 dark:bg-emerald-900/30 p-4 rounded-lg border border-emerald-100 dark:border-emerald-800 relative">
-                                    <div class="absolute top-4 right-4 text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-white dark:bg-slate-800 px-2 py-1 rounded shadow-sm">
-                                        Default Address
-                                    </div>
-                                    <h5 class="font-bold text-gray-900 dark:text-white">{{ $location_name }}</h5>
-                                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">
-                                        <span class="font-medium">{{ $contact_person }}</span> ({{ $phone_number }})
-                                    </p>
-                                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">
-                                        {{ $address }}, {{ $city }}, {{ $province }} {{ $postal_code }}
-                                    </p>
-                                </div>
-                            @else
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div class="col-span-2">
-                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Location Name</label>
-                                        <input type="text" wire:model="location_name" placeholder="e.g. Home, Office" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 dark:bg-slate-900 p-2.5 focus:ring-emerald-500 focus:border-emerald-500">
-                                        @error('location_name') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                                    </div>
-                                    
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Contact Person</label>
-                                        <input type="text" wire:model="contact_person" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 dark:bg-slate-900 p-2.5 focus:ring-emerald-500 focus:border-emerald-500">
-                                        @error('contact_person') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                                    </div>
-
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone Number</label>
-                                        <input type="text" wire:model="phone_number" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 dark:bg-slate-900 p-2.5 focus:ring-emerald-500 focus:border-emerald-500">
-                                        @error('phone_number') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                                    </div>
-
-                                    <div class="col-span-2">
-                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Address</label>
-                                        <textarea wire:model="address" rows="2" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 dark:bg-slate-900 p-2.5 focus:ring-emerald-500 focus:border-emerald-500"></textarea>
-                                        @error('address') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                                    </div>
-
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">City</label>
-                                        <input type="text" wire:model="city" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 dark:bg-slate-900 p-2.5 focus:ring-emerald-500 focus:border-emerald-500">
-                                        @error('city') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                                    </div>
-
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Province</label>
-                                        <input type="text" wire:model="province" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 dark:bg-slate-900 p-2.5 focus:ring-emerald-500 focus:border-emerald-500">
-                                        @error('province') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                                    </div>
-
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Postal Code</label>
-                                        <input type="text" wire:model="postal_code" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 dark:bg-slate-900 p-2.5 focus:ring-emerald-500 focus:border-emerald-500">
-                                        @error('postal_code') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                                    </div>
-
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Country</label>
-                                        <input type="text" wire:model="country" class="w-full rounded-lg border border-slate-300 dark:border-slate-700 dark:bg-slate-900 p-2.5 focus:ring-emerald-500 focus:border-emerald-500" readonly>
-                                        @error('country') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
-                                    </div>
-                                    
-                                    <div class="col-span-2">
-                                         <label class="flex items-center space-x-2 cursor-pointer">
-                                            <input type="checkbox" wire:model="is_default" class="rounded border-slate-300 text-emerald-600 shadow-sm focus:border-emerald-300 focus:ring focus:ring-emerald-200 focus:ring-opacity-50">
-                                            <span class="text-sm text-gray-600 dark:text-gray-400">Save as default address</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-
-                        <hr class="border-slate-200 dark:border-slate-700">
 
                         <!-- Payment Method -->
                         <div>
@@ -608,9 +523,9 @@
                                     </div>
                                 </label>
                                 <label class="cursor-pointer relative">
-                                    <input type="radio" wire:model.live="paymentMethod" value="bank_transfer" class="peer sr-only">
+                                    <input type="radio" wire:model.live="paymentMethod" value="paymaya" class="peer sr-only">
                                     <div class="p-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 dark:peer-checked:bg-emerald-900/20 peer-checked:ring-1 peer-checked:ring-emerald-500 transition text-center">
-                                        <span class="block text-sm font-medium text-gray-900 dark:text-white">Bank</span>
+                                        <span class="block text-sm font-medium text-gray-900 dark:text-white">Maya</span>
                                     </div>
                                 </label>
                             </div>
