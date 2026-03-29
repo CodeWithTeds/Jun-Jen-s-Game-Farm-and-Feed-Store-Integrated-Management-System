@@ -25,22 +25,18 @@ document.addEventListener('alpine:init', () => {
             const textColor = '#71717a'; // zinc-500
 
             this.chart = new Chart(ctx, {
-                type: 'line',
+                type: 'bar',
                 data: {
                     labels: data.map(d => d.date),
                     datasets: [{
                         label: 'Spending',
                         data: data.map(d => d.total),
-                        borderColor: '#10b981', // Green-500
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        borderWidth: 2,
-                        tension: 0.3,
-                        fill: true,
-                        pointRadius: 4,
-                        pointHoverRadius: 6,
-                        pointBackgroundColor: '#10b981',
-                        pointBorderColor: '#ffffff',
-                        pointBorderWidth: 2
+                        backgroundColor: '#2d9a85', // Teal/Green from image
+                        borderColor: '#247969',
+                        borderWidth: 1,
+                        borderRadius: 6,
+                        barPercentage: 0.8,
+                        categoryPercentage: 0.9
                     }]
                 },
                 options: {
@@ -72,7 +68,7 @@ document.addEventListener('alpine:init', () => {
                                 drawBorder: false
                             },
                             ticks: { 
-                                callback: value => '₱' + value,
+                                callback: value => '₱' + (value >= 1000 ? (value/1000) + 'k' : value),
                                 color: textColor,
                                 font: { size: 11 }
                             }
@@ -81,13 +77,11 @@ document.addEventListener('alpine:init', () => {
                             grid: { display: false },
                             ticks: { 
                                 color: textColor,
-                                font: { size: 11 }
+                                font: { size: 10 },
+                                maxRotation: 45,
+                                minRotation: 0
                             }
                         }
-                    },
-                    interaction: {
-                        mode: 'index',
-                        intersect: false
                     }
                 }
             });

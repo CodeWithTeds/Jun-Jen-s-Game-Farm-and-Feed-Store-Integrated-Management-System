@@ -12,11 +12,6 @@
             </h3>
             <p class="text-sm text-slate-500 mt-1">Your purchase history over time</p>
         </div>
-        <select wire:model.live="dateRange" class="w-full sm:w-auto rounded-lg border-slate-200 text-sm focus:ring-green-500 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 py-1.5 px-3 bg-gray-50 dark:bg-slate-800/50">
-            <option value="7_days">Last 7 Days</option>
-            <option value="30_days">Last 30 Days</option>
-            <option value="this_month">This Month</option>
-        </select>
     </div>
     
     <div class="relative h-72 w-full">
