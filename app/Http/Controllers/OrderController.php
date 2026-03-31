@@ -17,9 +17,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        $userId = Auth::id();
-        $orders = $this->orderService->getUserOrders($userId);
-        return view('orders.customer_index', compact('orders'));
+        return view('orders.receipt_logs_index');
     }
 
     public function show($id)

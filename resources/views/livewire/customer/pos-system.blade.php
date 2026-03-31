@@ -625,31 +625,27 @@
     @if($showReceiptModal && $latestOrder)
     <div class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
         <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full overflow-hidden flex flex-col transform animate-pop-in">
-            <!-- Receipt Header -->
-            <div class="p-8 pb-4 text-center">
-                <div class="flex justify-center mb-4">
-                    <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <!-- Receipt Content for Capture -->
+            <div id="pos-receipt-content" class="bg-white p-8">
+                <!-- Receipt Header -->
+                <div class="pb-4 text-center border-b border-dashed border-gray-100">
+                    <h3 class="text-2xl font-bold text-gray-900 uppercase tracking-tight">Feed Store</h3>
+                    <p class="text-xs text-gray-500 mt-1 italic">Quality Feeds for Your Farm</p>
+                    <div class="text-[10px] text-gray-400 mt-2 flex justify-center gap-2 font-mono">
+                        <span>{{ $latestOrder->created_at->format('M d, Y') }}</span>
+                        <span>•</span>
+                        <span>{{ $latestOrder->created_at->format('h:i A') }}</span>
                     </div>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-900 uppercase tracking-tight">Feed Store</h3>
-                <p class="text-xs text-gray-500 mt-1 italic">Quality Feeds for Your Farm</p>
-                <div class="text-[10px] text-gray-400 mt-2 flex justify-center gap-2">
-                    <span>{{ now()->format('M d, Y') }}</span>
-                    <span>•</span>
-                    <span>{{ now()->format('h:i A') }}</span>
-                </div>
-            </div>
 
-            <!-- Receipt Body (Paper style) -->
-            <div class="px-8 flex-1 overflow-y-auto">
-                <div class="border-t-2 border-dashed border-gray-200 py-4">
+                <!-- Receipt Items -->
+                <div class="py-4">
                     <div class="flex justify-between text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">
                         <span>Description</span>
                         <span>Price</span>
                     </div>
                     
-                    <div class="space-y-3">
+                    <div class="space-y-4">
                         @foreach($latestOrder->items as $item)
                         <div class="flex justify-between items-start gap-4">
                             <div class="text-xs font-medium text-gray-700">
@@ -666,44 +662,41 @@
                 </div>
 
                 <!-- Totals Section -->
-                <div class="border-t-2 border-dashed border-gray-200 py-4 space-y-2">
-                    <div class="flex justify-between items-center text-sm">
-                        <span class="font-bold text-gray-900">Total</span>
-                        <span class="text-lg font-black text-gray-900 leading-none">₱{{ number_format($latestOrder->total_amount, 2) }}</span>
+                <div class="py-4 border-t-2 border-dashed border-gray-200 space-y-2 bg-gray-50/50 p-4 rounded-xl">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-bold text-gray-900 uppercase">Total Paid</span>
+                        <span class="text-xl font-black text-gray-900 leading-none">₱{{ number_format($latestOrder->total_amount, 2) }}</span>
                     </div>
                     
                     @if($latestOrder->payment_method === 'cash')
-                    <div class="flex justify-between text-xs text-gray-500">
-                        <span>Cash Tendered</span>
+                    <div class="flex justify-between text-[10px] text-gray-500">
+                        <span class="uppercase">Tendered</span>
                         <span>₱{{ number_format($paidAmount, 2) }}</span>
                     </div>
-                    <div class="flex justify-between text-xs font-bold text-emerald-600">
-                        <span>Change</span>
+                    <div class="flex justify-between text-xs font-black text-emerald-600">
+                        <span class="uppercase">Change</span>
                         <span>₱{{ number_format($changeAmount, 2) }}</span>
                     </div>
                     @else
-                    <div class="flex justify-between text-xs text-gray-500">
-                        <span>Payment Method</span>
-                        <span class="uppercase tracking-wider font-bold">{{ $latestOrder->payment_method }}</span>
+                    <div class="flex justify-between text-[10px] text-gray-500">
+                        <span class="uppercase">Method</span>
+                        <span class="font-bold uppercase tracking-widest">{{ $latestOrder->payment_method }}</span>
                     </div>
                     @endif
                 </div>
 
-                <!-- Barcode Placeholder -->
-                <div class="py-6 flex flex-col items-center gap-2 grayscale opacity-80">
-                    <div class="w-full h-12 bg-[repeating-linear-gradient(90deg,#000,#000_2px,transparent_2px,transparent_4px)]"></div>
-                    <span class="text-[9px] font-mono text-gray-400">{{ $latestOrder->order_number }}</span>
-                </div>
-
-                <div class="text-center py-4">
-                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.25em]">Thank You!</p>
+                <!-- Footer -->
+                <div class="py-6 flex flex-col items-center gap-2 border-t border-dashed border-gray-100">
+                    <span class="text-[9px] font-mono text-gray-400 uppercase tracking-widest">{{ $latestOrder->order_number }}</span>
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.25em] mt-4">Thank You!</p>
                 </div>
             </div>
 
-            <!-- Modal Footer -->
-            <div class="p-4 bg-gray-50 flex gap-3">
-                <button onclick="window.print()" class="flex-1 py-3 rounded-2xl border border-gray-200 bg-white text-gray-700 font-bold text-sm shadow-sm hover:bg-gray-100 transition">
-                    Print Receipt
+            <!-- Modal Actions -->
+            <div class="p-4 bg-gray-100 flex gap-3">
+                <button onclick="downloadReceipt('pos-receipt-content', '{{ $latestOrder->order_number }}')" class="flex-1 py-3 rounded-2xl border border-gray-200 bg-white text-gray-700 font-bold text-sm shadow-sm hover:bg-gray-50 transition flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    Download
                 </button>
                 <button wire:click="$set('showReceiptModal', false)" class="flex-1 py-3 rounded-2xl bg-emerald-600 text-white font-bold text-sm shadow-lg shadow-emerald-200 hover:bg-emerald-700 transition">
                     New Sale

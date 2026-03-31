@@ -135,11 +135,11 @@
                     {{ __('POS') }}
                 </flux:sidebar.item>
 
-                <flux:sidebar.item :href="route('customer.orders.index')" :current="request()->routeIs('customer.orders.*')" wire:navigate>
+                <flux:sidebar.item :href="route('customer.orders.index')" :current="request()->routeIs('customer.orders.index')" wire:navigate>
                     <x-slot:icon>
-                        <flux:icon :icon="'shopping-bag'" class="size-6 text-purple-500" />
+                        <flux:icon :icon="'receipt-refund'" class="size-6 text-purple-500" />
                     </x-slot:icon>
-                    {{ __('Order Purchase') }}
+                    {{ __('Purchase History') }}
                 </flux:sidebar.item>
             </flux:sidebar.group>
 
