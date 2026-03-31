@@ -34,9 +34,9 @@ class OrderService
         return $this->orderRepository->getById($id);
     }
 
-    public function checkout(int $userId, string $paymentMethod, string $shippingAddress, ?string $note, ?string $proofOfPayment = null)
+    public function checkout(int $userId, string $paymentMethod, string $shippingAddress, ?string $note, ?string $proofOfPayment = null, ?float $amountTendered = null, ?float $changeAmount = null)
     {
-        return DB::transaction(function () use ($userId, $paymentMethod, $shippingAddress, $note, $proofOfPayment) {
+        return DB::transaction(function () use ($userId, $paymentMethod, $shippingAddress, $note, $proofOfPayment, $amountTendered, $changeAmount) {
             // Step 1: Validate Cart and Inventory
             $cart = $this->cartRepository->getActiveCart($userId);
             if (!$cart || $cart->items->isEmpty()) {
@@ -79,6 +79,8 @@ class OrderService
                 'user_id' => $userId,
                 'order_number' => 'ORD-' . strtoupper(uniqid()),
                 'total_amount' => $totalAmount,
+                'amount_tendered' => $amountTendered,
+                'change_amount' => $changeAmount,
                 'status' => 'pending',
                 'payment_status' => $paymentStatus,
                 'shipping_address' => $shippingAddress,

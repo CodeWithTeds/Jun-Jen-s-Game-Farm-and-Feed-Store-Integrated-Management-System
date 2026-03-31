@@ -246,7 +246,9 @@ class PosSystem extends Component
                 $this->paymentMethod,
                 $fullAddress,
                 $this->note,
-                $proofPath
+                $proofPath,
+                $this->paidAmount,
+                $this->changeAmount
             );
 
             $this->paidAmount = (float) $this->amountTendered;

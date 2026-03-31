@@ -629,8 +629,9 @@
             <div id="pos-receipt-content" class="bg-white p-8">
                 <!-- Receipt Header -->
                 <div class="pb-4 text-center border-b border-dashed border-gray-100">
-                    <h3 class="text-2xl font-bold text-gray-900 uppercase tracking-tight">Feed Store</h3>
-                    <p class="text-xs text-gray-500 mt-1 italic">Quality Feeds for Your Farm</p>
+                    <h3 class="text-xl font-black text-gray-900 uppercase tracking-tighter leading-none">Jun and Jen’s</h3>
+                    <h4 class="text-[10px] font-bold text-gray-700 uppercase tracking-widest mt-1">Game Farm & Feed Store</h4>
+                    <p class="text-[9px] text-gray-400 mt-2 italic">Quality Feeds for Your Farm</p>
                     <div class="text-[10px] text-gray-400 mt-2 flex justify-center gap-2 font-mono">
                         <span>{{ $latestOrder->created_at->format('M d, Y') }}</span>
                         <span>•</span>

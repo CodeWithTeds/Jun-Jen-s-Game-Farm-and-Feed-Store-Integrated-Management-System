@@ -67,8 +67,9 @@
             <div id="log-receipt-content" class="bg-white p-8">
                 <!-- Receipt Header -->
                 <div class="pb-4 text-center border-b border-dashed border-gray-100">
-                    <h3 class="text-2xl font-bold text-gray-900 uppercase tracking-tight">Feed Store</h3>
-                    <p class="text-xs text-gray-500 mt-1 italic">Quality Feeds for Your Farm</p>
+                    <h3 class="text-xl font-black text-gray-900 uppercase tracking-tighter leading-none">Jun and Jen’s</h3>
+                    <h4 class="text-[10px] font-bold text-gray-700 uppercase tracking-widest mt-1">Game Farm & Feed Store</h4>
+                    <p class="text-[9px] text-gray-400 mt-2 italic">Quality Feeds for Your Farm</p>
                     <div class="text-[10px] text-gray-400 mt-2 flex justify-center gap-2 font-mono">
                         <span>{{ $selectedOrder->created_at->format('M d, Y') }}</span>
                         <span>•</span>
@@ -105,10 +106,21 @@
                         <span class="font-bold text-gray-900 uppercase">Total Paid</span>
                         <span class="text-xl font-black text-gray-900 leading-none">₱{{ number_format($selectedOrder->total_amount, 2) }}</span>
                     </div>
+                    @if($selectedOrder->payment_method === 'cash')
+                    <div class="flex justify-between text-[10px] text-gray-500">
+                        <span class="uppercase">Cash Tendered</span>
+                        <span>₱{{ number_format($selectedOrder->amount_tendered, 2) }}</span>
+                    </div>
+                    <div class="flex justify-between text-xs font-black text-emerald-600">
+                        <span class="uppercase">Change</span>
+                        <span>₱{{ number_format($selectedOrder->change_amount, 2) }}</span>
+                    </div>
+                    @else
                     <div class="flex justify-between text-[10px] text-gray-400">
                         <span class="uppercase">Method</span>
                         <span class="font-bold uppercase tracking-widest">{{ $selectedOrder->payment_method }}</span>
                     </div>
+                    @endif
                 </div>
 
                 <!-- Footer -->
