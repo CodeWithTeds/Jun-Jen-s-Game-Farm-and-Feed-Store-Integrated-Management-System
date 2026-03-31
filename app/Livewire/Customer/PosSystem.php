@@ -23,10 +23,15 @@ class PosSystem extends Component
     
     // Checkout fields
     public $paymentMethod = 'cash';
+    public $amountTendered = null;
     public $note = '';
     public $showCheckoutModal = false;
     public $proofOfPayment;
     public $hasSavedAddress = false;
+    public $showReceiptModal = false;
+    public $latestOrder = null;
+    public $paidAmount = 0;
+    public $changeAmount = 0;
 
     // Shipping Address Fields
     public $location_name;
@@ -82,6 +87,18 @@ class PosSystem extends Component
         });
     }
 
+    public function getChangeProperty()
+    {
+        $amount = (float) $this->amountTendered;
+        $subtotal = (float) $this->subtotal;
+
+        if ($amount <= 0 || $amount < $subtotal) {
+            return 0;
+        }
+
+        return $amount - $subtotal;
+    }
+
     public function updatedSearch()
     {
         $this->resetPage();
@@ -91,6 +108,20 @@ class PosSystem extends Component
     {
         if (!Auth::check()) {
             return redirect()->route('login');
+        }
+
+        $feed = \App\Models\Feed::find($feedId);
+        if (!$feed || $feed->quantity <= 0) {
+            $this->dispatch('notify', message: 'Item is out of stock.', type: 'error');
+            return;
+        }
+
+        if ($this->cart) {
+            $existingItem = $this->cart->items->where('feed_id', $feedId)->first();
+            if ($existingItem && ($existingItem->quantity + 1) > $feed->quantity) {
+                $this->dispatch('notify', message: 'Cannot add more. Exceeds available stock.', type: 'error');
+                return;
+            }
         }
 
         try {
@@ -119,6 +150,18 @@ class PosSystem extends Component
 
     public function updateQuantity($itemId, $quantity)
     {
+        $quantity = (int) $quantity;
+        
+        if ($quantity <= 0) {
+            $this->removeFromCart($itemId);
+            return;
+        }
+
+        $item = \App\Models\CartItem::find($itemId);
+        if ($item && $item->feed && $quantity > $item->feed->quantity) {
+            $this->dispatch('notify', message: 'Cannot update quantity. Exceeds available stock.', type: 'error');
+            return;
+        }
         try {
             $this->cartService->updateItemQuantity(Auth::id(), $itemId, $quantity);
             $this->refreshCart();
@@ -163,33 +206,6 @@ class PosSystem extends Component
             return;
         }
 
-        // Check for existing shipping address
-        $userId = Auth::id();
-        $user = $userId ? \App\Models\User::find($userId) : null;
-
-        if ($user) {
-            $defaultAddress = $user->shippingAddresses()->where('is_default', true)->first();
-            
-            if ($defaultAddress) {
-                $this->hasSavedAddress = true;
-                $this->location_name = $defaultAddress->location_name;
-                $this->contact_person = $defaultAddress->contact_person;
-                $this->phone_number = $defaultAddress->phone_number;
-                $this->address = $defaultAddress->address;
-                $this->city = $defaultAddress->city;
-                $this->province = $defaultAddress->province;
-                $this->postal_code = $defaultAddress->postal_code;
-                $this->country = $defaultAddress->country;
-                $this->location_type = $defaultAddress->location_type;
-                $this->remarks = $defaultAddress->remarks;
-            } else {
-                $this->hasSavedAddress = false;
-                // Pre-fill contact person and phone from user profile if available
-                $this->contact_person = $user->name;
-                $this->phone_number = $user->phone_number;
-            }
-        }
-
         $this->showCheckoutModal = true;
     }
 
@@ -198,67 +214,32 @@ class PosSystem extends Component
         $this->showCheckoutModal = false;
         $this->proofOfPayment = null;
         $this->resetValidation();
-        // Reset address fields if not saved
-        if (!$this->hasSavedAddress) {
-            $this->reset(['location_name', 'contact_person', 'phone_number', 'address', 'city', 'province', 'postal_code', 'country', 'location_type', 'is_default', 'remarks']);
-        }
     }
 
     public function checkout()
     {
         $rules = [
             'paymentMethod' => 'required|string',
-            'proofOfPayment' => 'nullable|image|max:10240',
         ];
-
-        if (!$this->hasSavedAddress) {
-            $rules = array_merge($rules, [
-                'location_name' => 'required|string|max:255',
-                'contact_person' => 'required|string|max:255',
-                'phone_number' => 'required|string|max:20',
-                'address' => 'required|string',
-                'city' => 'required|string|max:100',
-                'province' => 'required|string|max:100',
-                'postal_code' => 'required|string|max:20',
-                'country' => 'required|string|max:100',
-            ]);
-        }
 
         if ($this->paymentMethod !== 'cash') {
             $rules['proofOfPayment'] = 'required|image|max:10240';
+        } else {
+            $rules['amountTendered'] = ['required', 'numeric', 'min:' . $this->subtotal];
         }
 
-        $this->validate($rules);
+        $this->validate($rules, [
+            'amountTendered.min' => 'The amount tendered must be at least ₱' . number_format($this->subtotal, 2) . '.'
+        ]);
 
         try {
-            // Save address if new
-            if (!$this->hasSavedAddress) {
-                $user = \App\Models\User::find(Auth::id());
-                if ($user) {
-                    $user->shippingAddresses()->create([
-                        'location_name' => $this->location_name,
-                        'contact_person' => $this->contact_person,
-                        'phone_number' => $this->phone_number,
-                        'address' => $this->address,
-                        'city' => $this->city,
-                        'province' => $this->province,
-                        'postal_code' => $this->postal_code,
-                        'country' => $this->country,
-                        'location_type' => $this->location_type,
-                        'is_default' => $this->is_default,
-                        'remarks' => $this->remarks,
-                        'status' => 'Active'
-                    ]);
-                }
-            }
-
             $proofPath = null;
             if ($this->paymentMethod !== 'cash' && $this->proofOfPayment) {
                 $proofPath = $this->proofOfPayment->store('proof-of-payments', 'public');
             }
 
-            // Format full address for order record
-            $fullAddress = "{$this->contact_person} ({$this->phone_number})\n{$this->address}, {$this->city}, {$this->province} {$this->postal_code}, {$this->country}\n{$this->location_name}";
+            // For POS, we use a generic placeholder for address
+            $fullAddress = "In-Store Transaction (POS)";
 
             $order = $this->orderService->checkout(
                 Auth::id(), 
@@ -268,13 +249,20 @@ class PosSystem extends Component
                 $proofPath
             );
 
+            $this->paidAmount = (float) $this->amountTendered;
+            $this->changeAmount = $this->change;
+
             $this->refreshCart();
-            $this->dispatch('notify', message: 'Order placed successfully! Order #' . $order->order_number);
+            $this->latestOrder = $order->load('items.feed', 'items.gameFowl');
             
             // Reset inputs
             $this->note = '';
             $this->paymentMethod = 'cash';
-            $this->closeCheckoutModal();
+            $this->amountTendered = null;
+            $this->showCheckoutModal = false;
+            $this->showReceiptModal = true;
+            
+            $this->dispatch('notify', message: 'Order placed successfully! Order #' . $order->order_number);
             
         } catch (\Exception $e) {
             $this->dispatch('notify', message: $e->getMessage(), type: 'error');

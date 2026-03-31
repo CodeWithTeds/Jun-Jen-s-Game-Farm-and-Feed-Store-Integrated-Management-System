@@ -90,7 +90,7 @@
                                 </div>
                                 <p class="font-medium">No orders yet</p>
                                 <p class="text-sm mt-1">Start shopping to see your orders here.</p>
-                                <a href="{{ route('customer.products.index') }}" class="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors">
+                                <a href="{{ route('customer.pos.index') }}" class="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors">
                                     Browse Products
                                 </a>
                             </div>

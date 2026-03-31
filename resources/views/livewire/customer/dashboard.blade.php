@@ -4,7 +4,7 @@
         <div class="flex justify-between items-start mb-8 relative z-10">
             <div class="flex space-x-6 text-sm font-medium text-green-100/80">
                 <span class="text-white border-b-2 border-green-400 pb-1">Dashboard</span>
-                <a href="{{ route('customer.products.index') }}" class="hover:text-white transition flex items-center gap-1">
+                <a href="{{ route('customer.pos.index') }}" class="hover:text-white transition flex items-center gap-1">
                     Shop Now
                     <flux:icon name="arrow-right" class="w-3 h-3" />
                 </a>
@@ -55,7 +55,7 @@
                 <div class="relative z-10">
                     <h3 class="text-xl font-bold mb-2">Start Shopping</h3>
                     <p class="text-green-100 mb-6 text-sm">Browse our latest collection of premium feeds and supplies.</p>
-                    <a href="{{ route('customer.products.index') }}" class="inline-flex items-center justify-center bg-white text-green-600 px-6 py-3 rounded-xl font-bold hover:bg-green-50 transition shadow-md w-full sm:w-auto">
+                    <a href="{{ route('customer.pos.index') }}" class="inline-flex items-center justify-center bg-white text-green-600 px-6 py-3 rounded-xl font-bold hover:bg-green-50 transition shadow-md w-full sm:w-auto">
                         Browse Catalog
                     </a>
                 </div>

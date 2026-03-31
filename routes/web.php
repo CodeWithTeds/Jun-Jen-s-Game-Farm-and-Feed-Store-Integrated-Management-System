@@ -90,7 +90,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
 });
 
 Route::middleware(['auth', 'verified'])->prefix('customer')->name('customer.')->group(function () {
-    Route::resource('products', FeedController::class)->only(['index', 'show']);
+    Route::resource('pos', FeedController::class)->only(['index', 'show']);
     Route::get('cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('cart', [CartController::class, 'store'])->name('cart.store');
     Route::put('cart/{item}', [CartController::class, 'update'])->name('cart.update');

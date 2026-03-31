@@ -128,11 +128,11 @@
                     {{ __('Dashboard') }}
                 </flux:sidebar.item>
 
-                <flux:sidebar.item :href="route('customer.products.index')" :current="request()->routeIs('customer.products.*')" wire:navigate>
+                <flux:sidebar.item :href="route('customer.pos.index')" :current="request()->routeIs('customer.pos.*')" wire:navigate>
                     <x-slot:icon>
                         <flux:icon :icon="'archive-box'" class="size-6 text-blue-500" />
                     </x-slot:icon>
-                    {{ __('Product') }}
+                    {{ __('POS') }}
                 </flux:sidebar.item>
 
                 <flux:sidebar.item :href="route('customer.orders.index')" :current="request()->routeIs('customer.orders.*')" wire:navigate>

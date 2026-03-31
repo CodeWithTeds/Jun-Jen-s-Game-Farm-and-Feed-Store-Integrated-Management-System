@@ -65,7 +65,7 @@
                     @endforeach
                 @else
                     @foreach($feeds as $feed)
-                        <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition cursor-pointer relative group" wire:click="addToCart({{ $feed->id }})">
+                        <div class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm transition relative {{ $feed->quantity == 0 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:shadow-md group' }}" @if($feed->quantity > 0) wire:click="addToCart({{ $feed->id }})" @endif>
                             <div class="aspect-square w-full overflow-hidden rounded-t-xl bg-gray-100 dark:bg-slate-700 relative">
                                 @if($feed->image)
                                     <img src="{{ Storage::url($feed->image) }}" alt="{{ $feed->feed_name }}" class="w-full h-full object-cover">
@@ -87,7 +87,14 @@
                             </div>
                             <div class="p-3">
                                 <h3 class="font-medium text-gray-900 dark:text-white truncate">{{ $feed->feed_name }}</h3>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">{{ $feed->quantity }} in stock</p>
+                                <div class="mt-1 flex justify-between items-center">
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ $feed->quantity }} in stock</p>
+                                    @if($feed->quantity == 0)
+                                        <span class="text-[10px] font-bold text-red-600 bg-red-100 dark:bg-red-900/30 dark:text-red-400 px-2 py-0.5 rounded-full">Out of Stock</span>
+                                    @elseif($feed->quantity <= 10)
+                                        <span class="text-[10px] font-bold text-orange-600 bg-orange-100 dark:bg-orange-900/30 dark:text-orange-400 px-2 py-0.5 rounded-full">Low Stock</span>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     @endforeach
@@ -160,9 +167,13 @@
                                 <h4 class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ $item->feed->feed_name }}</h4>
                                 <div class="text-xs text-gray-500 dark:text-gray-400">₱{{ number_format($item->feed->price, 2) }}</div>
                                 <div class="flex items-center gap-2 mt-2">
-                                    <button wire:click="updateQuantity({{ $item->id }}, {{ $item->quantity - 1 }})" class="w-6 h-6 flex items-center justify-center rounded bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-600">-</button>
-                                    <span class="text-sm font-medium w-4 text-center">{{ $item->quantity }}</span>
-                                    <button wire:click="updateQuantity({{ $item->id }}, {{ $item->quantity + 1 }})" class="w-6 h-6 flex items-center justify-center rounded bg-emerald-600 text-white hover:bg-emerald-700">+</button>
+                                    <button wire:click="updateQuantity({{ $item->id }}, {{ $item->quantity - 1 }})" class="w-6 h-6 flex-shrink-0 flex items-center justify-center rounded bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-300">-</button>
+                                    <input type="number" 
+                                           value="{{ $item->quantity }}" 
+                                           wire:change="updateQuantity({{ $item->id }}, $event.target.value)" 
+                                           min="1"
+                                           class="w-12 h-6 px-1 py-0 text-center text-sm font-medium border border-slate-200 dark:border-slate-600 rounded bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-1 focus:border-emerald-500 focus:ring-emerald-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+                                    <button wire:click="updateQuantity({{ $item->id }}, {{ $item->quantity + 1 }})" class="w-6 h-6 flex-shrink-0 flex items-center justify-center rounded bg-emerald-600 text-white hover:bg-emerald-700">+</button>
                                 </div>
                             @elseif($item->gameFowl)
                                 <h4 class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ $item->gameFowl->name }}</h4>
@@ -258,7 +269,14 @@
                         
                         <div>
                             <div class="text-3xl font-bold text-emerald-600 dark:text-emerald-400">₱{{ number_format($selectedFeed->price, 2) }}</div>
-                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{ $selectedFeed->quantity }} units available</div>
+                            <div class="flex items-center gap-2 mt-1">
+                                <div class="text-sm text-gray-500 dark:text-gray-400">{{ $selectedFeed->quantity }} units available</div>
+                                @if($selectedFeed->quantity == 0)
+                                    <span class="text-[10px] font-bold text-red-600 bg-red-100 dark:bg-red-900/30 dark:text-red-400 px-2 py-0.5 rounded-full">Out of Stock</span>
+                                @elseif($selectedFeed->quantity <= 10)
+                                    <span class="text-[10px] font-bold text-orange-600 bg-orange-100 dark:bg-orange-900/30 dark:text-orange-400 px-2 py-0.5 rounded-full">Low Stock</span>
+                                @endif
+                            </div>
                         </div>
 
                         <div class="space-y-2">
@@ -291,8 +309,8 @@
                 <button wire:click="closeFeedModal" class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-100 dark:hover:bg-slate-700 transition">
                     Close
                 </button>
-                <button wire:click="addToCart({{ $selectedFeed->id }})" class="px-6 py-2 rounded-lg bg-emerald-600 text-white font-bold hover:bg-emerald-700 shadow-lg shadow-emerald-200 dark:shadow-none transition">
-                    Add to Cart
+                <button wire:click="addToCart({{ $selectedFeed->id }})" class="px-6 py-2 rounded-lg bg-emerald-600 text-white font-bold hover:bg-emerald-700 shadow-lg shadow-emerald-200 dark:shadow-none transition disabled:opacity-50 disabled:cursor-not-allowed" @if($selectedFeed->quantity == 0) disabled @endif>
+                    @if($selectedFeed->quantity == 0) Out of Stock @else Add to Cart @endif
                 </button>
             </div>
         </div>
@@ -554,6 +572,34 @@
                             @error('proofOfPayment') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
                         </div>
                         @endif
+                        
+                        <!-- Cash Payment Details -->
+                        @if($paymentMethod === 'cash')
+                        <div class="animate-fade-in-down border-t border-slate-200 dark:border-slate-700 pt-6 mt-6">
+                            <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                Cash Details
+                            </h4>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Amount Tendered</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500 sm:text-sm">₱</span>
+                                        </div>
+                                        <input type="number" wire:model.live="amountTendered" class="pl-8 block w-full rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm" placeholder="0.00">
+                                    </div>
+                                    @error('amountTendered') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
+                                </div>
+                                <div class="bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-lg border border-emerald-100 dark:border-emerald-800">
+                                    <div class="text-sm text-emerald-800 dark:text-emerald-300 font-medium">Change Given</div>
+                                    <div class="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">
+                                        ₱{{ number_format($this->change, 2) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -570,6 +616,97 @@
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
+    <!-- Receipt Modal -->
+    @if($showReceiptModal && $latestOrder)
+    <div class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full overflow-hidden flex flex-col transform animate-pop-in">
+            <!-- Receipt Header -->
+            <div class="p-8 pb-4 text-center">
+                <div class="flex justify-center mb-4">
+                    <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 uppercase tracking-tight">Feed Store</h3>
+                <p class="text-xs text-gray-500 mt-1 italic">Quality Feeds for Your Farm</p>
+                <div class="text-[10px] text-gray-400 mt-2 flex justify-center gap-2">
+                    <span>{{ now()->format('M d, Y') }}</span>
+                    <span>•</span>
+                    <span>{{ now()->format('h:i A') }}</span>
+                </div>
+            </div>
+
+            <!-- Receipt Body (Paper style) -->
+            <div class="px-8 flex-1 overflow-y-auto">
+                <div class="border-t-2 border-dashed border-gray-200 py-4">
+                    <div class="flex justify-between text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">
+                        <span>Description</span>
+                        <span>Price</span>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        @foreach($latestOrder->items as $item)
+                        <div class="flex justify-between items-start gap-4">
+                            <div class="text-xs font-medium text-gray-700">
+                                @php
+                                    $name = $item->feed ? $item->feed->feed_name : ($item->gameFowl ? $item->gameFowl->name : 'Unknown');
+                                @endphp
+                                <span>{{ $name }}</span>
+                                <div class="text-[10px] text-gray-400">{{ $item->quantity }} x ₱{{ number_format($item->price, 2) }}</div>
+                            </div>
+                            <span class="text-xs font-bold text-gray-900">₱{{ number_format($item->quantity * $item->price, 2) }}</span>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- Totals Section -->
+                <div class="border-t-2 border-dashed border-gray-200 py-4 space-y-2">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="font-bold text-gray-900">Total</span>
+                        <span class="text-lg font-black text-gray-900 leading-none">₱{{ number_format($latestOrder->total_amount, 2) }}</span>
+                    </div>
+                    
+                    @if($latestOrder->payment_method === 'cash')
+                    <div class="flex justify-between text-xs text-gray-500">
+                        <span>Cash Tendered</span>
+                        <span>₱{{ number_format($paidAmount, 2) }}</span>
+                    </div>
+                    <div class="flex justify-between text-xs font-bold text-emerald-600">
+                        <span>Change</span>
+                        <span>₱{{ number_format($changeAmount, 2) }}</span>
+                    </div>
+                    @else
+                    <div class="flex justify-between text-xs text-gray-500">
+                        <span>Payment Method</span>
+                        <span class="uppercase tracking-wider font-bold">{{ $latestOrder->payment_method }}</span>
+                    </div>
+                    @endif
+                </div>
+
+                <!-- Barcode Placeholder -->
+                <div class="py-6 flex flex-col items-center gap-2 grayscale opacity-80">
+                    <div class="w-full h-12 bg-[repeating-linear-gradient(90deg,#000,#000_2px,transparent_2px,transparent_4px)]"></div>
+                    <span class="text-[9px] font-mono text-gray-400">{{ $latestOrder->order_number }}</span>
+                </div>
+
+                <div class="text-center py-4">
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.25em]">Thank You!</p>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 bg-gray-50 flex gap-3">
+                <button onclick="window.print()" class="flex-1 py-3 rounded-2xl border border-gray-200 bg-white text-gray-700 font-bold text-sm shadow-sm hover:bg-gray-100 transition">
+                    Print Receipt
+                </button>
+                <button wire:click="$set('showReceiptModal', false)" class="flex-1 py-3 rounded-2xl bg-emerald-600 text-white font-bold text-sm shadow-lg shadow-emerald-200 hover:bg-emerald-700 transition">
+                    New Sale
                 </button>
             </div>
         </div>
