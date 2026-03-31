@@ -39,31 +39,32 @@
         <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-emerald-600/20 rounded-full blur-3xl"></div>
     </div>
 
-    <!-- Stats Cards Component -->
-    <livewire:customer.components.stats-cards />
+    <!-- Top Row: Stats & Action -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+        <!-- Stats Component (Now contains just Total Orders) -->
+        <livewire:customer.components.stats-cards />
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Spending Analytics Chart Component -->
-        <div class="lg:col-span-2">
-            <livewire:customer.components.spending-chart />
-        </div>
-
-        <!-- Quick Actions & Support -->
-        <div class="space-y-8">
-            <!-- Quick Actions -->
-            <div class="bg-gradient-to-br from-green-500 to-emerald-600 rounded-3xl p-6 text-white shadow-lg relative overflow-hidden group">
-                <div class="relative z-10">
-                    <h3 class="text-xl font-bold mb-2">Start Shopping</h3>
-                    <p class="text-green-100 mb-6 text-sm">Browse our latest collection of premium feeds and supplies.</p>
-                    <a href="{{ route('customer.pos.index') }}" class="inline-flex items-center justify-center bg-white text-green-600 px-6 py-3 rounded-xl font-bold hover:bg-green-50 transition shadow-md w-full sm:w-auto">
-                        Browse Catalog
-                    </a>
+        <!-- Quick Shopping Action (Takes 2/3 of row on LG) -->
+        <div class="lg:col-span-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-3xl p-6 text-white shadow-lg relative overflow-hidden group flex flex-col justify-center min-h-[160px]">
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                    <h3 class="text-2xl font-black mb-2">Start Shopping</h3>
+                    <p class="text-green-100 text-sm max-w-md">Browse our latest collection of premium feeds and supplies. Quality products for your farm's productivity.</p>
                 </div>
-                <div class="absolute right-0 top-0 h-full w-1/2 opacity-10 transform translate-x-1/4 group-hover:translate-x-0 transition duration-500">
-                    <flux:icon name="shopping-cart" class="w-full h-full" />
-                </div>
+                <a href="{{ route('customer.pos.index') }}" class="inline-flex items-center justify-center bg-white text-green-600 px-8 py-4 rounded-2xl font-black hover:bg-green-50 transition shadow-xl w-full md:w-auto transform group-hover:scale-105 duration-300">
+                    Browse Catalog
+                </a>
+            </div>
+            <div class="absolute right-0 top-0 h-full w-1/3 opacity-10 transform translate-x-1/4 group-hover:translate-x-0 transition duration-500 pointer-events-none">
+                <flux:icon name="shopping-cart" class="w-full h-full" />
             </div>
         </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="w-full">
+        <!-- Main Spending Chart (Full Width) -->
+        <livewire:customer.components.spending-chart />
     </div>
 
     <!-- Recent Orders Component -->
