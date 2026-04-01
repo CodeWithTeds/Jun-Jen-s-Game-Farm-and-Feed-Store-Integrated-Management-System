@@ -19,10 +19,10 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <form action="{{ route('staff.egg-collections.store') }}" method="POST">
                 @csrf
-                
+
                 <div class="space-y-8">
                     @if ($errors->any())
                         <div class="rounded-lg bg-red-50 dark:bg-red-900/50 p-4 border border-red-200 dark:border-red-800">
@@ -33,9 +33,7 @@
                                     </svg>
                                 </div>
                                 <div class="ml-3">
-                                    <h3 class="text-sm font-medium text-red-800 dark:text-red-200">
-                                        There were errors with your submission
-                                    </h3>
+                                    <h3 class="text-sm font-medium text-red-800 dark:text-red-200">There were errors with your submission</h3>
                                     <div class="mt-2 text-sm text-red-700 dark:text-red-300">
                                         <ul class="list-disc pl-5 space-y-1">
                                             @foreach ($errors->all() as $error)
@@ -48,6 +46,17 @@
                         </div>
                     @endif
 
+                    {{-- Info banner about the flow --}}
+                    <div class="rounded-xl bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 p-4 flex gap-3">
+                        <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div class="text-sm text-emerald-800 dark:text-emerald-300">
+                            <p class="font-semibold">Collection → Incubation → Results</p>
+                            <p class="mt-1 opacity-80">Record how many eggs were collected today. After saving, you can track incubation and hatching from the Edit page.</p>
+                        </div>
+                    </div>
+
                     <!-- Section 1: Collection Details -->
                     <div class="bg-white dark:bg-slate-900 shadow-sm rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
                         <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
@@ -59,8 +68,8 @@
                             </h3>
                             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Basic information about the egg collection.</p>
                         </div>
-                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-                            
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+
                             <!-- Collection Date -->
                             <div>
                                 <label for="collection_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Collection Date <span class="text-red-500">*</span></label>
@@ -69,8 +78,8 @@
 
                             <!-- Egg Count -->
                             <div>
-                                <label for="egg_count" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Egg Count <span class="text-red-500">*</span></label>
-                                <input type="number" name="egg_count" id="egg_count" value="{{ old('egg_count') }}" min="1" class="block w-full rounded-lg border-gray-300 dark:border-slate-700 dark:bg-slate-900/50 dark:text-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm py-2.5" required>
+                                <label for="egg_count" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Total Eggs Collected <span class="text-red-500">*</span></label>
+                                <input type="number" name="egg_count" id="egg_count" value="{{ old('egg_count') }}" min="1" placeholder="e.g. 50" class="block w-full rounded-lg border-gray-300 dark:border-slate-700 dark:bg-slate-900/50 dark:text-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm py-2.5" required>
                             </div>
 
                             <!-- Dam Selection -->
@@ -99,7 +108,7 @@
                                 </select>
                             </div>
 
-                            <!-- Condition -->
+                            <!-- Egg Condition -->
                             <div>
                                 <label for="egg_condition" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Egg Condition <span class="text-red-500">*</span></label>
                                 <select name="egg_condition" id="egg_condition" class="block w-full rounded-lg border-gray-300 dark:border-slate-700 dark:bg-slate-900/50 dark:text-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm py-2.5" required>
@@ -115,9 +124,9 @@
                                 <label for="collection_staff" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Collection Staff <span class="text-red-500">*</span></label>
                                 <input type="text" name="collection_staff" id="collection_staff" value="{{ old('collection_staff', auth()->user()->name) }}" class="block w-full rounded-lg border-gray-300 dark:border-slate-700 dark:bg-slate-900/50 dark:text-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm py-2.5" required>
                             </div>
-                            
-                             <!-- Storage Location -->
-                             <div>
+
+                            <!-- Storage Location -->
+                            <div>
                                 <label for="storage_location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Storage Location <span class="text-red-500">*</span></label>
                                 <select name="storage_location" id="storage_location" class="block w-full rounded-lg border-gray-300 dark:border-slate-700 dark:bg-slate-900/50 dark:text-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm py-2.5" required>
                                     <option value="">Select Location</option>
@@ -125,48 +134,11 @@
                                     <option value="Storage Room" {{ old('storage_location') == 'Storage Room' ? 'selected' : '' }}>Storage Room</option>
                                 </select>
                             </div>
-                            
-                            <!-- Incubation Status -->
-                             <div>
-                                <label for="incubation_status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Incubation Status</label>
-                                <select name="incubation_status" id="incubation_status" class="block w-full rounded-lg border-gray-300 dark:border-slate-700 dark:bg-slate-900/50 dark:text-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm py-2.5">
-                                    <option value="Pending" {{ old('incubation_status') == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                    <option value="Incubating" {{ old('incubation_status') == 'Incubating' ? 'selected' : '' }}>Incubating</option>
-                                    <option value="Hatched" {{ old('incubation_status') == 'Hatched' ? 'selected' : '' }}>Hatched</option>
-                                    <option value="Failed" {{ old('incubation_status') == 'Failed' ? 'selected' : '' }}>Failed</option>
-                                </select>
-                            </div>
 
-                        </div>
-                    </div>
-                    
-                    <!-- Section 2: Additional Info -->
-                    <div class="bg-white dark:bg-slate-900 shadow-sm rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
-                        <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
-                             <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 flex items-center gap-2">
-                                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                                Additional Information
-                            </h3>
-                        </div>
-                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <!-- Incubation Start Date -->
-                            <div>
-                                <label for="incubation_start_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Incubation Start Date</label>
-                                <input type="date" name="incubation_start_date" id="incubation_start_date" value="{{ old('incubation_start_date') }}" class="block w-full rounded-lg border-gray-300 dark:border-slate-700 dark:bg-slate-900/50 dark:text-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm py-2.5">
-                            </div>
-
-                            <!-- Expected Hatch Date -->
-                            <div>
-                                <label for="expected_hatch_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Expected Hatch Date</label>
-                                <input type="date" name="expected_hatch_date" id="expected_hatch_date" value="{{ old('expected_hatch_date') }}" class="block w-full rounded-lg border-gray-300 dark:border-slate-700 dark:bg-slate-900/50 dark:text-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm py-2.5">
-                            </div>
-
-                             <!-- Remarks -->
+                            <!-- Remarks -->
                             <div class="md:col-span-2">
                                 <label for="remarks" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Remarks</label>
-                                <textarea name="remarks" id="remarks" rows="3" class="block w-full rounded-lg border-gray-300 dark:border-slate-700 dark:bg-slate-900/50 dark:text-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm py-2.5">{{ old('remarks') }}</textarea>
+                                <textarea name="remarks" id="remarks" rows="3" placeholder="Optional notes about this collection…" class="block w-full rounded-lg border-gray-300 dark:border-slate-700 dark:bg-slate-900/50 dark:text-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm py-2.5">{{ old('remarks') }}</textarea>
                             </div>
                         </div>
                     </div>
