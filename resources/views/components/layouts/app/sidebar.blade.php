@@ -297,6 +297,7 @@
 
         <flux:dropdown position="top" align="end">
             <flux:profile
+                as="button"
                 :initials="auth()->user()->initials()"
                 icon-trailing="chevron-down" />
 

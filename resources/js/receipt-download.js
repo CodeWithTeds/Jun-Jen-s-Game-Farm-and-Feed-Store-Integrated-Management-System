@@ -1,4 +1,4 @@
-import html2canvas from 'html2canvas';
+import { toPng } from 'html-to-image';
 import { jsPDF } from 'jspdf';
 
 window.downloadReceipt = async (elementId, filename) => {
@@ -12,28 +12,19 @@ window.downloadReceipt = async (elementId, filename) => {
         // Small delay to ensure any transitions are finished
         await new Promise(resolve => setTimeout(resolve, 300));
 
-        // Use html2canvas to capture the receipt
-        const canvas = await html2canvas(element, {
-            scale: 3, // Higher scale for even better quality
+        // Use html-to-image to capture the receipt
+        const dataUrl = await toPng(element, {
+            pixelRatio: 3, 
             backgroundColor: '#ffffff',
-            useCORS: true,
-            allowTaint: true,
-            logging: false,
-            onclone: (clonedDoc) => {
-                // Ensure the element is visible in the clone
-                const clonedElement = clonedDoc.getElementById(elementId);
-                if (clonedElement) {
-                    clonedElement.style.display = 'block';
-                    clonedElement.style.visibility = 'visible';
-                }
+            style: {
+                display: 'block',
+                visibility: 'visible'
             }
         });
-
-        const imgData = canvas.toDataURL('image/png');
         
         // Create a PDF with the same aspect ratio
         const imgWidth = 80; // Standard receipt width in mm
-        const canvasAspectRatio = canvas.height / canvas.width;
+        const canvasAspectRatio = element.offsetHeight / element.offsetWidth;
         const pageHeight = imgWidth * canvasAspectRatio;
         
         // Construct jsPDF with explicit parameters
@@ -44,7 +35,7 @@ window.downloadReceipt = async (elementId, filename) => {
             compress: true
         });
 
-        pdf.addImage(imgData, 'PNG', 0, 5, imgWidth, pageHeight);
+        pdf.addImage(dataUrl, 'PNG', 0, 5, imgWidth, pageHeight);
         pdf.save(`${filename || 'receipt'}.pdf`);
     } catch (error) {
         console.error('Receipt download failed:', error);
