@@ -20,7 +20,10 @@
 
     <div class="py-12">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
-            <form action="{{ route('staff.egg-collections.update', $eggCollection) }}" method="POST" id="egg-edit-form">
+            @php
+                $routePrefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+            @endphp
+            <form action="{{ route($routePrefix . 'egg-collections.update', $eggCollection) }}" method="POST" id="egg-edit-form">
                 @csrf
                 @method('PUT')
 
@@ -43,6 +46,27 @@
                                         </ul>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    {{-- Hatch Date Due Alert --}}
+                    @if($eggCollection->expected_hatch_date && \Carbon\Carbon::parse($eggCollection->expected_hatch_date)->lte(\Carbon\Carbon::today()) && $eggCollection->incubation_status !== 'Completed')
+                        <div class="rounded-xl bg-amber-50 dark:bg-amber-900/30 border border-amber-300 dark:border-amber-700 p-4 flex gap-3">
+                            <div class="flex-shrink-0">
+                                <div class="w-9 h-9 rounded-full bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-amber-800 dark:text-amber-300">
+                                    Hatch Date Reached — {{ \Carbon\Carbon::parse($eggCollection->expected_hatch_date)->format('M d, Y') }}
+                                </p>
+                                <p class="text-sm text-amber-700 dark:text-amber-400 mt-0.5">
+                                    The expected hatch date has passed. Please enter the <strong>Hatched</strong> and <strong>Failed</strong> counts below to complete this record. Saving this form will automatically set the status to <strong>Completed</strong>.
+                                </p>
                             </div>
                         </div>
                     @endif

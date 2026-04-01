@@ -10,13 +10,14 @@
                 </p>
             </div>
             <div class="flex gap-2">
-                <a href="{{ route('staff.egg-collections.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 rounded-lg font-medium text-sm text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                <a href="{{ route($routePrefix . 'egg-collections.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 rounded-lg font-medium text-sm text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
                     Back to List
                 </a>
-                <a href="{{ route('staff.egg-collections.edit', $eggCollection) }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-lg font-medium text-sm text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                @php $routePrefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.'; @endphp
+                <a href="{{ route($routePrefix . 'egg-collections.edit', $eggCollection) }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-lg font-medium text-sm text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
@@ -27,16 +28,38 @@
     </x-slot>
 
     @php
+        $routePrefix  = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
         $statusConfig = [
-            'Pending'    => ['bg' => 'bg-slate-100 dark:bg-slate-800',         'text' => 'text-slate-600 dark:text-slate-300',   'label' => 'Pending'],
-            'Incubating' => ['bg' => 'bg-amber-100 dark:bg-amber-900/40',      'text' => 'text-amber-700 dark:text-amber-300',   'label' => 'Incubating'],
-            'Completed'  => ['bg' => 'bg-emerald-100 dark:bg-emerald-900/40',  'text' => 'text-emerald-700 dark:text-emerald-300','label' => 'Completed'],
+            'Pending'    => ['bg' => 'bg-slate-100 dark:bg-slate-800',         'text' => 'text-slate-600 dark:text-slate-300',    'label' => 'Pending'],
+            'Incubating' => ['bg' => 'bg-amber-100 dark:bg-amber-900/40',      'text' => 'text-amber-700 dark:text-amber-300',    'label' => 'Incubating'],
+            'Completed'  => ['bg' => 'bg-emerald-100 dark:bg-emerald-900/40',  'text' => 'text-emerald-700 dark:text-emerald-300', 'label' => 'Completed'],
         ];
         $status = $statusConfig[$eggCollection->incubation_status] ?? $statusConfig['Pending'];
     @endphp
 
     <div class="py-12">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
+
+            {{-- Hatch Date Due Banner --}}
+            @if($eggCollection->expected_hatch_date && \Carbon\Carbon::parse($eggCollection->expected_hatch_date)->lte(\Carbon\Carbon::today()) && $eggCollection->incubation_status !== 'Completed')
+                <div class="rounded-xl bg-amber-50 dark:bg-amber-900/30 border border-amber-300 dark:border-amber-700 p-4 flex gap-3">
+                    <div class="flex-shrink-0">
+                        <div class="w-9 h-9 rounded-full bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-amber-800 dark:text-amber-300">
+                            Hatch Date Reached &mdash; {{ \Carbon\Carbon::parse($eggCollection->expected_hatch_date)->format('M d, Y') }}
+                        </p>
+                        <p class="text-sm text-amber-700 dark:text-amber-400 mt-0.5">
+                            The expected hatch date has passed. Open <a href="{{ route($routePrefix . 'egg-collections.edit', $eggCollection) }}" class="underline font-semibold">Update Tracking</a> to enter the hatched and failed counts.
+                        </p>
+                    </div>
+                </div>
+            @endif
 
             {{-- ── Egg Lifecycle Summary Cards ─────────────────────────────── --}}
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
