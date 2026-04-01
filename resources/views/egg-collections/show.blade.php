@@ -1,4 +1,7 @@
 <x-layouts.app>
+    @php
+        $routePrefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+    @endphp
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div>
@@ -16,7 +19,6 @@
                     </svg>
                     Back to List
                 </a>
-                @php $routePrefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.'; @endphp
                 <a href="{{ route($routePrefix . 'egg-collections.edit', $eggCollection) }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-lg font-medium text-sm text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -28,7 +30,6 @@
     </x-slot>
 
     @php
-        $routePrefix  = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
         $statusConfig = [
             'Pending'    => ['bg' => 'bg-slate-100 dark:bg-slate-800',         'text' => 'text-slate-600 dark:text-slate-300',    'label' => 'Pending'],
             'Incubating' => ['bg' => 'bg-amber-100 dark:bg-amber-900/40',      'text' => 'text-amber-700 dark:text-amber-300',    'label' => 'Incubating'],
@@ -258,7 +259,7 @@
 
             <!-- Delete Action -->
             <div class="flex justify-end">
-                <form action="{{ route('staff.egg-collections.destroy', $eggCollection) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this record?');">
+                <form action="{{ route($routePrefix . 'egg-collections.destroy', $eggCollection) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this record?');">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="text-red-600 hover:text-red-900 font-medium text-sm">
