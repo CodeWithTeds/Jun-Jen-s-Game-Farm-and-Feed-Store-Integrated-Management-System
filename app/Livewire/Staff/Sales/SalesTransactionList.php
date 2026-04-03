@@ -109,6 +109,45 @@ class SalesTransactionList extends Component
             $this->dispatch('notify', message: 'Failed to delete transaction.', type: 'error');
         }
     }
+    public function exportReport()
+    {
+        $filters = [
+            'search' => $this->search,
+            'status' => $this->statusFilter,
+            'payment_status' => $this->paymentStatusFilter,
+            'payment_method' => $this->paymentMethodFilter,
+            'date_from' => $this->dateFrom,
+            'date_to' => $this->dateTo,
+            'transaction_type' => $this->transactionTypeFilter,
+        ];
+
+        $transactions = $this->salesService->getForExport($filters);
+
+        return response()->streamDownload(function () use ($transactions) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['Transaction ID', 'Customer', 'Email', 'Date', 'Total Amount', 'Status', 'Payment Method', 'Payment Status', 'Items']);
+
+            foreach ($transactions as $transaction) {
+                $items = $transaction->items->map(function($item) {
+                    $name = $item->feed ? $item->feed->feed_name : ($item->gameFowl ? $item->gameFowl->name : 'Unknown');
+                    return $name . ' (Qty: ' . $item->quantity . ')';
+                })->implode('; ');
+
+                fputcsv($file, [
+                    $transaction->order_number,
+                    $transaction->user->name ?? 'Guest',
+                    $transaction->user->email ?? 'N/A',
+                    $transaction->created_at->format('Y-m-d H:i:s'),
+                    $transaction->total_amount,
+                    $transaction->status,
+                    $transaction->payment_method,
+                    $transaction->payment_status,
+                    $items
+                ]);
+            }
+            fclose($file);
+        }, 'sales_report_' . date('Y-m-d_H-i-s') . '.csv');
+    }
 
     public function render()
     {

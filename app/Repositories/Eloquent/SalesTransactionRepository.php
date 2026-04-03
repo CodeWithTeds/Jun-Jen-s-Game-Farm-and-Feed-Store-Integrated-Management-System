@@ -9,7 +9,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class SalesTransactionRepository implements SalesTransactionRepositoryInterface
 {
-    public function getAll(array $filters = [], int $perPage = 10): LengthAwarePaginator
+    private function buildQuery(array $filters)
     {
         $query = Order::query()->with(['user', 'items.feed', 'items.gameFowl']);
 
@@ -62,7 +62,17 @@ class SalesTransactionRepository implements SalesTransactionRepositoryInterface
             $query->latest();
         }
 
-        return $query->paginate($perPage);
+        return $query;
+    }
+
+    public function getAll(array $filters = [], int $perPage = 10): LengthAwarePaginator
+    {
+        return $this->buildQuery($filters)->paginate($perPage);
+    }
+
+    public function getForExport(array $filters = [])
+    {
+        return $this->buildQuery($filters)->get();
     }
 
     public function getById($id)

@@ -18,6 +18,11 @@ class SalesTransactionService
         return $this->repository->getAll($filters, $perPage);
     }
 
+    public function getForExport(array $filters = [])
+    {
+        return $this->repository->getForExport($filters);
+    }
+
     public function getTransactionById($id)
     {
         return $this->repository->getById($id);
