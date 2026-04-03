@@ -71,6 +71,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::resource('suppliers', SupplierController::class);
     Route::get('sales-transactions', \App\Livewire\Staff\Sales\SalesTransactionList::class)->name('sales-transactions.index');
     Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
+    Route::get('reports/export', [\App\Http\Controllers\ReportController::class, 'export'])->name('reports.export');
 
     // Game Fowl Hub Routes for Admin
     Route::resource('game-fowls', GameFowlController::class);

@@ -18,6 +18,7 @@ class SalesTransactionList extends Component
     public $paymentStatusFilter = '';
     public $paymentMethodFilter = '';
     public $transactionTypeFilter = '';
+    public $periodFilter = '';
     public $dateFrom = '';
     public $dateTo = '';
     public $perPage = 10;
@@ -53,6 +54,24 @@ class SalesTransactionList extends Component
 
     public function updatedPaymentStatusFilter()
     {
+        $this->resetPage();
+    }
+
+    public function updatedPeriodFilter()
+    {
+        if ($this->periodFilter === 'today') {
+            $this->dateFrom = now()->startOfDay()->toDateString();
+            $this->dateTo = now()->endOfDay()->toDateString();
+        } elseif ($this->periodFilter === 'this_month') {
+            $this->dateFrom = now()->startOfMonth()->toDateString();
+            $this->dateTo = now()->endOfMonth()->toDateString();
+        } elseif ($this->periodFilter === 'this_year') {
+            $this->dateFrom = now()->startOfYear()->toDateString();
+            $this->dateTo = now()->endOfYear()->toDateString();
+        } else {
+            $this->dateFrom = '';
+            $this->dateTo = '';
+        }
         $this->resetPage();
     }
 

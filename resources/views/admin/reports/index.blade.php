@@ -1,12 +1,27 @@
 <x-layouts.app>
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('Reports') }}</h1>
+        <a href="{{ route('admin.reports.export', request()->query()) }}" class="inline-flex items-center justify-center gap-2 rounded-lg border border-transparent bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+            </svg>
+            Export Report (CSV)
+        </a>
     </div>
 
     <!-- Filters -->
     <div class="mb-6 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
         <form method="GET" action="{{ route('admin.reports.index') }}" class="flex flex-wrap gap-4 items-end">
             <div class="flex gap-2">
+                <div class="w-40">
+                    <label for="period" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Period</label>
+                    <select id="period" name="period" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow">
+                        <option value="">Custom Date Range</option>
+                        <option value="today" {{ ($filters['period'] ?? '') === 'today' ? 'selected' : '' }}>Today (Per Day)</option>
+                        <option value="this_month" {{ ($filters['period'] ?? '') === 'this_month' ? 'selected' : '' }}>This Month (Per Month)</option>
+                        <option value="this_year" {{ ($filters['period'] ?? '') === 'this_year' ? 'selected' : '' }}>This Year (Per Year)</option>
+                    </select>
+                </div>
                 <div class="w-32">
                     <label for="date_from" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">From</label>
                     <input type="date" id="date_from" name="date_from" value="{{ $filters['date_from'] ?? '' }}" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow">
@@ -22,7 +37,7 @@
                     {{ __('Filter') }}
                 </button>
                 
-                @if(request()->anyFilled(['date_from', 'date_to']))
+                @if(request()->anyFilled(['period', 'date_from', 'date_to']))
                     <a href="{{ route('admin.reports.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 dark:bg-slate-800 dark:border-slate-600 dark:text-gray-300 dark:hover:bg-slate-700">
                         {{ __('Clear') }}
                     </a>

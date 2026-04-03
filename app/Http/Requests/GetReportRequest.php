@@ -14,6 +14,7 @@ class GetReportRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'period' => 'nullable|string|in:today,this_month,this_year',
             'date_from' => 'nullable|date',
             'date_to' => 'nullable|date|after_or_equal:date_from',
         ];
