@@ -46,6 +46,8 @@ class UpdateGameFowlRequest extends FormRequest
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'sire_id' => 'nullable|exists:game_fowls,id',
             'dam_id' => 'nullable|exists:game_fowls,id',
+            'classification' => 'nullable|string|max:255',
+            'conditioning_status' => 'nullable|string|max:255',
         ];
     }
 }

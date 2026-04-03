@@ -50,6 +50,24 @@
                             <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Current Age</label>
                             <div class="mt-1 text-base text-gray-900 dark:text-gray-200">{{ $gameFowl->current_age }}</div>
                         </div>
+                        
+                        <div>
+                            <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Classification</label>
+                            <div class="mt-1 text-base font-medium text-gray-900 dark:text-gray-200">
+                                {{ $gameFowl->classification ?: 'Unclassified' }}
+                            </div>
+                        </div>
+
+                        @if($gameFowl->classification === 'Fighter')
+                        <div>
+                            <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Conditioning Status</label>
+                            <div class="mt-1">
+                                <span class="px-2 py-1 inline-flex text-sm leading-5 font-semibold rounded-full bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
+                                    {{ $gameFowl->conditioning_status ?: 'Not Applicable' }}
+                                </span>
+                            </div>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

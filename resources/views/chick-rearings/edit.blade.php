@@ -90,6 +90,7 @@
                 <div>
                     <label for="vaccination_status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Vaccination Status') }}</label>
                     <select id="vaccination_status" name="vaccination_status" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow">
+                        <option value="N/A" {{ old('vaccination_status', $chickRearing->vaccination_status) == 'N/A' ? 'selected' : '' }}>N/A</option>
                         <option value="Pending" {{ old('vaccination_status', $chickRearing->vaccination_status) == 'Pending' ? 'selected' : '' }}>Pending</option>
                         <option value="Completed" {{ old('vaccination_status', $chickRearing->vaccination_status) == 'Completed' ? 'selected' : '' }}>Completed</option>
                     </select>

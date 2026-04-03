@@ -42,6 +42,29 @@
             </div>
 
             <div class="w-40">
+                <label for="classification" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Classification</label>
+                <select id="classification" name="classification" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow">
+                    <option value="">All</option>
+                    <option value="Brood Fowl" {{ request('classification') == 'Brood Fowl' ? 'selected' : '' }}>Brood Fowl</option>
+                    <option value="Fighter" {{ request('classification') == 'Fighter' ? 'selected' : '' }}>Fighter</option>
+                    <option value="Puller" {{ request('classification') == 'Puller' ? 'selected' : '' }}>Puller</option>
+                    <option value="Show Fowl" {{ request('classification') == 'Show Fowl' ? 'selected' : '' }}>Show Fowl</option>
+                </select>
+            </div>
+
+            <div class="w-40">
+                <label for="conditioning_status" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Conditioning</label>
+                <select id="conditioning_status" name="conditioning_status" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow">
+                    <option value="">All</option>
+                    <option value="Not Applicable" {{ request('conditioning_status') == 'Not Applicable' ? 'selected' : '' }}>Not Applicable</option>
+                    <option value="Pre-Conditioning" {{ request('conditioning_status') == 'Pre-Conditioning' ? 'selected' : '' }}>Pre-Condition</option>
+                    <option value="In Training" {{ request('conditioning_status') == 'In Training' ? 'selected' : '' }}>In Training</option>
+                    <option value="Ready" {{ request('conditioning_status') == 'Ready' ? 'selected' : '' }}>Ready</option>
+                    <option value="Resting" {{ request('conditioning_status') == 'Resting' ? 'selected' : '' }}>Resting</option>
+                </select>
+            </div>
+
+            <div class="w-40">
                 <label for="date_hatched" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Date Hatched</label>
                 <input 
                     type="date"
@@ -68,7 +91,7 @@
                     {{ __('Filter') }}
                 </button>
                 
-                @if(request()->anyFilled(['search', 'sex', 'date_hatched', 'acquisition_date']))
+                @if(request()->anyFilled(['search', 'sex', 'classification', 'conditioning_status', 'date_hatched', 'acquisition_date']))
                     <a href="{{ route($routePrefix . 'game-fowls.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 dark:bg-slate-800 dark:border-slate-600 dark:text-gray-300 dark:hover:bg-slate-700">
                         {{ __('Clear') }}
                     </a>
@@ -86,6 +109,7 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('Tag ID') }}</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('Name') }}</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('Sex') }}</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('Classification') }}</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('Growth Phase') }}</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('Age') }}</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('For Sale') }}</th>
@@ -110,6 +134,23 @@
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $gameFowl->sex === 'Male' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200' }}">
                                     {{ $gameFowl->sex }}
                                 </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                @if($gameFowl->classification)
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
+                                        {{ $gameFowl->classification }}
+                                    </span>
+                                @else
+                                    <span class="text-gray-400">-</span>
+                                @endif
+                                
+                                @if($gameFowl->classification === 'Fighter' && $gameFowl->conditioning_status && $gameFowl->conditioning_status !== 'Not Applicable')
+                                    <div class="mt-1">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 border border-orange-200 dark:border-orange-800">
+                                            {{ $gameFowl->conditioning_status }}
+                                        </span>
+                                    </div>
+                                @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                 {{ $gameFowl->stage_growth_phase }}

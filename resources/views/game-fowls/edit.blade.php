@@ -172,6 +172,37 @@
                             @enderror
                         </div>
 
+                        <!-- Classification -->
+                        <div>
+                            <label for="classification" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Classification</label>
+                            <select name="classification" id="classification" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow">
+                                <option value="">Select Classification</option>
+                                <option value="Brood Fowl" {{ old('classification', $gameFowl->classification) == 'Brood Fowl' ? 'selected' : '' }}>Brood Fowl (Breeder)</option>
+                                <option value="Fighter" {{ old('classification', $gameFowl->classification) == 'Fighter' ? 'selected' : '' }}>Fighter</option>
+                                <option value="Puller" {{ old('classification', $gameFowl->classification) == 'Puller' ? 'selected' : '' }}>Puller (Young)</option>
+                                <option value="Show Fowl" {{ old('classification', $gameFowl->classification) == 'Show Fowl' ? 'selected' : '' }}>Show Fowl</option>
+                            </select>
+                            @error('classification')
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Conditioning Status -->
+                        <div>
+                            <label for="conditioning_status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Conditioning Status (Fighters)</label>
+                            <select name="conditioning_status" id="conditioning_status" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow">
+                                <option value="">Select Status</option>
+                                <option value="Not Applicable" {{ old('conditioning_status', $gameFowl->conditioning_status ?? 'Not Applicable') == 'Not Applicable' ? 'selected' : '' }}>Not Applicable</option>
+                                <option value="Pre-Conditioning" {{ old('conditioning_status', $gameFowl->conditioning_status) == 'Pre-Conditioning' ? 'selected' : '' }}>Pre-Conditioning</option>
+                                <option value="In Training" {{ old('conditioning_status', $gameFowl->conditioning_status) == 'In Training' ? 'selected' : '' }}>In Training</option>
+                                <option value="Ready" {{ old('conditioning_status', $gameFowl->conditioning_status) == 'Ready' ? 'selected' : '' }}>Ready to Fight</option>
+                                <option value="Resting" {{ old('conditioning_status', $gameFowl->conditioning_status) == 'Resting' ? 'selected' : '' }}>Resting / Recovering</option>
+                            </select>
+                            @error('conditioning_status')
+                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                         <!-- Initial Health Status -->
                         <div>
                             <label for="initial_health_status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Initial Health Status</label>

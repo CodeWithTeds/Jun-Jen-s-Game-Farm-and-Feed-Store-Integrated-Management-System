@@ -28,6 +28,8 @@ class GameFowl extends Model
         'dam_id',
         'price',
         'sale_status',
+        'classification',
+        'conditioning_status',
     ];
 
     protected $casts = [
