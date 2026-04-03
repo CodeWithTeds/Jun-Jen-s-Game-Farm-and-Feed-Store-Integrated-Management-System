@@ -9,6 +9,34 @@ class EggCollection extends Model
 {
     use HasFactory;
 
+    protected static function booted()
+    {
+        static::updated(function (EggCollection $eggCollection) {
+            if ($eggCollection->wasChanged(['incubation_status', 'hatched_count'])) {
+                if ($eggCollection->incubation_status === 'Completed' && $eggCollection->hatched_count > 0) {
+                    // Check if we already created a batch for this collection
+                    $tagId = 'Batch-EC-' . $eggCollection->id;
+                    $exists = \App\Models\ChickRearing::where('chick_tag_id', $tagId)->exists();
+                    
+                    if (!$exists) {
+                        \App\Models\ChickRearing::create([
+                            'chick_tag_id' => $tagId,
+                            'hatch_date' => $eggCollection->expected_hatch_date ?: now()->toDateString(),
+                            'age_days' => 0,
+                            'growth_stage' => 'Brooder',
+                            'feed_type' => 'Starter',
+                            'feeding_schedule' => 'Ad Libitum',
+                            'health_status' => 'Healthy',
+                            'vaccination_status' => 'N/A',
+                            'mortality_status' => 'Alive',
+                            'remarks' => 'Auto-generated batch for ' . $eggCollection->hatched_count . ' chicks hatched from Egg Collection #' . $eggCollection->id,
+                        ]);
+                    }
+                }
+            }
+        });
+    }
+
     protected $fillable = [
         'collection_date',
         'dam_id',

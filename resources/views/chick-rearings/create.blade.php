@@ -26,7 +26,7 @@
                 <!-- Hatch Date -->
                 <div>
                     <label for="hatch_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Hatch Date') }}</label>
-                    <input id="hatch_date" type="date" name="hatch_date" value="{{ old('hatch_date') }}" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required />
+                    <input id="hatch_date" type="date" name="hatch_date" value="{{ old('hatch_date', $defaultHatchDate ?? '') }}" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required />
                     @error('hatch_date')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                     @enderror
@@ -127,7 +127,7 @@
             <!-- Remarks -->
             <div class="mt-6">
                 <label for="remarks" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Remarks') }}</label>
-                <textarea id="remarks" name="remarks" rows="3" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow">{{ old('remarks') }}</textarea>
+                <textarea id="remarks" name="remarks" rows="3" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow">{{ old('remarks', $defaultRemarks ?? '') }}</textarea>
                 @error('remarks')
                     <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                 @enderror

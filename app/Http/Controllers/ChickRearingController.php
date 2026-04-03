@@ -26,9 +26,11 @@ class ChickRearingController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('chick-rearings.create');
+        $defaultHatchDate = $request->query('hatch_date');
+        $defaultRemarks = $request->query('remarks');
+        return view('chick-rearings.create', compact('defaultHatchDate', 'defaultRemarks'));
     }
 
     /**

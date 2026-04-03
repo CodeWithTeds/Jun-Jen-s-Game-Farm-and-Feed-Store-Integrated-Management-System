@@ -126,6 +126,20 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                         </svg>
                                     </a>
+                                    @if($collection->incubation_status === 'Completed' && !$collection->hatcheryRecord)
+                                        <a href="{{ route($routePrefix . 'hatchery-records.create', ['egg_collection_id' => $collection->id]) }}" class="text-amber-500 hover:text-amber-600 dark:text-amber-400 dark:hover:text-amber-300" title="Add to Hatchery Records">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11v6m-3-3h6" />
+                                            </svg>
+                                        </a>
+                                    @elseif($collection->hatcheryRecord)
+                                        <a href="{{ route($routePrefix . 'hatchery-records.show', $collection->hatcheryRecord->id) }}" class="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300" title="View Hatchery Record">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                            </svg>
+                                        </a>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
