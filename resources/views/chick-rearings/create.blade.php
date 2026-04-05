@@ -79,8 +79,10 @@
                     <select id="health_status" name="health_status" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow">
                         <option value="" disabled selected>Select Status</option>
                         <option value="Healthy" {{ old('health_status') == 'Healthy' ? 'selected' : '' }}>Healthy</option>
-                        <option value="Weak" {{ old('health_status') == 'Weak' ? 'selected' : '' }}>Weak</option>
+                        <option value="Weak / Underweight" {{ old('health_status') == 'Weak / Underweight' ? 'selected' : '' }}>Weak / Underweight</option>
                         <option value="Sick" {{ old('health_status') == 'Sick' ? 'selected' : '' }}>Sick</option>
+                        <option value="Injured" {{ old('health_status') == 'Injured' ? 'selected' : '' }}>Injured</option>
+                        <option value="Dead" {{ old('health_status') == 'Dead' ? 'selected' : '' }}>Dead</option>
                     </select>
                     @error('health_status')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>

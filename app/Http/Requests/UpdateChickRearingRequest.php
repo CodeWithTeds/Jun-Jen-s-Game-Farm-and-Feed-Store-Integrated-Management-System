@@ -27,14 +27,14 @@ class UpdateChickRearingRequest extends FormRequest
             'chick_tag_id' => 'required|string|unique:chick_rearings,chick_tag_id,' . $chickRearingId,
             'hatch_date' => 'required|date',
             'age_days' => 'required|integer|min:0',
-            'growth_stage' => 'required|string',
+            'growth_stage' => 'required|string|in:Brooder,Starter,Grower',
             'feed_type' => 'required|string',
             'feeding_schedule' => 'required|string',
-            'health_status' => 'required|string',
+            'health_status' => 'required|string|in:Healthy,Weak / Underweight,Sick,Injured,Dead',
             'vaccination_status' => 'required|string',
             'last_vaccination_date' => 'nullable|date',
             'treatment_notes' => 'nullable|string',
-            'mortality_status' => 'required|string',
+            'mortality_status' => 'required|string|in:Alive,Deceased',
             'remarks' => 'nullable|string',
         ];
     }

@@ -135,7 +135,18 @@
                         <!-- Growth Phase -->
                         <div>
                             <label for="stage_growth_phase" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Stage / Growth Phase</label>
-                            <input type="text" name="stage_growth_phase" id="stage_growth_phase" value="{{ old('stage_growth_phase') }}" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required>
+                            <select name="stage_growth_phase" id="stage_growth_phase" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required>
+                                <option value="">Select Phase</option>
+                                <option value="Brooder" {{ old('stage_growth_phase') == 'Brooder' ? 'selected' : '' }}>Brooder</option>
+                                <option value="Starter" {{ old('stage_growth_phase') == 'Starter' ? 'selected' : '' }}>Starter</option>
+                                <option value="Grower" {{ old('stage_growth_phase') == 'Grower' ? 'selected' : '' }}>Grower</option>
+                                <option value="Stag" {{ old('stage_growth_phase') == 'Stag' ? 'selected' : '' }}>Stag</option>
+                                <option value="Pullet" {{ old('stage_growth_phase') == 'Pullet' ? 'selected' : '' }}>Pullet</option>
+                                <option value="Bullstag" {{ old('stage_growth_phase') == 'Bullstag' ? 'selected' : '' }}>Bullstag</option>
+                                <option value="Cock" {{ old('stage_growth_phase') == 'Cock' ? 'selected' : '' }}>Cock</option>
+                                <option value="Hen" {{ old('stage_growth_phase') == 'Hen' ? 'selected' : '' }}>Hen</option>
+                                <option value="Retired" {{ old('stage_growth_phase') == 'Retired' ? 'selected' : '' }}>Retired</option>
+                            </select>
                             @error('stage_growth_phase')
                                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
@@ -202,7 +213,14 @@
                         <!-- Initial Health Status -->
                         <div>
                             <label for="initial_health_status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Initial Health Status</label>
-                            <input type="text" name="initial_health_status" id="initial_health_status" value="{{ old('initial_health_status') }}" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required>
+                            <select name="initial_health_status" id="initial_health_status" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required>
+                                <option value="">Select Status</option>
+                                <option value="Healthy" {{ old('initial_health_status') == 'Healthy' ? 'selected' : '' }}>Healthy</option>
+                                <option value="Weak / Underweight" {{ old('initial_health_status') == 'Weak / Underweight' ? 'selected' : '' }}>Weak / Underweight</option>
+                                <option value="Sick" {{ old('initial_health_status') == 'Sick' ? 'selected' : '' }}>Sick</option>
+                                <option value="Injured" {{ old('initial_health_status') == 'Injured' ? 'selected' : '' }}>Injured</option>
+                                <option value="Dead" {{ old('initial_health_status') == 'Dead' ? 'selected' : '' }}>Dead</option>
+                            </select>
                             @error('initial_health_status')
                                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
@@ -211,7 +229,13 @@
                         <!-- Sexual Maturity Status -->
                         <div class="md:col-span-2">
                             <label for="sexual_maturity_status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sexual Maturity Status</label>
-                            <input type="text" name="sexual_maturity_status" id="sexual_maturity_status" value="{{ old('sexual_maturity_status') }}" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required>
+                            <select name="sexual_maturity_status" id="sexual_maturity_status" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required>
+                                <option value="">Select Status</option>
+                                <option value="Immature" {{ old('sexual_maturity_status') == 'Immature' ? 'selected' : '' }}>Immature</option>
+                                <option value="Developing" {{ old('sexual_maturity_status') == 'Developing' ? 'selected' : '' }}>Developing</option>
+                                <option value="Mature" {{ old('sexual_maturity_status') == 'Mature' ? 'selected' : '' }}>Mature</option>
+                                <option value="Retired" {{ old('sexual_maturity_status') == 'Retired' ? 'selected' : '' }}>Retired</option>
+                            </select>
                             @error('sexual_maturity_status')
                                 <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
