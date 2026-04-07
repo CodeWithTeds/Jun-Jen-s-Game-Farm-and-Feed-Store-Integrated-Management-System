@@ -15,7 +15,7 @@ class GameFowlRepository implements GameFowlRepositoryInterface
         if (isset($filters['search']) && $filters['search']) {
             $query->where(function ($q) use ($filters) {
                 $q->where('name', 'like', '%' . $filters['search'] . '%')
-                  ->orWhere('tag_id', 'like', '%' . $filters['search'] . '%');
+                    ->orWhere('tag_id', 'like', '%' . $filters['search'] . '%');
             });
         }
 
@@ -45,6 +45,13 @@ class GameFowlRepository implements GameFowlRepositoryInterface
 
         if (isset($filters['date_hatched']) && $filters['date_hatched']) {
             $query->whereDate('date_hatched', $filters['date_hatched']);
+        }
+
+        if (isset($filters['exclude_sold']) && $filters['exclude_sold']) {
+            $query->where(function ($q) {
+                $q->whereNull('sale_status')
+                    ->orWhere('sale_status', '!=', 'Sold');
+            });
         }
 
         if (isset($filters['acquisition_date']) && $filters['acquisition_date']) {

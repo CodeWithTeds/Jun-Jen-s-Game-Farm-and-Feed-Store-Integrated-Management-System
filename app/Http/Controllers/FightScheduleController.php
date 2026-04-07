@@ -31,7 +31,7 @@ class FightScheduleController extends Controller
 
     public function create()
     {
-        $gameFowls = $this->gameFowlRepository->getAll(['sex' => 'Male', 'initial_health_status' => 'Healthy', 'all' => true]);
+        $gameFowls = $this->gameFowlRepository->getAll(['sex' => 'Male', 'initial_health_status' => 'Healthy', 'exclude_sold' => true, 'all' => true]);
         return view('fight_schedules.create', compact('gameFowls'));
     }
 
@@ -47,7 +47,7 @@ class FightScheduleController extends Controller
     public function edit($id)
     {
         $schedule = $this->fightScheduleRepository->find($id);
-        $gameFowls = $this->gameFowlRepository->getAll(['sex' => 'Male', 'initial_health_status' => 'Healthy', 'all' => true]);
+        $gameFowls = $this->gameFowlRepository->getAll(['sex' => 'Male', 'initial_health_status' => 'Healthy', 'exclude_sold' => true, 'all' => true]);
         
         return view('fight_schedules.edit', compact('schedule', 'gameFowls'));
     }
