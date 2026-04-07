@@ -31,10 +31,12 @@ class EggCollectionController extends Controller
 
     public function create()
     {
-        $dams  = $this->gameFowlService->getAllGameFowls(['sex' => 'Female', 'all' => true]);
-        $sires = $this->gameFowlService->getAllGameFowls(['sex' => 'Male',   'all' => true]);
+        $breedings = \App\Models\Breeding::with(['sire', 'dam'])
+            ->where('status', 'Completed')
+            ->latest()
+            ->get();
 
-        return view('egg-collections.create', compact('dams', 'sires'));
+        return view('egg-collections.create', compact('breedings'));
     }
 
     public function store(StoreEggCollectionRequest $request)
@@ -67,10 +69,12 @@ class EggCollectionController extends Controller
         // Re-fetch so the form always sees the latest status
         $eggCollection = $this->eggCollectionService->getEggCollectionById($id);
 
-        $dams  = $this->gameFowlService->getAllGameFowls(['sex' => 'Female', 'all' => true]);
-        $sires = $this->gameFowlService->getAllGameFowls(['sex' => 'Male',   'all' => true]);
+        $breedings = \App\Models\Breeding::with(['sire', 'dam'])
+            ->where('status', 'Completed')
+            ->latest()
+            ->get();
 
-        return view('egg-collections.edit', compact('eggCollection', 'dams', 'sires'));
+        return view('egg-collections.edit', compact('eggCollection', 'breedings'));
     }
 
     public function update(UpdateEggCollectionRequest $request, $id)

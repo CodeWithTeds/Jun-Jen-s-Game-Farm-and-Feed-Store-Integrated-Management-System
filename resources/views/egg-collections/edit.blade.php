@@ -170,27 +170,23 @@
                                 <input type="number" name="egg_count" id="egg_count" value="{{ old('egg_count', $eggCollection->egg_count) }}" min="1" class="block w-full rounded-lg border-gray-300 dark:border-slate-700 dark:bg-slate-900/50 dark:text-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm py-2.5" required>
                             </div>
 
-                            <!-- Dam -->
-                            <div>
-                                <label for="dam_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Dam (Hen) <span class="text-red-500">*</span></label>
-                                <select name="dam_id" id="dam_id" class="block w-full rounded-lg border-gray-300 dark:border-slate-700 dark:bg-slate-900/50 dark:text-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm py-2.5" required>
-                                    <option value="">Select Dam</option>
-                                    @foreach($dams as $dam)
-                                        <option value="{{ $dam->id }}" {{ old('dam_id', $eggCollection->dam_id) == $dam->id ? 'selected' : '' }}>
-                                            {{ $dam->tag_id }} - {{ $dam->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- Sire -->
-                            <div>
-                                <label for="sire_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sire (Rooster) <span class="text-red-500">*</span></label>
-                                <select name="sire_id" id="sire_id" class="block w-full rounded-lg border-gray-300 dark:border-slate-700 dark:bg-slate-900/50 dark:text-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm py-2.5" required>
-                                    <option value="">Select Sire</option>
-                                    @foreach($sires as $sire)
-                                        <option value="{{ $sire->id }}" {{ old('sire_id', $eggCollection->sire_id) == $sire->id ? 'selected' : '' }}>
-                                            {{ $sire->tag_id }} - {{ $sire->name }}
+                            <!-- Breeding Selection -->
+                            <div class="md:col-span-2">
+                                <label for="breeding_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Completed Breeding <span class="text-red-500">*</span></label>
+                                @php
+                                    $selectedBreedingId = old('breeding_id');
+                                    if (!$selectedBreedingId && isset($eggCollection)) {
+                                        $matched = collect($breedings)->first(function($b) use ($eggCollection) {
+                                            return $b->dam_id == $eggCollection->dam_id && $b->sire_id == $eggCollection->sire_id;
+                                        });
+                                        $selectedBreedingId = $matched ? $matched->id : '';
+                                    }
+                                @endphp
+                                <select name="breeding_id" id="breeding_id" class="block w-full rounded-lg border-gray-300 dark:border-slate-700 dark:bg-slate-900/50 dark:text-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm py-2.5" required>
+                                    <option value="">Select Breeding</option>
+                                    @foreach($breedings as $breeding)
+                                        <option value="{{ $breeding->id }}" {{ $selectedBreedingId == $breeding->id ? 'selected' : '' }}>
+                                            Pen {{ $breeding->pen_number }} | Sire: {{ $breeding->sire->name ?? 'Unknown' }} × Dam: {{ $breeding->dam->name ?? 'Unknown' }} ({{ $breeding->breeding_date ? \Carbon\Carbon::parse($breeding->breeding_date)->format('M d, Y') : '' }})
                                         </option>
                                     @endforeach
                                 </select>

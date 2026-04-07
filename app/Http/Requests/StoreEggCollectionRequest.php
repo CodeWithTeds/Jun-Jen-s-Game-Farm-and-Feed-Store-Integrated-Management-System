@@ -11,9 +11,23 @@ class StoreEggCollectionRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        if ($this->has('breeding_id') && $this->breeding_id) {
+            $breeding = \App\Models\Breeding::find($this->breeding_id);
+            if ($breeding) {
+                $this->merge([
+                    'dam_id' => $breeding->dam_id,
+                    'sire_id' => $breeding->sire_id,
+                ]);
+            }
+        }
+    }
+
     public function rules(): array
     {
         return [
+            'breeding_id'      => 'required|exists:breedings,id',
             'collection_date'  => 'required|date',
             'dam_id'           => 'required|exists:game_fowls,id',
             'sire_id'          => 'required|exists:game_fowls,id',
