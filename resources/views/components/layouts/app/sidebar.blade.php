@@ -99,7 +99,7 @@
                     <x-slot:icon>
                         <flux:icon :icon="'archive-box'" class="size-6 text-blue-500" />
                     </x-slot:icon>
-                    {{ __('Inventory') }}
+                    {{ __('Feed Store Inventory') }}
                 </flux:sidebar.item>
 
 
@@ -227,7 +227,7 @@
                     <x-slot:icon>
                         <flux:icon :icon="'archive-box'" class="size-6 text-blue-500" />
                     </x-slot:icon>
-                    {{ __('Inventory') }}
+                    {{ __('Feed Store Inventory') }}
                 </flux:sidebar.item>
             </flux:sidebar.group>
 
