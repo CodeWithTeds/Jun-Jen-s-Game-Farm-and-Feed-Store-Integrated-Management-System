@@ -22,8 +22,8 @@ class BreedingController extends Controller
      */
     public function create()
     {
-        $sires = GameFowl::where('sex', 'Male')->available()->orderBy('name')->get();
-        $dams = GameFowl::where('sex', 'Female')->available()->orderBy('name')->get();
+        $sires = GameFowl::where('sex', 'Male')->where('initial_health_status', 'Healthy')->available()->orderBy('name')->get();
+        $dams = GameFowl::where('sex', 'Female')->where('initial_health_status', 'Healthy')->available()->orderBy('name')->get();
         return view('breedings.create', compact('sires', 'dams'));
     }
 
@@ -65,8 +65,8 @@ class BreedingController extends Controller
      */
     public function edit(Breeding $breeding)
     {
-        $sires = GameFowl::where('sex', 'Male')->available()->orderBy('name')->get();
-        $dams = GameFowl::where('sex', 'Female')->available()->orderBy('name')->get();
+        $sires = GameFowl::where('sex', 'Male')->where('initial_health_status', 'Healthy')->available()->orderBy('name')->get();
+        $dams = GameFowl::where('sex', 'Female')->where('initial_health_status', 'Healthy')->available()->orderBy('name')->get();
         return view('breedings.edit', compact('breeding', 'sires', 'dams'));
     }
 
