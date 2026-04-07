@@ -1,6 +1,6 @@
 <x-layouts.app>
     @php
-        $routePrefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+    $routePrefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
     @endphp
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('Create Game Fowl') }}</h1>
@@ -12,7 +12,7 @@
     <div class="bg-white dark:bg-slate-900 overflow-hidden shadow-sm sm:rounded-lg border border-slate-200 dark:border-slate-700 p-6">
         <form action="{{ route($routePrefix . 'game-fowls.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            
+
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- Left Column: Image, Tag ID, Name -->
                 <div class="space-y-6">
@@ -37,7 +37,7 @@
                             <input id="image" name="image" type="file" class="sr-only" onchange="previewImage(event)">
                         </div>
                         @error('image')
-                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -51,7 +51,7 @@
                             <input type="text" name="tag_id" id="tag_id" value="{{ old('tag_id') }}" class="pl-7 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow font-mono" placeholder="TAG-001" required>
                         </div>
                         @error('tag_id')
-                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -60,7 +60,7 @@
                         <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name / Alias</label>
                         <input type="text" name="name" id="name" value="{{ old('name') }}" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" placeholder="e.g. Red Fighter" required>
                         @error('name')
-                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                                 <option value="Female">Female</option>
                             </select>
                             @error('sex')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -119,7 +119,7 @@
                                 <option value="Behavior" {{ old('gender_identification') == 'Behavior' ? 'selected' : '' }}>Behavior</option>
                             </select>
                             @error('gender_identification')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -128,7 +128,7 @@
                             <label for="date_hatched" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Date Hatched</label>
                             <input type="date" name="date_hatched" id="date_hatched" value="{{ old('date_hatched') }}" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required>
                             @error('date_hatched')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -148,7 +148,7 @@
                                 <option value="Retired" {{ old('stage_growth_phase') == 'Retired' ? 'selected' : '' }}>Retired</option>
                             </select>
                             @error('stage_growth_phase')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -157,7 +157,7 @@
                             <label for="color_feather_pattern" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Color / Feather Pattern</label>
                             <input type="text" name="color_feather_pattern" id="color_feather_pattern" value="{{ old('color_feather_pattern') }}" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required>
                             @error('color_feather_pattern')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -166,7 +166,7 @@
                             <label for="distinctive_markings" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Distinctive Markings (Optional)</label>
                             <input type="text" name="distinctive_markings" id="distinctive_markings" value="{{ old('distinctive_markings') }}" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow">
                             @error('distinctive_markings')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -175,7 +175,7 @@
                             <label for="acquisition_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Acquisition Date</label>
                             <input type="date" name="acquisition_date" id="acquisition_date" value="{{ old('acquisition_date') }}" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required>
                             @error('acquisition_date')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -190,7 +190,7 @@
                                 <option value="Show Fowl" {{ old('classification') == 'Show Fowl' ? 'selected' : '' }}>Show Fowl</option>
                             </select>
                             @error('classification')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -206,7 +206,7 @@
                                 <option value="Resting" {{ old('conditioning_status') == 'Resting' ? 'selected' : '' }}>Resting / Recovering</option>
                             </select>
                             @error('conditioning_status')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -222,7 +222,7 @@
                                 <option value="Dead" {{ old('initial_health_status') == 'Dead' ? 'selected' : '' }}>Dead</option>
                             </select>
                             @error('initial_health_status')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -237,7 +237,7 @@
                                 <option value="Retired" {{ old('sexual_maturity_status') == 'Retired' ? 'selected' : '' }}>Retired</option>
                             </select>
                             @error('sexual_maturity_status')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -251,7 +251,7 @@
                                     <select name="sire_id" id="sire_id" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow">
                                         <option value="">Unknown / None</option>
                                         @foreach($sires as $sire)
-                                            <option value="{{ $sire->id }}" {{ old('sire_id') == $sire->id ? 'selected' : '' }}>{{ $sire->name }} ({{ $sire->tag_id }})</option>
+                                        <option value="{{ $sire->id }}" {{ old('sire_id') == $sire->id ? 'selected' : '' }}>{{ $sire->name }} ({{ $sire->tag_id }})</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -261,7 +261,7 @@
                                     <select name="dam_id" id="dam_id" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow">
                                         <option value="">Unknown / None</option>
                                         @foreach($dams as $dam)
-                                            <option value="{{ $dam->id }}" {{ old('dam_id') == $dam->id ? 'selected' : '' }}>{{ $dam->name }} ({{ $dam->tag_id }})</option>
+                                        <option value="{{ $dam->id }}" {{ old('dam_id') == $dam->id ? 'selected' : '' }}>{{ $dam->name }} ({{ $dam->tag_id }})</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -273,7 +273,7 @@
                             <label for="special_notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Special Notes (Optional)</label>
                             <textarea name="special_notes" id="special_notes" rows="3" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow">{{ old('special_notes') }}</textarea>
                             @error('special_notes')
-                                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
@@ -294,7 +294,7 @@
     <script>
         function previewImage(event) {
             const reader = new FileReader();
-            reader.onload = function(){
+            reader.onload = function() {
                 const output = document.getElementById('image-preview');
                 const placeholder = document.getElementById('upload-placeholder');
                 output.src = reader.result;
