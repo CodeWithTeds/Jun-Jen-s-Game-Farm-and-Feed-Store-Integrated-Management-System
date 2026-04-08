@@ -47,6 +47,38 @@
                             </div>
                         </div>
                     @endif
+                    
+                    {{-- Selected Collection Summary --}}
+                    @if($selectedCollection = $eggCollections->find(old('egg_collection_id') ?? request('egg_collection_id')))
+                        <div class="rounded-xl bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 p-6 shadow-sm">
+                            <h4 class="text-sm font-bold text-blue-800 dark:text-blue-300 uppercase tracking-wider mb-4 flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                Linked Egg Collection Details
+                            </h4>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
+                                <div>
+                                    <p class="text-xs text-blue-600 dark:text-blue-400 font-medium mb-1">Collection ID</p>
+                                    <p class="text-base font-bold text-blue-900 dark:text-blue-100 uppercase">#{{ $selectedCollection->id }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-blue-600 dark:text-blue-400 font-medium mb-1">Date Collected</p>
+                                    <p class="text-base font-bold text-blue-900 dark:text-blue-100">
+                                        {{ $selectedCollection->collection_date instanceof \Carbon\Carbon 
+                                            ? $selectedCollection->collection_date->format('M d, Y') 
+                                            : \Carbon\Carbon::parse($selectedCollection->collection_date)->format('M d, Y') }}
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-blue-600 dark:text-blue-400 font-medium mb-1">Total Eggs</p>
+                                    <p class="text-base font-bold text-blue-900 dark:text-blue-100">{{ $selectedCollection->egg_count }} eggs</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-blue-600 dark:text-blue-400 font-medium mb-1">Status</p>
+                                    <span class="px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-xs font-bold">{{ $selectedCollection->incubation_status }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
 
                     <!-- Section 1: Incubator Setup -->
                     <div class="bg-white dark:bg-slate-900 shadow-sm rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
@@ -66,7 +98,7 @@
                                 <select name="egg_collection_id" id="egg_collection_id" class="block w-full rounded-lg border-gray-300 dark:border-slate-700 dark:bg-slate-900/50 dark:text-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm py-2.5" required>
                                     <option value="">Select Egg Collection</option>
                                     @foreach($eggCollections as $collection)
-                                        <option value="{{ $collection->id }}" {{ old('egg_collection_id') == $collection->id ? 'selected' : '' }}>
+                                        <option value="{{ $collection->id }}" {{ (old('egg_collection_id') ?? request('egg_collection_id')) == $collection->id ? 'selected' : '' }}>
                                             #{{ $collection->id }} - {{ $collection->collection_date }} ({{ $collection->egg_count }} eggs)
                                         </option>
                                     @endforeach

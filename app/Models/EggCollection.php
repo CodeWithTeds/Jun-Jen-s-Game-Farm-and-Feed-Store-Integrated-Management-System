@@ -13,6 +13,27 @@ class EggCollection extends Model
     {
         static::updated(function (EggCollection $eggCollection) {
             if ($eggCollection->wasChanged(['incubation_status', 'hatched_count'])) {
+                if ($eggCollection->incubation_status === 'Completed') {
+                    // Auto-create HatcheryRecord if it doesn't exist
+                    $hatcheryRecordExists = \App\Models\HatcheryRecord::where('egg_collection_id', $eggCollection->id)->exists();
+                    if (!$hatcheryRecordExists) {
+                        $rate = null;
+                        if ($eggCollection->incubated_count > 0 && $eggCollection->hatched_count !== null) {
+                            $rate = round(($eggCollection->hatched_count / $eggCollection->incubated_count) * 100, 2);
+                        }
+                        \App\Models\HatcheryRecord::create([
+                            'egg_collection_id' => $eggCollection->id,
+                            'incubator_id' => 'AUTO-INC',
+                            'temperature' => 37.5,
+                            'humidity' => 55.0,
+                            'turning_schedule' => 'Auto',
+                            'hatch_rate' => $rate,
+                            'hatch_result' => $rate !== null ? ($rate > 0 ? 'Successful' : 'Failed') : null,
+                            'remarks' => 'Auto-generated hatchery record upon completion of egg collection #' . $eggCollection->id,
+                        ]);
+                    }
+                }
+
                 if ($eggCollection->incubation_status === 'Completed' && $eggCollection->hatched_count > 0) {
                     // Check if we already created a batch for this collection
                     $tagId = 'Batch-EC-' . $eggCollection->id;

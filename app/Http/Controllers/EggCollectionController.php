@@ -80,7 +80,16 @@ class EggCollectionController extends Controller
     public function update(UpdateEggCollectionRequest $request, $id)
     {
         $this->eggCollectionService->updateEggCollection($id, $request->validated());
+        $eggCollection = $this->eggCollectionService->getEggCollectionById($id);
         $prefix = request()->routeIs('admin.*') ? 'admin.' : 'staff.';
+        
+        // If the collection is now Incubating or Completed and doesn't have a hatchery record yet,
+        // proceed to create the hatchery record.
+        if (in_array($eggCollection->incubation_status, ['Incubating', 'Completed']) && !$eggCollection->hatcheryRecord) {
+            return redirect()->route($prefix . 'hatchery-records.create', ['egg_collection_id' => $id])
+                ->with('success', 'Egg collection updated. Please provide the hatchery details for this batch.');
+        }
+
         return redirect()->route($prefix . 'egg-collections.index')->with('success', 'Egg collection updated successfully.');
     }
 
@@ -125,7 +134,7 @@ class EggCollectionController extends Controller
         \App\Models\EggCollection::whereIn('incubation_status', ['Pending', 'Incubating'])
             ->whereNotNull('expected_hatch_date')
             ->whereDate('expected_hatch_date', '<=', Carbon::today())
-            ->each(function ($collection) {
+            ->each(function (\App\Models\EggCollection $collection) {
                 // If no eggs were explicitly incubated, fall back to total egg_count
                 $incubated = (int) ($collection->incubated_count ?? 0) > 0
                     ? (int) $collection->incubated_count

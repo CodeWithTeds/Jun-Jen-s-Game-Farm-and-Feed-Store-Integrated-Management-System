@@ -20,12 +20,12 @@
             <table class="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
                 <thead class="bg-gray-50 dark:bg-slate-900">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Collection ID') }}</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Collection') }}</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Incubator') }}</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Temp / Humidity') }}</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Candling Date') }}</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Fertility') }}</th>
-                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Hatch Rate') }}</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Temp / Hum.') }}</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Eggs') }}</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Hatched') }}</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Hatch %') }}</th>
                         <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Actions') }}</th>
                     </tr>
                 </thead>
@@ -33,22 +33,38 @@
                     @forelse ($hatcheryRecords as $record)
                         <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors">
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                #{{ $record->egg_collection_id }}
+                                <div class="font-bold text-slate-800 dark:text-slate-100">#{{ $record->egg_collection_id }}</div>
+                                <div class="text-xs text-slate-400">{{ $record->eggCollection->collection_date?->format('M d, Y') ?? '-' }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                                 {{ $record->incubator_id }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                {{ $record->temperature }}°C / {{ $record->humidity }}%
+                                <span class="px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs">{{ $record->temperature }}°C</span>
+                                <span class="px-2 py-0.5 rounded bg-cyan-100 dark:bg-cyan-900/40 text-cyan-700 dark:text-cyan-300 text-xs ml-1">{{ $record->humidity }}%</span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                {{ $record->candling_date ? \Carbon\Carbon::parse($record->candling_date)->format('M d, Y') : '-' }}
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-slate-700 dark:text-slate-300">
+                                {{ $record->eggCollection->egg_count ?? 0 }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                {{ $record->fertility_rate ? $record->fertility_rate . '%' : '-' }}
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-emerald-600 dark:text-emerald-400">
+                                {{ $record->eggCollection->hatched_count ?? 0 }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                {{ $record->hatch_rate ? $record->hatch_rate . '%' : '-' }}
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                @php
+                                    $rate = $record->hatch_rate ?? ($record->eggCollection && $record->eggCollection->incubated_count > 0 
+                                        ? round(($record->eggCollection->hatched_count / $record->eggCollection->incubated_count) * 100, 2)
+                                        : null);
+                                @endphp
+                                @if($rate !== null)
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-12 bg-gray-200 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                                            <div class="bg-emerald-500 h-1.5" style="width: {{ $rate }}%"></div>
+                                        </div>
+                                        <span class="text-xs font-semibold text-slate-600 dark:text-slate-400">{{ $rate }}%</span>
+                                    </div>
+                                @else
+                                    <span class="text-gray-400">-</span>
+                                @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex justify-end gap-2">
