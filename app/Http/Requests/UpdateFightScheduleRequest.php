@@ -36,6 +36,11 @@ class UpdateFightScheduleRequest extends FormRequest
                             return;
                         }
 
+                        if (!in_array($gameFowl->stage_growth_phase, ['Stag', 'Bullstag', 'Cock'])) {
+                            $fail("The selected game fowl is in the '{$gameFowl->stage_growth_phase}' stage. Only fowls in 'Stag', 'Bullstag', or 'Cock' stages can be scheduled for fights.");
+                            return;
+                        }
+
                         $unfitRecord = $gameFowl->medicalRecords()
                             ->whereIn('type', ['Sick', 'Weak', 'Treatment'])
                             ->where('status', '!=', 'Completed')

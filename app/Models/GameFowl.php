@@ -84,6 +84,10 @@ class GameFowl extends Model
             return false;
         }
 
+        if (!in_array($this->stage_growth_phase, ['Stag', 'Bullstag', 'Cock'])) {
+            return false;
+        }
+
         return ! $this->medicalRecords()
             ->whereIn('type', ['Sick', 'Weak', 'Treatment'])
             ->where('status', '!=', 'Completed')
@@ -93,6 +97,7 @@ class GameFowl extends Model
     public function scopeFitToFight($query)
     {
         return $query->where('classification', 'Fighter')
+            ->whereIn('stage_growth_phase', ['Stag', 'Bullstag', 'Cock'])
             ->whereDoesntHave('medicalRecords', function ($q) {
                 $q->whereIn('type', ['Sick', 'Weak', 'Treatment'])
                     ->where('status', '!=', 'Completed');
