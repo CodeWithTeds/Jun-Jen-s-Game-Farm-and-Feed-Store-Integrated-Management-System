@@ -58,6 +58,10 @@ class GameFowlRepository implements GameFowlRepositoryInterface
             $query->whereDate('acquisition_date', $filters['acquisition_date']);
         }
 
+        if (isset($filters['fit_to_fight']) && $filters['fit_to_fight']) {
+            $query->fitToFight();
+        }
+
         if (isset($filters['all']) && $filters['all']) {
             return $query->latest()->get();
         }

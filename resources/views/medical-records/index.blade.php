@@ -35,10 +35,13 @@
                     <option value="">All Types</option>
                     <option value="Vaccination" {{ request('type') == 'Vaccination' ? 'selected' : '' }}>Vaccination</option>
                     <option value="Treatment" {{ request('type') == 'Treatment' ? 'selected' : '' }}>Treatment</option>
+                    <option value="Sick" {{ request('type') == 'Sick' ? 'selected' : '' }}>Sick</option>
+                    <option value="Weak" {{ request('type') == 'Weak' ? 'selected' : '' }}>Weak</option>
                     <option value="Injury" {{ request('type') == 'Injury' ? 'selected' : '' }}>Injury</option>
                     <option value="Checkup" {{ request('type') == 'Checkup' ? 'selected' : '' }}>Checkup</option>
                     <option value="Deworming" {{ request('type') == 'Deworming' ? 'selected' : '' }}>Deworming</option>
                     <option value="Vitamin" {{ request('type') == 'Vitamin' ? 'selected' : '' }}>Vitamin</option>
+                    <option value="Other" {{ request('type') == 'Other' ? 'selected' : '' }}>Other</option>
                 </select>
             </div>
 
@@ -93,7 +96,9 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                                     @if($record->type === 'Vaccination') bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
-                                    @elseif($record->type === 'Treatment') bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
+                                    @elseif($record->type === 'Treatment') bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200
+                                    @elseif($record->type === 'Sick') bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
+                                    @elseif($record->type === 'Weak') bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200
                                     @elseif($record->type === 'Injury') bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200
                                     @else bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 @endif">
                                     {{ $record->type }}

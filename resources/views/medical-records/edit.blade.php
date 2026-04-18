@@ -1,13 +1,13 @@
 <x-layouts.app>
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('Edit Medical Record') }}</h1>
-        <a href="{{ route('staff.medical-records.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150 dark:bg-slate-700 dark:text-gray-300 dark:hover:bg-slate-600">
+        <a href="{{ request()->routeIs('admin.*') ? route('admin.medical-records.index') : route('staff.medical-records.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:bg-gray-300 active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150 dark:bg-slate-700 dark:text-gray-300 dark:hover:bg-slate-600">
             {{ __('Back to List') }}
         </a>
     </div>
 
     <div class="bg-white dark:bg-slate-900 overflow-hidden shadow-sm sm:rounded-lg border border-slate-200 dark:border-slate-700 p-6">
-        <form action="{{ route('staff.medical-records.update', $medicalRecord) }}" method="POST">
+        <form action="{{ request()->routeIs('admin.*') ? route('admin.medical-records.update', $medicalRecord) : route('staff.medical-records.update', $medicalRecord) }}" method="POST">
             @csrf
             @method('PUT')
             
@@ -44,10 +44,13 @@
                         <option value="">Select Type</option>
                         <option value="Vaccination" {{ (old('type') ?? $medicalRecord->type) == 'Vaccination' ? 'selected' : '' }}>Vaccination</option>
                         <option value="Treatment" {{ (old('type') ?? $medicalRecord->type) == 'Treatment' ? 'selected' : '' }}>Treatment</option>
+                        <option value="Sick" {{ (old('type') ?? $medicalRecord->type) == 'Sick' ? 'selected' : '' }}>Sick</option>
+                        <option value="Weak" {{ (old('type') ?? $medicalRecord->type) == 'Weak' ? 'selected' : '' }}>Weak</option>
                         <option value="Injury" {{ (old('type') ?? $medicalRecord->type) == 'Injury' ? 'selected' : '' }}>Injury</option>
                         <option value="Checkup" {{ (old('type') ?? $medicalRecord->type) == 'Checkup' ? 'selected' : '' }}>Checkup</option>
                         <option value="Deworming" {{ (old('type') ?? $medicalRecord->type) == 'Deworming' ? 'selected' : '' }}>Deworming</option>
                         <option value="Vitamin" {{ (old('type') ?? $medicalRecord->type) == 'Vitamin' ? 'selected' : '' }}>Vitamin</option>
+                        <option value="Other" {{ (old('type') ?? $medicalRecord->type) == 'Other' ? 'selected' : '' }}>Other</option>
                     </select>
                     @error('type')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -141,7 +144,7 @@
             </div>
 
             <div class="mt-6 flex justify-end gap-3">
-                <a href="{{ route('staff.medical-records.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 dark:bg-slate-800 dark:border-slate-600 dark:text-gray-300 dark:hover:bg-slate-700">
+                <a href="{{ request()->routeIs('admin.*') ? route('admin.medical-records.index') : route('staff.medical-records.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 dark:bg-slate-800 dark:border-slate-600 dark:text-gray-300 dark:hover:bg-slate-700">
                     {{ __('Cancel') }}
                 </a>
                 <button type="submit" class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 focus:bg-emerald-700 active:bg-emerald-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150">

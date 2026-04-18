@@ -77,4 +77,25 @@ class GameFowl extends Model
     {
         return $query->where('sale_status', '!=', 'sold');
     }
+
+    public function isFitToFight(): bool
+    {
+        if ($this->classification !== 'Fighter') {
+            return false;
+        }
+
+        return ! $this->medicalRecords()
+            ->whereIn('type', ['Sick', 'Weak', 'Treatment'])
+            ->where('status', '!=', 'Completed')
+            ->exists();
+    }
+
+    public function scopeFitToFight($query)
+    {
+        return $query->where('classification', 'Fighter')
+            ->whereDoesntHave('medicalRecords', function ($q) {
+                $q->whereIn('type', ['Sick', 'Weak', 'Treatment'])
+                    ->where('status', '!=', 'Completed');
+            });
+    }
 }

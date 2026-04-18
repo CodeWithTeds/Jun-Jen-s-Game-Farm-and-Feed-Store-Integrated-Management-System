@@ -9,7 +9,7 @@
                     Log a health event, treatment, or checkup for a game fowl.
                 </p>
             </div>
-            <a href="{{ route('staff.medical-records.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 rounded-lg font-medium text-sm text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150">
+            <a href="{{ request()->routeIs('admin.*') ? route('admin.medical-records.index') : route('staff.medical-records.index') }}" wire:navigate class="inline-flex items-center px-4 py-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 rounded-lg font-medium text-sm text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
@@ -20,7 +20,7 @@
 
     <div class="py-12">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
-            <form action="{{ route('staff.medical-records.store') }}" method="POST">
+            <form action="{{ request()->routeIs('admin.*') ? route('admin.medical-records.store') : route('staff.medical-records.store') }}" method="POST">
                 @csrf
                 
                 <!-- Main Layout -->
@@ -88,10 +88,13 @@
                                     <option value="">Select Type</option>
                                     <option value="Vaccination" {{ old('type') == 'Vaccination' ? 'selected' : '' }}>Vaccination</option>
                                     <option value="Treatment" {{ old('type') == 'Treatment' ? 'selected' : '' }}>Treatment</option>
+                                    <option value="Sick" {{ old('type') == 'Sick' ? 'selected' : '' }}>Sick</option>
+                                    <option value="Weak" {{ old('type') == 'Weak' ? 'selected' : '' }}>Weak</option>
                                     <option value="Injury" {{ old('type') == 'Injury' ? 'selected' : '' }}>Injury</option>
                                     <option value="Checkup" {{ old('type') == 'Checkup' ? 'selected' : '' }}>Checkup</option>
                                     <option value="Deworming" {{ old('type') == 'Deworming' ? 'selected' : '' }}>Deworming</option>
                                     <option value="Vitamin" {{ old('type') == 'Vitamin' ? 'selected' : '' }}>Vitamin</option>
+                                    <option value="Other" {{ old('type') == 'Other' ? 'selected' : '' }}>Other</option>
                                 </select>
                             </div>
 
@@ -200,7 +203,7 @@
 
                     <!-- Actions -->
                     <div class="flex items-center justify-end gap-4 pt-4">
-                        <a href="{{ route('staff.medical-records.index') }}" wire:navigate class="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
+                        <a href="{{ request()->routeIs('admin.*') ? route('admin.medical-records.index') : route('staff.medical-records.index') }}" wire:navigate class="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors">
                             Cancel
                         </a>
                         <button type="submit" class="inline-flex items-center px-6 py-3 bg-emerald-600 border border-transparent rounded-lg font-semibold text-sm text-white uppercase tracking-widest shadow-lg hover:bg-emerald-500 active:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition ease-in-out duration-150 transform hover:scale-[1.02]">

@@ -199,6 +199,13 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                         </svg>
                                     </a>
+                                    @if($gameFowl->isFitToFight())
+                                    <a href="{{ route($routePrefix . 'fight-schedules.create', ['game_fowl_id' => $gameFowl->id]) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300" title="Schedule Fight">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 0110 5.214M15 3.514V2.25A1.25 1.25 0 0013.75 1h-3.5A1.25 1.25 0 009 2.25v1.264" />
+                                        </svg>
+                                    </a>
+                                    @endif
                                     @if(auth()->user()->isAdmin())
                                     <a href="{{ route($routePrefix . 'game-fowls.edit', $gameFowl) }}" class="text-emerald-600 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">

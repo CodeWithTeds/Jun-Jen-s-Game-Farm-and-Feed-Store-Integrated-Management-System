@@ -28,6 +28,25 @@ class UpdateFightScheduleRequest extends FormRequest
                 Rule::exists('game_fowls', 'id')->where(function ($query) {
                     $query->where('sex', 'Male');
                 }),
+                function ($attribute, $value, $fail) {
+                    $gameFowl = \App\Models\GameFowl::find($value);
+                    if ($gameFowl) {
+                        if ($gameFowl->classification !== 'Fighter') {
+                            $fail("The selected game fowl is classified as '{$gameFowl->classification}' and cannot be scheduled for a fight. Only 'Fighter' classification is allowed.");
+                            return;
+                        }
+
+                        $unfitRecord = $gameFowl->medicalRecords()
+                            ->whereIn('type', ['Sick', 'Weak', 'Treatment'])
+                            ->where('status', '!=', 'Completed')
+                            ->latest()
+                            ->first();
+
+                        if ($unfitRecord) {
+                            $fail("The selected game fowl is currently under {$unfitRecord->type} ({$unfitRecord->status}) and cannot be scheduled for a fight.");
+                        }
+                    }
+                },
             ],
             'date' => ['required', 'date'],
             'time' => ['required'],
