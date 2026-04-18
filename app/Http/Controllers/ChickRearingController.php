@@ -30,7 +30,15 @@ class ChickRearingController extends Controller
     {
         $defaultHatchDate = $request->query('hatch_date');
         $defaultRemarks = $request->query('remarks');
-        return view('chick-rearings.create', compact('defaultHatchDate', 'defaultRemarks'));
+        
+        $hatcheryRecords = \App\Models\HatcheryRecord::with('eggCollection')
+            ->whereHas('eggCollection', function($q) {
+                $q->where('hatched_count', '>', 0);
+            })
+            ->latest()
+            ->get();
+
+        return view('chick-rearings.create', compact('defaultHatchDate', 'defaultRemarks', 'hatcheryRecords'));
     }
 
     /**
@@ -58,7 +66,14 @@ class ChickRearingController extends Controller
      */
     public function edit(ChickRearing $chickRearing)
     {
-        return view('chick-rearings.edit', compact('chickRearing'));
+        $hatcheryRecords = \App\Models\HatcheryRecord::with('eggCollection')
+            ->whereHas('eggCollection', function($q) {
+                $q->where('hatched_count', '>', 0);
+            })
+            ->latest()
+            ->get();
+
+        return view('chick-rearings.edit', compact('chickRearing', 'hatcheryRecords'));
     }
 
     /**

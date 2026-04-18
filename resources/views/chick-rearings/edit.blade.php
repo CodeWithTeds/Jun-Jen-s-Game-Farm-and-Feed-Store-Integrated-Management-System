@@ -18,7 +18,15 @@
                 <!-- Chick Tag ID -->
                 <div>
                     <label for="chick_tag_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('Chick Tag ID') }}</label>
-                    <input id="chick_tag_id" type="text" name="chick_tag_id" value="{{ old('chick_tag_id', $chickRearing->chick_tag_id) }}" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required />
+                    <select id="chick_tag_id" name="chick_tag_id" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:focus:border-emerald-500 transition-shadow" required>
+                        <option value="">Select Batch/Tag</option>
+                        @foreach($hatcheryRecords as $record)
+                            @php $tagId = 'Batch-EC-' . $record->egg_collection_id; @endphp
+                            <option value="{{ $tagId }}" {{ old('chick_tag_id', $chickRearing->chick_tag_id) == $tagId ? 'selected' : '' }}>
+                                {{ $tagId }} ({{ $record->eggCollection->hatched_count }} chicks - {{ $record->eggCollection->collection_date?->format('M d, Y') }})
+                            </option>
+                        @endforeach
+                    </select>
                     @error('chick_tag_id')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                     @enderror
@@ -142,7 +150,7 @@
             </div>
 
             <div class="flex items-center justify-end mt-8">
-                <a href="{{ route('staff.chick-rearings.index') }}" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 dark:focus:ring-offset-gray-800">
+                <a href="{{ route($routePrefix . 'chick-rearings.index') }}" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 dark:focus:ring-offset-gray-800">
                     {{ __('Cancel') }}
                 </a>
 
