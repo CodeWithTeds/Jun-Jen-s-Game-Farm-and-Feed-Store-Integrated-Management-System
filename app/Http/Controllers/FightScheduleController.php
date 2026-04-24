@@ -31,7 +31,16 @@ class FightScheduleController extends Controller
 
     public function create()
     {
-        $gameFowls = $this->gameFowlRepository->getAll(['sex' => 'Male', 'initial_health_status' => 'Healthy', 'exclude_sold' => true, 'fit_to_fight' => true, 'all' => true]);
+        $gameFowls = $this->gameFowlRepository->getAll([
+            'sex' => 'Male',
+            'initial_health_status' => 'Healthy',
+            'exclude_sold' => true,
+            'exclude_dead' => true,
+            'fit_to_fight' => true,
+            'without_active_fight_schedule' => true,
+            'all' => true,
+        ]);
+
         return view('fight_schedules.create', compact('gameFowls'));
     }
 
@@ -47,7 +56,19 @@ class FightScheduleController extends Controller
     public function edit($id)
     {
         $schedule = $this->fightScheduleRepository->find($id);
-        $gameFowls = $this->gameFowlRepository->getAll(['sex' => 'Male', 'initial_health_status' => 'Healthy', 'exclude_sold' => true, 'fit_to_fight' => true, 'all' => true]);
+        $gameFowls = $this->gameFowlRepository->getAll([
+            'sex' => 'Male',
+            'initial_health_status' => 'Healthy',
+            'exclude_sold' => true,
+            'exclude_dead' => true,
+            'fit_to_fight' => true,
+            'without_active_fight_schedule' => true,
+            'all' => true,
+        ]);
+
+        if ($schedule?->gameFowl && ! $gameFowls->contains('id', $schedule->game_fowl_id)) {
+            $gameFowls->prepend($schedule->gameFowl);
+        }
         
         return view('fight_schedules.edit', compact('schedule', 'gameFowls'));
     }

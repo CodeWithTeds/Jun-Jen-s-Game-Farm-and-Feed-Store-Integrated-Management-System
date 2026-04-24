@@ -54,12 +54,22 @@ class GameFowlRepository implements GameFowlRepositoryInterface
             });
         }
 
+        if (isset($filters['exclude_dead']) && $filters['exclude_dead']) {
+            $query->where('initial_health_status', '!=', 'Dead');
+        }
+
         if (isset($filters['acquisition_date']) && $filters['acquisition_date']) {
             $query->whereDate('acquisition_date', $filters['acquisition_date']);
         }
 
         if (isset($filters['fit_to_fight']) && $filters['fit_to_fight']) {
             $query->fitToFight();
+        }
+
+        if (isset($filters['without_active_fight_schedule']) && $filters['without_active_fight_schedule']) {
+            $query->whereDoesntHave('fightSchedules', function ($fightScheduleQuery) {
+                $fightScheduleQuery->where('status', 'Scheduled');
+            });
         }
 
         if (isset($filters['all']) && $filters['all']) {

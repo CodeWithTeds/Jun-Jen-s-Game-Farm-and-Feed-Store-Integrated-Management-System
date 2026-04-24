@@ -23,14 +23,14 @@ class GameFowlInventoryController extends Controller
     {
         $filters = $request->only(['status', 'sex', 'reproductive_status', 'gender_identification']);
         $inventories = $this->inventoryRepository->getAll($filters);
-        $gameFowlFilters = array_merge($filters, ['all' => true]);
+        $gameFowlFilters = array_merge($filters, ['exclude_dead' => true, 'all' => true]);
         $gameFowls = $this->gameFowlRepository->getAll($gameFowlFilters);
         return view('game_fowl_inventory.index', compact('inventories', 'gameFowls'));
     }
 
     public function create()
     {
-        $gameFowls = $this->gameFowlRepository->getAll(['all' => true]);
+        $gameFowls = $this->gameFowlRepository->getAll(['exclude_dead' => true, 'all' => true]);
         return view('game_fowl_inventory.create', compact('gameFowls'));
     }
 
@@ -54,7 +54,12 @@ class GameFowlInventoryController extends Controller
     public function edit($id)
     {
         $inventory = $this->inventoryRepository->findById($id);
-        $gameFowls = $this->gameFowlRepository->getAll(['all' => true]);
+        $gameFowls = $this->gameFowlRepository->getAll(['exclude_dead' => true, 'all' => true]);
+
+        if ($inventory->gameFowl && ! $gameFowls->contains('id', $inventory->game_fowl_id)) {
+            $gameFowls->prepend($inventory->gameFowl);
+        }
+
         return view('game_fowl_inventory.edit', compact('inventory', 'gameFowls'));
     }
 

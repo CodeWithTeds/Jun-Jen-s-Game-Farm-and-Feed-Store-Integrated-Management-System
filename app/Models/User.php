@@ -87,6 +87,11 @@ class User extends Authenticatable
         return $this->hasRole('admin');
     }
 
+    public function isStaff(): bool
+    {
+        return $this->hasRole('staff');
+    }
+
     /**
      * Get the user's initials
      */

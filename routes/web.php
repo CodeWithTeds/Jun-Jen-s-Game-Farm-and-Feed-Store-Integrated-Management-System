@@ -42,8 +42,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('shop', \App\Livewire\Customer\Shop\Index::class)->name('shop.index');
 });
 
-Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(function () {
+Route::middleware(['auth', 'verified', 'role:staff'])->prefix('staff')->name('staff.')->group(function () {
     Route::get('dashboard', Dashboard::class)->name('dashboard');
+    Route::get('pos', [FeedController::class, 'index'])->name('pos.index');
     Route::resource('game-fowls', GameFowlController::class);
     Route::patch('game-fowls/{gameFowl}/toggle-sale-status', [GameFowlController::class, 'toggleSaleStatus'])->name('game-fowls.toggle-sale-status');
     Route::patch('game-fowls/{gameFowl}/update-price', [GameFowlController::class, 'updatePrice'])->name('game-fowls.update-price');
@@ -64,8 +65,9 @@ Route::middleware(['auth', 'verified'])->prefix('staff')->name('staff.')->group(
     Route::get('reports/game-fowls/{gameFowl}', \App\Livewire\Staff\Reports\GameFowlReportShow::class)->name('reports.game-fowls.show');
 });
 
-Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('dashboard', \App\Livewire\Admin\Dashboard::class)->name('dashboard');
+    Route::get('pos', [FeedController::class, 'index'])->name('pos.index');
     Route::resource('products', FeedController::class);
     Route::patch('products/{feed}/toggle-display', [FeedController::class, 'toggleDisplay'])->name('products.toggle-display');
     Route::resource('suppliers', SupplierController::class);
@@ -90,8 +92,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::get('reports/game-fowls/{gameFowl}', \App\Livewire\Staff\Reports\GameFowlReportShow::class)->name('reports.game-fowls.show');
 });
 
-Route::middleware(['auth', 'verified'])->prefix('customer')->name('customer.')->group(function () {
-    Route::resource('pos', FeedController::class)->only(['index', 'show']);
+Route::middleware(['auth', 'verified', 'role:customer'])->prefix('customer')->name('customer.')->group(function () {
     Route::get('cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('cart', [CartController::class, 'store'])->name('cart.store');
     Route::put('cart/{item}', [CartController::class, 'update'])->name('cart.update');

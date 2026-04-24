@@ -111,6 +111,13 @@
                     {{ __('Order Management') }}
                 </flux:sidebar.item>
 
+                <flux:sidebar.item :href="route('staff.pos.index')" :current="request()->routeIs('staff.pos.*')" wire:navigate>
+                    <x-slot:icon>
+                        <flux:icon :icon="'credit-card'" class="size-6 text-cyan-400" />
+                    </x-slot:icon>
+                    {{ __('POS') }}
+                </flux:sidebar.item>
+
                 <flux:sidebar.item :href="route('schedules.index')" :current="request()->routeIs('schedules.*')" wire:navigate>
                     <x-slot:icon>
                         <flux:icon :icon="'calendar'" class="size-6 text-purple-500" />
@@ -128,11 +135,11 @@
                     {{ __('Dashboard') }}
                 </flux:sidebar.item>
 
-                <flux:sidebar.item :href="route('customer.pos.index')" :current="request()->routeIs('customer.pos.*')" wire:navigate>
+                <flux:sidebar.item :href="route('shop.index')" :current="request()->routeIs('shop.index')" wire:navigate>
                     <x-slot:icon>
                         <flux:icon :icon="'archive-box'" class="size-6 text-blue-500" />
                     </x-slot:icon>
-                    {{ __('POS') }}
+                    {{ __('Shop') }}
                 </flux:sidebar.item>
 
                 <flux:sidebar.item :href="route('customer.orders.index')" :current="request()->routeIs('customer.orders.index')" wire:navigate>
@@ -246,6 +253,13 @@
                         <flux:icon :icon="'banknotes'" class="size-6 text-emerald-500" />
                     </x-slot:icon>
                     {{ __('Sales Transactions') }}
+                </flux:sidebar.item>
+
+                <flux:sidebar.item :href="route('admin.pos.index')" :current="request()->routeIs('admin.pos.*')" wire:navigate>
+                    <x-slot:icon>
+                        <flux:icon :icon="'credit-card'" class="size-6 text-cyan-400" />
+                    </x-slot:icon>
+                    {{ __('POS') }}
                 </flux:sidebar.item>
 
                 <flux:sidebar.item :href="route('schedules.index')" :current="request()->routeIs('schedules.*')" wire:navigate>

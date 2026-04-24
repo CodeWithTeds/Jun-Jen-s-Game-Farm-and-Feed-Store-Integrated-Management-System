@@ -18,7 +18,7 @@ class FeedController extends Controller
 
     public function index(Request $request)
     {
-        if ($request->routeIs('customer.*')) {
+        if ($request->routeIs('*.pos.*')) {
             return view('feeds.customer_index');
         }
 

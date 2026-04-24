@@ -3,16 +3,22 @@
 namespace App\Services;
 
 use App\Repositories\Contracts\GameFowlRepositoryInterface;
+use App\Repositories\Contracts\GameFowlInventoryRepositoryInterface;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 class GameFowlService
 {
     protected $gameFowlRepository;
+    protected $gameFowlInventoryRepository;
 
-    public function __construct(GameFowlRepositoryInterface $gameFowlRepository)
+    public function __construct(
+        GameFowlRepositoryInterface $gameFowlRepository,
+        GameFowlInventoryRepositoryInterface $gameFowlInventoryRepository
+    )
     {
         $this->gameFowlRepository = $gameFowlRepository;
+        $this->gameFowlInventoryRepository = $gameFowlInventoryRepository;
     }
 
     public function getAllGameFowls(array $filters = [])
@@ -31,7 +37,10 @@ class GameFowlService
             $data['image'] = $data['image']->store('game-fowls', 'public');
         }
 
-        return $this->gameFowlRepository->create($data);
+        $gameFowl = $this->gameFowlRepository->create($data);
+        $this->syncInventoryAvailability($gameFowl->id, $data);
+
+        return $gameFowl;
     }
 
     public function updateGameFowl($id, array $data)
@@ -46,7 +55,10 @@ class GameFowlService
             $data['image'] = $data['image']->store('game-fowls', 'public');
         }
 
-        return $this->gameFowlRepository->update($id, $data);
+        $updated = $this->gameFowlRepository->update($id, $data);
+        $this->syncInventoryAvailability($id, $data);
+
+        return $updated;
     }
 
     public function deleteGameFowl($id)
@@ -58,5 +70,12 @@ class GameFowlService
         }
 
         return $this->gameFowlRepository->delete($id);
+    }
+
+    protected function syncInventoryAvailability(int $gameFowlId, array $data): void
+    {
+        if (($data['initial_health_status'] ?? null) === 'Dead') {
+            $this->gameFowlInventoryRepository->markAsDeceasedByGameFowlId($gameFowlId);
+        }
     }
 }

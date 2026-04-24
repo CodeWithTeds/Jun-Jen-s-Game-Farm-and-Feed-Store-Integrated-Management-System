@@ -22,15 +22,22 @@ class UpdateFightScheduleRequest extends FormRequest
      */
     public function rules(): array
     {
+        $scheduleId = $this->route('fight_schedule');
+
         return [
             'game_fowl_id' => [
                 'required',
                 Rule::exists('game_fowls', 'id')->where(function ($query) {
                     $query->where('sex', 'Male');
                 }),
-                function ($attribute, $value, $fail) {
+                function ($attribute, $value, $fail) use ($scheduleId) {
                     $gameFowl = \App\Models\GameFowl::find($value);
                     if ($gameFowl) {
+                        if ($gameFowl->initial_health_status === 'Dead') {
+                            $fail('The selected game fowl is marked as dead and cannot be scheduled for a fight.');
+                            return;
+                        }
+
                         if ($gameFowl->classification !== 'Fighter') {
                             $fail("The selected game fowl is classified as '{$gameFowl->classification}' and cannot be scheduled for a fight. Only 'Fighter' classification is allowed.");
                             return;
@@ -49,6 +56,14 @@ class UpdateFightScheduleRequest extends FormRequest
 
                         if ($unfitRecord) {
                             $fail("The selected game fowl is currently under {$unfitRecord->type} ({$unfitRecord->status}) and cannot be scheduled for a fight.");
+                            return;
+                        }
+
+                        if ($gameFowl->fightSchedules()
+                            ->where('status', 'Scheduled')
+                            ->whereKeyNot($scheduleId)
+                            ->exists()) {
+                            $fail('The selected game fowl is already assigned to another scheduled fight.');
                         }
                     }
                 },

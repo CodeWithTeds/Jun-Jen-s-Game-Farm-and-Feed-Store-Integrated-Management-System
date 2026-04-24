@@ -67,4 +67,12 @@ class GameFowlInventoryRepository implements GameFowlInventoryRepositoryInterfac
     {
         return GameFowlInventory::where('game_fowl_id', $gameFowlId)->orderBy('created_at', 'desc')->get();
     }
+
+    public function markAsDeceasedByGameFowlId(int $gameFowlId)
+    {
+        return GameFowlInventory::where('game_fowl_id', $gameFowlId)->update([
+            'quantity' => 0,
+            'status' => 'Deceased',
+        ]);
+    }
 }

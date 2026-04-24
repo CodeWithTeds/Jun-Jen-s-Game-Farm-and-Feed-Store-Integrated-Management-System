@@ -62,6 +62,8 @@ class PosSystem extends Component
 
     public function mount()
     {
+        abort_unless(Auth::user()?->role && in_array(Auth::user()->role, ['admin', 'staff'], true), 403);
+
         $this->refreshCart();
     }
 

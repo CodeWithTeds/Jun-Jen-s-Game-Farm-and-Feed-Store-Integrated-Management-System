@@ -75,7 +75,11 @@ class GameFowl extends Model
 
     public function scopeAvailable($query)
     {
-        return $query->where('sale_status', '!=', 'sold');
+        return $query->where('initial_health_status', '!=', 'Dead')
+            ->where(function ($subQuery) {
+                $subQuery->whereNull('sale_status')
+                    ->orWhere('sale_status', '!=', 'sold');
+            });
     }
 
     public function isFitToFight(): bool
